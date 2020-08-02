@@ -142,8 +142,17 @@ html, body {
 	opacity: 0.98;
 }
 
+#terminal > .collapsed {
+	overflow: hidden;
+	height: 30px;
+}
+
+#terminal .xterm-screen {
+	/*margin: auto;*/
+}
+
 #actions {
 	position: absolute;
-	bottom: 20px;
+	bottom: 5px;
 	right: 20px;
 }

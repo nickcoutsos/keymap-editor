@@ -15,7 +15,14 @@ const KEYBOARD = 'handwired/dactyl_reduced'
 
 app.get('/', (req, res) => res.redirect('/application'))
 app.use('/application', express.static('application'))
-app.post('/compile', (req, res) => {
+
+app.get('/keymap', (req, res) => {
+  const keymapPath = `${QMK_PATH}/keyboards/${KEYBOARD}/keymaps/generated`
+  const keymap = JSON.parse(fs.readFileSync(`${keymapPath}/keymap.json`))
+  res.json(keymap)
+})
+
+app.post('/keymap', (req, res) => {
   const keymap = req.body
   const layers = keymap.layers.map((layer, i) => {
     return `\n\t[${i}] = ${keymap.layout}(\n\t\t${layer.join(',\n\t\t')}\n\t)`
@@ -37,6 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   const makeArgs = [`${KEYBOARD}:default${'flash' in req.query ? ':avrdude': ''}`]
 
   fs.existsSync(keymapPath) || fs.mkdirSync(keymapPath)
+  fs.writeFileSync(`${keymapPath}/keymap.json`, JSON.stringify(keymap, null, 2))
   fs.writeFileSync(`${keymapPath}/keymap.c`, keymapOut)
 
   childProcess.execFile('make', makeArgs, { cwd: QMK_PATH }, (err) => {

@@ -3,7 +3,7 @@ import { loadIndexedKeycodes } from './keycodes.js'
 let keycodesIndex_ = loadIndexedKeycodes()
 
 export function loadKeymap () {
-  return fetch('data/keymap.json')
+  return fetch('/keymap')
     .then(response => response.json())
 }
 

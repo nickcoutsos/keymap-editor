@@ -16,7 +16,7 @@ async function main() {
 
   const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
   const terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
-  terminal.open(document.getElementById('terminal'))
+  terminal.open(document.querySelector('#terminal > div'))
 
   socket.onopen = () => console.log(new Date(), 'connected to console')
   socket.onclose = () => console.log(new Date(), 'disconnected from server')
@@ -81,7 +81,8 @@ async function main() {
     document.querySelector('#flash').disabled = true
 
     terminal.clear()
-    fetch(flash ? '/compile?flash' : '/compile', {
+    toggleTerminal(true)
+    fetch(flash ? '/keymap?flash' : '/keymap', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -91,6 +92,15 @@ async function main() {
       document.querySelector('#compile').disabled = false
       document.querySelector('#flash').disabled = false
     })
+  }
+
+  function toggleTerminal (forceOpen = false) {
+    const button = document.getElementById('toggle')
+    const element = document.querySelector('#terminal > div')
+    const collapse = !forceOpen && !element.classList.contains('collapsed')
+
+    button.textContent = collapse ? '⇡' : '⇣'
+    element.classList.toggle('collapsed', collapse)
   }
 
   document.querySelector('#export').addEventListener('click', () => {
@@ -104,6 +114,8 @@ async function main() {
 
   document.querySelector('#compile').addEventListener('click', () => compile())
   document.querySelector('#flash').addEventListener('click', () => compile({ flash: true }))
+
+  document.querySelector('#toggle').addEventListener('click', () => toggleTerminal())
 }
 
 main()
