@@ -132,7 +132,17 @@ html, body {
 }
 #search b { color: red; }
 
-#export {
+#terminal {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	opacity: 0.7;
+}
+#terminal:hover {
+	opacity: 0.98;
+}
+
+#actions {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;

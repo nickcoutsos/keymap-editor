@@ -1,26 +1,61 @@
-// run: child_process.execFile('make', ['handwired/dactyl_reduced:default:avrdude']).stdout.pipe(process.stdout)
+// run: 
+const fs = require('fs')
+const childProcess = require('child_process')
 const express = require('express')
 const expressWs = require('express-ws')
+const bodyParser = require('body-parser')
 
 const app = express()
-const subscribersByTopic = {}
+const subscribers = []
 expressWs(app)
+app.use(bodyParser.json())
 
-function registerSubscriber (topic, ws) {
-  if (!subscribersByTopic[topic]) {
-    subscribersByTopic[topic] = []
-  }
+const QMK_PATH = '/Users/niko/Development/qmk_firmware'
+const KEYBOARD = 'handwired/dactyl_reduced'
 
-  subscribersByTopic[topic].push(ws)
-}
-
+app.get('/', (req, res) => res.redirect('/application'))
 app.use('/application', express.static('application'))
+app.post('/compile', (req, res) => {
+  const keymap = req.body
+  const layers = keymap.layers.map((layer, i) => {
+    return `\n\t[${i}] = ${keymap.layout}(\n\t\t${layer.join(',\n\t\t')}\n\t)`
+  })
 
-app.ws('/topics/:topic', (ws, req) => {
+  const keymapOut = `#include QMK_KEYBOARD_H
+
+/* THIS FILE WAS GENERATED!
+ *
+ * This file was generated automatically. You may or may not want to
+ * edit it directly.
+ */
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  ${layers}
+};`
+
+  const keymapPath = `${QMK_PATH}/keyboards/${KEYBOARD}/keymaps/generated`
+  const makeArgs = [`${KEYBOARD}:default${'flash' in req.query ? ':avrdude': ''}`]
+
+  fs.existsSync(keymapPath) || fs.mkdirSync(keymapPath)
+  fs.writeFileSync(`${keymapPath}/keymap.c`, keymapOut)
+
+  childProcess.execFile('make', makeArgs, { cwd: QMK_PATH }, (err) => {
+    if (err) {
+      res.status(500).send(err)
+      return
+    }
+
+    res.send()
+  }).stdout.on('data', data => {
+    for (let sub of subscribers) {
+      sub.send(data)
+    }
+  })
+})
+
+app.ws('/console', (ws, req) => {
   const { remoteAddress } = req.connection
-  const { topic } = req.params
-
-  registerSubscriber(topic, ws)
+  subscribers.push(ws)
 
   console.info(`[${new Date()}] [${remoteAddress}] connected`)
 
@@ -30,8 +65,8 @@ app.ws('/topics/:topic', (ws, req) => {
 
   ws.onclose = () => {
     console.info(`[${new Date()}] [${remoteAddress}] disconnected`)
-    const index = subscribersByTopic[topic].indexOf(ws)
-    subscribersByTopic[topic].splice(index, 1)
+    const index = subscribers.indexOf(ws)
+    subscribers.splice(index, 1)
   }
 })
 

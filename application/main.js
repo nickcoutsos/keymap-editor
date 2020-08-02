@@ -3,6 +3,7 @@ import { loadKeymap, setKeycode } from './keymap.js'
 import { addLayer, selectLayer } from './layers.js'
 import { loadLayout } from './layout.js'
 
+/* global Terminal */
 
 async function main() {
   // const keycodes = await loadKeycodes()
@@ -12,6 +13,18 @@ async function main() {
   const layout = await loadLayout()
   const keymap = await loadKeymap()
   let active
+
+  const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
+  const terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
+  terminal.open(document.getElementById('terminal'))
+
+  socket.onopen = () => console.log(new Date(), 'connected to console')
+  socket.onclose = () => console.log(new Date(), 'disconnected from server')
+  socket.onmessage = (message) => terminal.write(message.data.replace(/\n/g, '\r\n'))
+  socket.onerror = err => console.error(new Date(), err)
+
+  setInterval(() => socket.send('ping'), 10000)
+
 
   search.onSelect(code => {
     if (active) {
@@ -48,7 +61,7 @@ async function main() {
     return `${code.dataset.code}(${params.join(',')})`
   }
 
-  document.querySelector('#export').addEventListener('click', () => {
+  function buildKeymap () {
     const layers = []
     for (let layer of [...document.querySelectorAll('#layers .layer')]) {
       const layerExport = []
@@ -59,17 +72,38 @@ async function main() {
       layers.push(layerExport)
     }
 
-    const newKeymap = Object.assign({}, keymap, { layers })
-    // const blob = new Blob([JSON.stringify(newKeymap, null, 2)], {
-    //   type: 'application/octet-stream',
-    //   name: 'default.json'
-    // })
+    return Object.assign({}, keymap, { layers })
+  }
+
+  function compile ({ flash = false } = {}) {
+    const keymap = buildKeymap()
+    document.querySelector('#compile').disabled = true
+    document.querySelector('#flash').disabled = true
+
+    terminal.clear()
+    fetch(flash ? '/compile?flash' : '/compile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(keymap)
+    }).then(() => {
+      document.querySelector('#compile').disabled = false
+      document.querySelector('#flash').disabled = false
+    })
+  }
+
+  document.querySelector('#export').addEventListener('click', () => {
+    const keymap = buildKeymap()
     const file = new File([JSON.stringify(newKeymap, null, 2)], 'default.json', {
       type: 'application/octet-stream'
     })
 
     location.href = URL.createObjectURL(file)
   })
+
+  document.querySelector('#compile').addEventListener('click', () => compile())
+  document.querySelector('#flash').addEventListener('click', () => compile({ flash: true }))
 }
 
 main()

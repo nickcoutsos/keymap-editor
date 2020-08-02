@@ -3,6 +3,9 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+	<script src="node_modules/xterm/lib/xterm.js"></script>
+	<script src="https://rawgit.com/farzher/fuzzysort/master/fuzzysort.js"></script>
 </head>
 <body>
 	<div id="layer-selector">
@@ -17,9 +20,14 @@
 		<ul></ul>
 	</div>
 
-	<button id="export">Export</button>
+	<div id="terminal"></div>
 
-	<script src="https://rawgit.com/farzher/fuzzysort/master/fuzzysort.js"></script>
+	<div id="actions">
+		<button id="compile">Compile</button>
+		<button id="flash">Flash</button>
+		<button id="export">Export</button>
+	</div>
+
 	<script type="module" src="main.js"></script>
 </body>
 </html>
