@@ -12,6 +12,7 @@ html, body {
 	margin: 0;
 }
 
+#layer-selector { position: relative; z-index: 2; }
 #layer-selector * { display: inline-block; }
 #layer-selector ul {
 	list-style-type: none;
@@ -34,11 +35,11 @@ html, body {
 #layers { padding-left: 20px;}
 #layers .layer {
 	position: relative;
-	transition: transform 250ms linear;
+	transition: transform .5s ease-out;
+	transform-origin: -20px -60px;
 }
-#layers .layer:not(.active) {
-	transform: translate(0, -100vh);
-}
+#layers .layer.prev { transform: translate(-200vw, 0); }
+#layers .layer.next { transform: translate(0, -200vh); }
 
 [data-u="1"] { width: 60px; }
 [data-u="2"] { width: 125px; }
@@ -136,7 +137,7 @@ html, body {
 	position: absolute;
 	bottom: 0px;
 	width: 100%;
-	opacity: 0.7;
+	opacity: 0.85;
 }
 #terminal:hover {
 	opacity: 0.98;

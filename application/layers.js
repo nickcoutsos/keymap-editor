@@ -4,23 +4,16 @@ import { renderLayout } from './layout.js'
 const layers = document.querySelector('#layers')
 const layerSelector = document.querySelector('#layer-selector ul')
 
+const setActiveClasses = targetIndex => (element, i) => {
+  element.classList.toggle('prev', i < targetIndex)
+  element.classList.toggle('next', i > targetIndex)
+  element.classList.toggle('active', i == targetIndex)
+}
+
 export function selectLayer (index) {
-  const activeLayer = layers.querySelector('.layer.active')
-  const activeLayerTab = layerSelector.querySelector('.active')
-  const layer = layers.querySelector(`[data-layer="${index}"]`)
-  const layerTab = layerSelector.querySelector(`[data-layer="${index}"]`)
-
-  console.log({
-    activeLayer,
-    activeLayerTab,
-    layer,
-    layerTab
-  })
-
-  activeLayer && activeLayer.classList.remove('active')
-  activeLayerTab && activeLayerTab.classList.remove('active')
-  layer && layer.classList.add('active')
-  layerTab && layerTab.classList.add('active')
+  const adjustment = setActiveClasses(index)
+  Array.from(layers.children).forEach(adjustment)
+  Array.from(layerSelector.children).forEach(adjustment)
 }
 
 export function addLayer (layout, layer) {
@@ -42,29 +35,10 @@ export function addLayer (layout, layer) {
   })
 
   for (let i = 0; i < layout.length; i++) {
-    // const key = layout[i]
     const code = layer[i] || 'KC_TRNS'
-    // const keyElement = document.createElement('div')
     const keyElement = layerElement.children[i]
 
-    // const x = key.x * 65
-    // const y = key.y * 65
-    // const rx = (key.x - (key.rx || key.x)) * -65
-    // const ry = (key.y - (key.ry || key.y)) * -65
-
     setKeycode(keyElement, code)
-    // keyElement.classList.add('key')
-    // keyElement.classList.add(`key-${key.u}u`)
-    // keyElement.classList.add(`key-${key.h}h`)
-
-    // keyElement.style.top = `${y}px`
-    // keyElement.style.left = `${x}px`
-    // keyElement.style.transformOrigin = `${rx}px ${ry}px`
-    // keyElement.style.transform = `rotate(${key.r || 0}deg)`
-    // keyElement.dataset.u = key.u
-    // keyElement.dataset.h = key.h
-    // layerElement.appendChild(keyElement)
-    // recalculateDepth(keyElement)
 
     keyElement.addEventListener('mouseover', event => {
       const old = document.querySelector('.highlight')
