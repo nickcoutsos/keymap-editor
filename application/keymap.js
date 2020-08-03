@@ -7,6 +7,31 @@ export function loadKeymap () {
     .then(response => response.json())
 }
 
+const Icon = (name) => {
+  const element = document.createElement('span')
+  element.classList.add('fa', `fa-${name}`)
+  return element
+}
+
+const Code = () => {
+  const element = document.createElement('span')
+  element.classList.add('code')
+
+  return element
+}
+
+const Params = () => {
+  const element = document.createElement('span')
+  element.classList.add('params')
+  return element
+}
+
+const Param = () => {
+  const element = document.createElement('span')
+  element.classList.add('param', 'code')
+  return element
+}
+
 function findParentKey (element) {
   const isRoot = node => node == document.body
   const isKey = node => node.classList.contains('key')
@@ -58,35 +83,42 @@ export async function setKeycode(element, code) {
       element.removeChild(child)
     }
 
-    const codeElement = document.createElement('span')
-    codeElement.classList.add('code')
+    const codeElement = Code()
     element.appendChild(codeElement)
     element = codeElement
   }
 
-  element.textContent = keycode.symbol
+  element.setAttribute('title', keycode.description)
   element.dataset.code = keycode.code
   element.dataset.keycode = code
+  if (keycode.faIcon) {
+    element.appendChild(Icon(keycode.faIcon))
+  } else {
+    element.textContent = keycode.symbol
+  }
 
   if (keycode.params.length > 0) {
-    const paramsElement = document.createElement('span')
+    const paramsElement = Params()
     element.appendChild(paramsElement)
-    paramsElement.classList.add('params')
 
     for (let i = 0; i < keycode.params.length; i++) {
       const value = params[i]
-
-      const paramElement = document.createElement('span')
-      paramElement.classList.add('param', 'code')
+      const paramElement = Param()
 
       if (value && value.match(/.+\(.+\)/)) {
         setKeycode(paramElement, value)
       } else {
         const param = keycode.params[i]
-        const label = param === 'layer' ? value : ((keycodesIndex[value] || {}).symbol || value)
+        const paramKeycode = keycodesIndex[value] || {}
+        const label = param === 'layer' ? value : (paramKeycode.symbol || value)
         paramElement.textContent = label
         paramElement.dataset.param = param
         paramElement.dataset.code = value
+        if (paramKeycode.faIcon) {
+          paramElement.appendChild(Icon(paramKeycode.faIcon))
+        } else {
+          paramElement.textContent = label
+        }
       }
 
       paramsElement.appendChild(paramElement)
