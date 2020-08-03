@@ -10,7 +10,7 @@ const subscribers = []
 expressWs(app)
 app.use(bodyParser.json())
 
-const QMK_PATH = '/Users/niko/Development/qmk_firmware'
+const QMK_PATH = 'qmk_firmware'
 const KEYBOARD = 'handwired/dactyl_reduced'
 
 app.get('/', (req, res) => res.redirect('/application'))

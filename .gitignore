@@ -78,3 +78,5 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+qmk_firmware
