@@ -18,7 +18,7 @@ app.use('/application', express.static('application'))
 
 app.get('/keymap', (req, res) => {
   const keymapPath = `${QMK_PATH}/keyboards/${KEYBOARD}/keymaps/generated`
-  const keymap = JSON.parse(fs.readFileSync(`${keymapPath}/keymap.json`))
+  const keymap = JSON.parse(fs.readFileSync(`${keymapPath}/__keymap.json`))
   res.json(keymap)
 })
 
@@ -41,10 +41,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };`
 
   const keymapPath = `${QMK_PATH}/keyboards/${KEYBOARD}/keymaps/generated`
-  const makeArgs = [`${KEYBOARD}:default${'flash' in req.query ? ':avrdude': ''}`]
+  const makeArgs = [`${KEYBOARD}:generated${'flash' in req.query ? ':avrdude': ''}`]
 
   fs.existsSync(keymapPath) || fs.mkdirSync(keymapPath)
-  fs.writeFileSync(`${keymapPath}/keymap.json`, JSON.stringify(keymap, null, 2))
+  fs.writeFileSync(`${keymapPath}/__keymap.json`, JSON.stringify(keymap, null, 2))
   fs.writeFileSync(`${keymapPath}/keymap.c`, keymapOut)
 
   childProcess.execFile('make', makeArgs, { cwd: QMK_PATH }, (err) => {
