@@ -114,7 +114,7 @@ html, body {
 	text-align: center;
 	line-height: 60px;
 }
-#search ul {
+ul.search-results {
 	font-family: monospace;
 	list-style-position: inside;
 	list-style-type: none;
@@ -122,16 +122,16 @@ html, body {
 	background: rgba(0, 0, 0, 0.8);
 	border-radius: 4px;
 }
-#search li {
+.search-results li {
 	cursor: pointer;
 	color: white;
 	padding: 5px;
 }
-#search li:hover {
+.search-results li:hover {
 	background: white;
 	color: black;
 }
-#search b { color: red; }
+.search-results li b { color: red; }
 
 #terminal {
 	position: absolute;
