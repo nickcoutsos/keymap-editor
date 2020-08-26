@@ -157,3 +157,41 @@ ul.search-results {
 	bottom: 5px;
 	right: 20px;
 }
+
+.chip-input {
+  font-family: avenir;
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  cursor: text;
+}
+
+.chip-input input {
+  font-family: avenir;
+  display: inline;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chip-input .chip {
+  display: inline-block;
+  padding: 4px;
+  margin: 2px;
+  border-radius: 4px;
+  font-family: avenir;
+  background-color: #910e0e;
+  color: white;
+}
+
+.chip.selected {
+  background-color: #914e0e
+}
+
+.combo-editor {
+  position: absolute;
+  z-index: 2;
+
+  background: rgba(255, 255, 255, 0.8);
+}

@@ -2,6 +2,7 @@ import * as search from './search.js'
 import { loadKeymap, setKeycode } from './keymap.js'
 import { addLayer, selectLayer } from './layers.js'
 import { loadLayout } from './layout.js'
+import { createComboKeyInput } from './combo-key-input.js'
 
 /* global Terminal */
 
@@ -25,6 +26,7 @@ async function main() {
 
   setInterval(() => socket.send('ping'), 10000)
 
+  document.body.appendChild(createComboKeyInput())
 
   search.onSelect(code => {
     if (active) {
