@@ -10,9 +10,27 @@
 </head>
 <body>
 	<div id="layer-selector">
-		<p>Layers:</p>
+		<label>Layers:</label>
 		<ul></ul>
 		<button>Add layer</button>
+	</div>
+	<div id="combo-editor" class="closed">
+		<label>Combos:</label>
+		<table>
+			<thead>
+				<tr>
+					<th>Action</th>
+					<th>Combo</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+			<tfoot>
+				<tr>
+					<td></td><td></td><td><button type="button">new combo</button></td>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
 	<div id="layers"></div>
 	<div id="search" style="display: none">

@@ -11,12 +11,12 @@ function chipRenderer (value) {
   return element
 }
 
-function createDomElements () {
+function createDomElements (values) {
   const container = document.createElement('div')
-  const chipInput = ChipInput({ chipRenderer })
+  const chipInput = ChipInput({ chipRenderer, initialValues: values })
   const results = document.createElement('ul')
 
-  container.classList.add('combo-editor')
+  container.classList.add('combo-selector')
   results.classList.add('search-results')
 
   container.appendChild(chipInput.element)
@@ -25,8 +25,8 @@ function createDomElements () {
   return { container, chipInput, results }
 }
 
-export function createComboKeyInput () {
-  const { container, chipInput, results } = createDomElements()
+export function createComboKeyInput (values = []) {
+  const { container, chipInput, results } = createDomElements(values)
   const input = chipInput.element.querySelector('input')
   let keycodes = []
 
@@ -63,11 +63,23 @@ export function createComboKeyInput () {
     }
   }
 
+  function activate (event) {
+    chipInput.element.classList.add('active')
+    event.stopPropagation()
+    input.focus()
+  }
+
+  function deactivate (event) {
+    chipInput.element.classList.remove('active')
+  }
+
   (async function init () {
     hideResults()
     input.focus()
     input.addEventListener('input', handleInput)
     results.addEventListener('click', handleSelect, { useCapture: true })
+    container.addEventListener('click', activate)
+    input.addEventListener('blur', deactivate)
 
     keycodes = await loadKeycodes()
   }())

@@ -3,14 +3,11 @@ import { loadKeymap, setKeycode } from './keymap.js'
 import { addLayer, selectLayer } from './layers.js'
 import { loadLayout } from './layout.js'
 import { createComboKeyInput } from './combo-key-input.js'
+import { addComboDefinition, getComboDefinitions } from './combo-editor.js'
 
 /* global Terminal */
 
 async function main() {
-  // const keycodes = await loadKeycodes()
-  // const keycodesIndex = keycodes.reduce((map, keycode) => Object.assign(map, { [keycode.code]: keycode }), {})
-  // const layout = await loadLayout()
-
   const layout = await loadLayout()
   const keymap = await loadKeymap()
   let active
@@ -26,7 +23,7 @@ async function main() {
 
   setInterval(() => socket.send('ping'), 10000)
 
-  document.body.appendChild(createComboKeyInput())
+  keymap.combos.map(addComboDefinition)
 
   search.onSelect(code => {
     if (active) {
@@ -64,6 +61,7 @@ async function main() {
   }
 
   function buildKeymap () {
+    const combos = getComboDefinitions()
     const layers = []
     for (let layer of [...document.querySelectorAll('#layers .layer')]) {
       const layerExport = []
@@ -74,7 +72,7 @@ async function main() {
       layers.push(layerExport)
     }
 
-    return Object.assign({}, keymap, { layers })
+    return Object.assign({}, keymap, { layers, combos })
   }
 
   function compile ({ flash = false } = {}) {
@@ -107,7 +105,7 @@ async function main() {
 
   document.querySelector('#export').addEventListener('click', () => {
     const keymap = buildKeymap()
-    const file = new File([JSON.stringify(newKeymap, null, 2)], 'default.json', {
+    const file = new File([JSON.stringify(keymap, null, 2)], 'default.json', {
       type: 'application/octet-stream'
     })
 

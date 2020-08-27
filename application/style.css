@@ -118,6 +118,8 @@ ul.search-results {
 	font-family: monospace;
 	list-style-position: inside;
 	list-style-type: none;
+	max-height: 200px;
+	overflow: scroll;
 	padding: 4px;
 	background: rgba(0, 0, 0, 0.8);
 	border-radius: 4px;
@@ -189,9 +191,16 @@ ul.search-results {
   background-color: #914e0e
 }
 
-.combo-editor {
-  position: absolute;
+#combo-editor {
+  position: relative;
   z-index: 2;
+}
+#combo-editor label::before { display: inline-block; content: '▶︎'; transform: rotate(90deg); }
+#combo-editor.closed label::before { transform: rotate(0deg); }
+#combo-editor.closed table { display: none; }
 
+.combo-selector {
   background: rgba(255, 255, 255, 0.8);
 }
+.combo-selector .chip-input:not(.active) { border: none; }
+.combo-selector .chip-input:not(.active) input { display: none; }
