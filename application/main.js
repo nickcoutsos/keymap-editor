@@ -23,6 +23,7 @@ async function main() {
 
   setInterval(() => socket.send('ping'), 10000)
 
+  keymap.combos = keymap.combos || []
   keymap.combos.map(addComboDefinition)
 
   search.onSelect(code => {
