@@ -1,3 +1,5 @@
+const childProcess = require('child_process')
+const process = require('process')
 const express = require('express')
 const expressWs = require('express-ws')
 const bodyParser = require('body-parser')
@@ -8,9 +10,15 @@ const subscribers = []
 expressWs(app)
 app.use(bodyParser.json())
 
+childProcess.execFile('npm', ['run', 'build-watch'], { cwd: './application' }, err => {
+  console.error(err)
+  console.error('Application serving failed')
+  process.exit(1)
+})
+
 app.get('/', (req, res) => res.redirect('/application'))
-app.use('/application', express.static('application'))
-app.get('/keymap', (req, res) => res.json(zmk.loadKeymap()))
+app.use('/application', express.static('application/dist'))
+app.get('/keymap', (req, res) => res.json(qmk.loadKeymap()))
 app.post('/keymap', (req, res) => {
   const keymap = req.body
   const keymapCode = qmk.generateKeymap(keymap)
@@ -47,4 +55,6 @@ app.ws('/console', (ws, req) => {
   }
 })
 
-app.listen(process.env.PORT || 8080)
+const PORT = process.env.PORT || 8080
+app.listen(PORT)
+console.log('listening on', PORT)

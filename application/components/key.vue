@@ -1,0 +1,35 @@
+<template>
+  <div
+    class="key"
+    :class="[uClass, hClass]"
+    :data-label="label"
+    :data-u="u"
+    :data-h="h"
+    :style="positioningStyle"
+  >
+    <span class="code">{{code}}</span>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
+  computed: {
+    uClass() { return `key-${this.u}u` },
+    hClass() { return `key-${this.h}h` },
+    positioningStyle() {
+      const x = this.x * 65
+      const y = this.y * 65
+      const rx = (this.x - (this.rx || this.x)) * -65
+      const ry = (this.y - (this.ry || this.y)) * -65
+
+      return {
+        top: `${y}px`,
+        left: `${x}px`,
+        transformOrigin: `${rx}px ${ry}px`,
+        transform: `rotate(${this.r || 0}deg)`
+      }
+    }
+  }
+}
+</script>

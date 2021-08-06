@@ -1,3 +1,13 @@
+import './style.css'
+import '@fortawesome/fontawesome-free/css/all.css'
+import 'xterm/css/xterm.css'
+import { Terminal } from 'xterm'
+import * as Vue from 'vue'
+
+import App from './components/app.vue'
+import KeyboardLayout from './components/keyboard-layout.vue'
+import LayerSelector from './components/layer-selector.vue'
+
 import * as search from './search.js'
 import { loadKeymap, setKeycode } from './keymap.js'
 import { addLayer, selectLayer } from './layers.js'
@@ -5,12 +15,15 @@ import { loadLayout } from './layout.js'
 import { createComboKeyInput } from './combo-key-input.js'
 import { addComboDefinition, getComboDefinitions } from './combo-editor.js'
 
-/* global Terminal */
 
 async function main() {
   const layout = await loadLayout()
   const keymap = await loadKeymap()
   let active
+
+  const app = Vue.createApp(App)
+  const vm = app.mount('#app')
+
 
   const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
   const terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
@@ -33,12 +46,15 @@ async function main() {
     }
   })
 
+  vm.layout = layout
+  vm.layers = keymap.layers
+  console.log(keymap)
+
   // addLayer(layout, keymap)
   // document.getElementById('layers').appendChild(renderLayout(layout))
-  for (let layer of keymap.layers) {
-    addLayer(layout, layer)
-  }
-  selectLayer(0)
+  // for (let layer of keymap.layers) {
+  //   addLayer(layout, layer)
+  // }
 
   document.body.addEventListener('click', event => {
     if (event.target.classList.contains('key') || event.target.classList.contains('code')) {

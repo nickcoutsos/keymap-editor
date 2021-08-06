@@ -1,7 +1,7 @@
 
 export function loadKeycodes () {
-  return fetch('data/keycodes.json')
-    .then(response => response.json())
+  return import('./data/keycodes.json')
+    .then(keycodes => keycodes.default)
     .then(normalizeKeycodes)
 }
 

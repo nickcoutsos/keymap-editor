@@ -1,6 +1,6 @@
 export function loadLayout () {
-  return fetch('data/layout.json')
-    .then(response => response.json())
+  return import('./data/layout.json')
+    .then(layout => layout.default)
     .then(layout => layout.map(key => ({
       ...key,
       u: key.u || 1,
