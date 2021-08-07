@@ -6,14 +6,19 @@
     :data-u="u"
     :data-h="h"
     :style="positioningStyle"
+    @mouseover="onMouseOver"
+    @mouseleave="onMouseLeave"
   >
-    <span class="code">{{code}}</span>
+    <key-code :code="code" />
   </div>
 </template>
 
 <script>
+import KeyCode from './key-code.vue'
+
 export default {
   props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
+  components: { 'key-code': KeyCode },
   computed: {
     uClass() { return `key-${this.u}u` },
     hClass() { return `key-${this.h}h` },
@@ -29,6 +34,16 @@ export default {
         transformOrigin: `${rx}px ${ry}px`,
         transform: `rotate(${this.r || 0}deg)`
       }
+    }
+  },
+  methods: {
+    onMouseOver(event) {
+      const old = document.querySelector('.highlight')
+      old && old.classList.remove('highlight')
+      event.target.classList.add('highlight')
+    },
+    onMouseLeave(event) {
+      event.target.classList.remove('highlight')
     }
   }
 }
