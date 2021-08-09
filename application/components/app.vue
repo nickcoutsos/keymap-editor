@@ -1,34 +1,46 @@
 <script>
 import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
-const { loadIndexedKeycodes } = require('../keycodes')
+import Search from './search.vue'
+
+const { loadKeycodes, loadIndexedKeycodes } = require('../keycodes')
 
 export default {
   components: {
     'keyboard-layout': KeyboardLayout,
-    'layer-selector': LayerSelector
+    'layer-selector': LayerSelector,
+    search: Search
   },
   provide() {
     return {
-      indexedKeycodes: this.indexedKeycodes
+      keycodes: this.keycodes,
+      indexedKeycodes: this.indexedKeycodes,
+      onSelectKey: this.handleSelectKey
     }
   },
   data() {
     return {
       activeLayer: 0,
+      keycodes: [],
       indexedKeycodes: {},
       layout: [],
-      layers: []
+      layers: [],
+      editingKey: null
     }
   },
-  beforeMount() {
-    loadIndexedKeycodes().then(keycodes => {
-      Object.assign(this.indexedKeycodes, keycodes)
-    })
+  async beforeMount() {
+    const keycodes = await loadKeycodes()
+    const indexedKeycodes = await loadIndexedKeycodes()
+    
+    this.keycodes.splice(0, this.keycodes.length, ...keycodes)
+    Object.assign(this.indexedKeycodes, indexedKeycodes)
   },
   methods: {
     handleSelectLayer(layer) {
       this.activeLayer = layer
+    },
+    handleSelectKey(target) {
+      this.editingKey = target
     }
   }
 }
@@ -51,5 +63,6 @@ export default {
         }"
       />
     </div>
+    <search v-if="editingKey" :target="editingKey" />
   </div>
 </template>

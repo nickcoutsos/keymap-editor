@@ -1,5 +1,5 @@
 <template>
-  <span class="code">
+  <span class="code" :data-code="code" @click="handleClick">
     {{(param == 'layer') ? code : ''}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
@@ -21,8 +21,9 @@ const paramsPattern = /\((.+)\)/
 
 module.exports = {
   name: 'key-code',
+  emits: ['select-key'],
   props: ['code', 'param', 'value'],
-  inject: ['indexedKeycodes'],
+  inject: ['indexedKeycodes', 'onSelectKey'],
   computed: {
     params() {
       return (this.code.match(paramsPattern) || ['', ''])[1]
@@ -44,6 +45,12 @@ module.exports = {
     paramLabel(param, value) {
       const paramKeycode = this.indexedKeycodes[value] || {}
       return param === 'layer' ? value : (paramKeycode.symbol || value)
+    },
+    handleClick(event) {
+      console.log('handling click')
+      Array.from(document.querySelectorAll('.active')).forEach(element =>element.classList.remove('active') )
+      event.target.classList.add('active')
+      this.onSelectKey(event.target)
     }
   }
 }
