@@ -13,7 +13,7 @@ const getOptions = (param, keycodes) => {
 
 export default {
   name: 'search',
-  props: ['target'],
+  props: ['target', 'code'],
   emits: ['select-keycode'],
   inject: ['keycodes'],
   data() {
@@ -23,12 +23,10 @@ export default {
   },
   computed: {
     param() {
-      const target = document.querySelector('.active')
-      console.log('what is it', target.dataset.code, target)
-      return target.dataset.param || 'kc'
+      return this.code.fn || this.code || 'kc'
     },
     prompt() {
-      const target = document.querySelector('.active')
+      const target = this.target// document.querySelector('.active')
       if (target.dataset.param === 'layer') {
         return 'Select layer...'
       } else if (target.dataset.param === 'mod') {
@@ -64,28 +62,22 @@ export default {
     handleKeyPress(event) {
       setTimeout(() => {
         this.query = event.target.value
-      console.log('after event', event.target.value, this.query)
+        console.log('after event', event.target.value, this.query)
       })
-    }
-  },
-  watch: {
-    target(target, old) {
-      console.log('new target',  target, old)
-      // this.query = target.dataset.code
     }
   }
 }
 </script>
 
 <template>
-  <div id="search" :style="style" :data-foo="target">
+  <div class="dialog" :style="style">
     <p>{{prompt}}</p>
     <input
       type="text"
-      :value="query !== null ? query : target.dataset.code"
+      :value="query !== null ? query : code"
       @keypress="handleKeyPress"
     />
-    <ul class="search-results">
+    <ul class="results">
       <li
         :key="`result-${i}`"
         v-for="(result, i) in results"
@@ -95,3 +87,51 @@ export default {
     </ul>
   </div>
 </template>
+
+<style scoped>
+
+.dialog {
+	position: absolute;
+	transform: translate(-60px, -30px);
+	z-index: 2;
+}
+.dialog p {
+	margin: 0;
+	font-size: 90%;
+	font-weight: bold;
+}
+.dialog input {
+	display: block;
+	padding: 0;
+	margin: 0;
+	width: 120px;
+	height: 60px;
+	font-size: 120%;
+	border: 2px solid steelblue;
+	border-radius: 4px;
+
+	text-align: center;
+	line-height: 60px;
+}
+ul.results {
+	font-family: monospace;
+	list-style-position: inside;
+	list-style-type: none;
+	max-height: 200px;
+	overflow: scroll;
+	padding: 4px;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 4px;
+}
+.results li {
+	cursor: pointer;
+	color: white;
+	padding: 5px;
+}
+.results li:hover {
+	background: white;
+	color: black;
+}
+.results li b { color: red; }
+
+</style>

@@ -21,8 +21,9 @@ app.use('/application', express.static('application/dist'))
 app.get('/keymap', (req, res) => res.json(qmk.loadKeymap()))
 app.post('/keymap', (req, res) => {
   const keymap = req.body
-  const keymapCode = qmk.generateKeymap(keymap)
-  const exportStdout = qmk.exportKeymap(keymap, keymapCode, 'flash' in req.query, err => {
+  const layout = qmk.loadLayout()
+  const generatedKeymap = qmk.generateKeymap(layout, keymap)
+  const exportStdout = qmk.exportKeymap(generatedKeymap, 'flash' in req.query, err => {
     if (err) {
       res.status(500).send(err)
       return

@@ -1,10 +1,10 @@
 import { loadKeycodes } from './keycodes.js'
 
 /* global fuzzysort */
-const root = document.querySelector('#search')
-export const prompt = root.querySelector('p')
-export const input = root.querySelector('input')
-export const results = root.querySelector('ul')
+// const root = document.querySelector('#search')
+// export const prompt = root.querySelector('p')
+// export const input = root.querySelector('input')
+// export const results = root.querySelector('ul')
 let param = null
 let onSelect_ = null
 
@@ -97,13 +97,13 @@ function debounce(fn, limit) {
   }
 }
 
-input.addEventListener('keypress', debounce(() => query(input.value), 250))
-document.body.addEventListener('click', (event) => {
-  const inactive = root.style.display === 'none'
-  const child = root.contains(event.target)
-  if (inactive || child) {
-    return
-  }
+// input.addEventListener('keypress', debounce(() => query(input.value), 250))
+// document.body.addEventListener('click', (event) => {
+//   const inactive = root.style.display === 'none'
+//   const child = root.contains(event.target)
+//   if (inactive || child) {
+//     return
+//   }
 
-  hide()
-}, true)
+//   hide()
+// }, true)

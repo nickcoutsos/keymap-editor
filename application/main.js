@@ -27,7 +27,7 @@ async function main() {
 
   const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
   const terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
-  terminal.open(document.querySelector('#terminal > div'))
+  // terminal.open(document.querySelector('#terminal > div'))
 
   socket.onopen = () => console.log(new Date(), 'connected to console')
   socket.onclose = () => console.log(new Date(), 'disconnected from server')
@@ -36,19 +36,16 @@ async function main() {
 
   setInterval(() => socket.send('ping'), 10000)
 
-  keymap.combos = keymap.combos || []
-  keymap.combos.map(addComboDefinition)
+  // search.onSelect(code => {
+  //   if (active) {
+  //     setKeycode(active, code)
+  //     // recalculateDepth(active)
+  //   }
+  // })
 
-  search.onSelect(code => {
-    if (active) {
-      setKeycode(active, code)
-      // recalculateDepth(active)
-    }
-  })
-
+  vm.keymap = keymap
   vm.layout = layout
   vm.layers = keymap.layers
-  console.log(keymap)
 
   // addLayer(layout, keymap)
   // document.getElementById('layers').appendChild(renderLayout(layout))
@@ -56,12 +53,12 @@ async function main() {
   //   addLayer(layout, layer)
   // }
 
-  document.body.addEventListener('click', event => {
-    if (event.target.classList.contains('key') || event.target.classList.contains('code')) {
-      active = event.target
-      search.activate(event.target)
-    }
-  })
+  // document.body.addEventListener('click', event => {
+  //   if (event.target.classList.contains('key') || event.target.classList.contains('code')) {
+  //     active = event.target
+  //     search.activate(event.target)
+  //   }
+  // })
 
   document.querySelector('#layer-selector button').addEventListener('click', () => {
     addLayer(layout, [])
@@ -120,19 +117,19 @@ async function main() {
     element.classList.toggle('collapsed', collapse)
   }
 
-  document.querySelector('#export').addEventListener('click', () => {
-    const keymap = buildKeymap()
-    const file = new File([JSON.stringify(keymap, null, 2)], 'default.json', {
-      type: 'application/octet-stream'
-    })
+  // document.querySelector('#export').addEventListener('click', () => {
+  //   const keymap = buildKeymap()
+  //   const file = new File([JSON.stringify(keymap, null, 2)], 'default.json', {
+  //     type: 'application/octet-stream'
+  //   })
 
-    location.href = URL.createObjectURL(file)
-  })
+  //   location.href = URL.createObjectURL(file)
+  // })
 
-  document.querySelector('#compile').addEventListener('click', () => compile())
-  document.querySelector('#flash').addEventListener('click', () => compile({ flash: true }))
+  // document.querySelector('#compile').addEventListener('click', () => compile())
+  // document.querySelector('#flash').addEventListener('click', () => compile({ flash: true }))
 
-  document.querySelector('#toggle').addEventListener('click', () => toggleTerminal())
+  // document.querySelector('#toggle').addEventListener('click', () => toggleTerminal())
 }
 
 main()

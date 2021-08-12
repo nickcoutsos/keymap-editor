@@ -23,6 +23,7 @@ export default {
       activeLayer: 0,
       keycodes: [],
       indexedKeycodes: {},
+      keymap: {},
       layout: [],
       layers: [],
       editingKey: null
@@ -41,6 +42,19 @@ export default {
     },
     handleSelectKey(target) {
       this.editingKey = target
+    },
+    handleCompile() {
+      const keymap = Object.assign({}, this.keymap, { layers: this.layers })
+
+      // terminal.clear()
+      // toggleTerminal(true)
+      fetch('/keymap', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(keymap)
+      })
     }
   }
 }
@@ -63,6 +77,16 @@ export default {
         }"
       />
     </div>
-    <search v-if="editingKey" :target="editingKey" />
+    <search
+      v-if="editingKey"
+      :target="editingKey.target"
+      :code="editingKey.code"
+    />
+    <div id="actions">
+      <button id="compile" @click="handleCompile">Compile</button>
+      <button id="flash">Flash</button>
+      <button id="export">Export</button>
+      <button id="toggle">⇡</button>
+    </div>
   </div>
 </template>

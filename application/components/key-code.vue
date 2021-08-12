@@ -1,5 +1,5 @@
 <template>
-  <span class="code" :data-code="code" @click="handleClick">
+  <span class="code" :data-depth="depth" @click="handleClick">
     {{(param == 'layer') ? code : ''}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
@@ -26,31 +26,36 @@ module.exports = {
   inject: ['indexedKeycodes', 'onSelectKey'],
   computed: {
     params() {
-      return (this.code.match(paramsPattern) || ['', ''])[1]
-        .split(',')
-        .map(s => s.trim())
-        .filter(s => !!s)
+      return this.code.params || []
     },
     withoutParams() {
-      return this.code.replace(paramsPattern, '')
+      return this.code.fn || this.code
     },
     keycode() {
-      return this.indexedKeycodes[this.withoutParams]
+      return this.indexedKeycodes[this.code.fn || this.code]
+    },
+    depth() {
+      function getDepth(code) {
+        const childDepths = (code.params || []).map(getDepth)
+        return code.fn
+          ? 1 + Math.max(0, ...childDepths)
+          : 0
+      }
+      return getDepth(this.code)
     }
   },
   methods: {
     isFunctionCall(value) {
-      return value && value.match(/.+\(.+\)/)
+      return value && !!value.fn
     },
     paramLabel(param, value) {
       const paramKeycode = this.indexedKeycodes[value] || {}
       return param === 'layer' ? value : (paramKeycode.symbol || value)
     },
     handleClick(event) {
-      console.log('handling click')
       Array.from(document.querySelectorAll('.active')).forEach(element =>element.classList.remove('active') )
       event.target.classList.add('active')
-      this.onSelectKey(event.target)
+      this.onSelectKey({ target: event.target, code: this.code })
     }
   }
 }

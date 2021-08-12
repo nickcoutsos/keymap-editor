@@ -9,12 +9,26 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-code :code="code" />
+    <key-code :code="parsed" />
   </div>
 </template>
 
 <script>
 import KeyCode from './key-code.vue'
+
+const paramsPattern = /\((.+)\)/
+
+function parse(code) {
+  const fn = code.replace(paramsPattern, '')
+  const params = (code.match(paramsPattern) || ['', ''])[1]
+    .split(',')
+    .map(s => s.trim())
+    .filter(s => !!s)
+
+  return params.length > 0
+    ? { fn, params: params.map(parse) }
+    : code
+}
 
 export default {
   props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
@@ -34,6 +48,9 @@ export default {
         transformOrigin: `${rx}px ${ry}px`,
         transform: `rotate(${this.r || 0}deg)`
       }
+    },
+    parsed() {
+      return parse(this.code)
     }
   },
   methods: {
@@ -48,3 +65,37 @@ export default {
   }
 }
 </script>
+
+<style>
+[data-u="1"] { width: 60px; }
+[data-u="2"] { width: 125px; }
+[data-h="1"] { height: 60px; }
+[data-h="2"] { height: 125px; }
+
+.key {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: #999;
+	font-size: 110%;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+.key:hover {
+	background-color: var(--dark-red);
+	/*transition: 250ms;*/
+	z-index: 1;
+}
+.key:hover .code {
+	background-color: var(--dark-red);
+	color: white;
+}
+.key > .code {
+	padding: 5px;
+}
+
+.key[data-depth="3"] { font-size: 90%; }
+.key[data-depth="5"] { font-size: 75%; }
+</style>
