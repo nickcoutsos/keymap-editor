@@ -13,13 +13,19 @@ const getOptions = (param, keycodes) => {
 
 export default {
   name: 'search',
+  emits: ['cancel', 'select'],
   props: ['target', 'code'],
-  emits: ['select-keycode'],
   inject: ['keycodes'],
   data() {
     return {
       query: null
     }
+  },
+  mounted() {
+    document.body.addEventListener('click', this.cancel)
+  },
+  unmounted() {
+    document.body.removeEventListener('click', this.cancel)
   },
   computed: {
     param() {
@@ -37,7 +43,6 @@ export default {
     },
     results() {
       const options = getOptions(this.param, this.keycodes)
-      console.log('querying', this.query, options)
       return fuzzysort.go(this.query, options, {
         key: 'code',
         limit: 30
@@ -57,13 +62,15 @@ export default {
       return fuzzysort.highlight(result)
     },
     handleClickResult(result) {
-      this.$emit('select-keycode', result.obj.code)
+      this.$emit('select', result.obj.code)
     },
     handleKeyPress(event) {
       setTimeout(() => {
         this.query = event.target.value
-        console.log('after event', event.target.value, this.query)
       })
+    },
+    cancel() {
+      this.$emit('cancel', 'select')
     }
   }
 }
@@ -82,7 +89,7 @@ export default {
         :key="`result-${i}`"
         v-for="(result, i) in results"
         v-html="highlight(result)"
-        @click="handleClickResult"
+        @click="handleClickResult(result)"
       />
     </ul>
   </div>

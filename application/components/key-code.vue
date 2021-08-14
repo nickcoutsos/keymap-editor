@@ -1,5 +1,5 @@
 <template>
-  <span class="code" :data-depth="depth" @click="handleClick">
+  <span class="code" :data-depth="depth" @click.stop="handleClick">
     {{(param == 'layer') ? code : ''}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
@@ -21,9 +21,9 @@ const paramsPattern = /\((.+)\)/
 
 module.exports = {
   name: 'key-code',
-  emits: ['select-key'],
+  emits: ['select-code'],
   props: ['code', 'param', 'value'],
-  inject: ['indexedKeycodes', 'onSelectKey'],
+  inject: ['indexedKeycodes'],
   computed: {
     params() {
       return this.code.params || []
@@ -53,9 +53,15 @@ module.exports = {
       return param === 'layer' ? value : (paramKeycode.symbol || value)
     },
     handleClick(event) {
-      Array.from(document.querySelectorAll('.active')).forEach(element =>element.classList.remove('active') )
+      Array.from(document.querySelectorAll('.active'))
+        .forEach(element => element.classList.remove('active') )
+
       event.target.classList.add('active')
-      this.onSelectKey({ target: event.target, code: this.code })
+
+      this.$emit('select-code', {
+        target: event.target,
+        code: this.code
+      })
     }
   }
 }

@@ -13,6 +13,7 @@
       :h="key.h"
       :label="key.label"
       :code="keys[i]"
+      @select-key="handleSelectKey(key, i, $event)"
     >
     </key-thing>
   </div>
@@ -22,8 +23,14 @@
 import Key from './key.vue'
 export default {
   props: ['layout', 'keys'],
+  inject: ['onSelectKey'],
   components: {
     'key-thing': Key,
+  },
+  methods: {
+    handleSelectKey(key, index, { target, code }) {
+      this.onSelectKey({ key, index, target, code })
+    }
   }
 }
 </script>

@@ -43,6 +43,13 @@ export default {
     handleSelectKey(target) {
       this.editingKey = target
     },
+    handleCancelKeySelection() { this.editingKey = null },
+    handleConfirmKeySelection(newCode) {
+      const { index, code } = this.editingKey
+      const keymap = this.layers[this.activeLayer]
+      keymap[index] = keymap[index].replace(code, newCode)
+      this.editingKey = null
+    },
     handleCompile() {
       const keymap = Object.assign({}, this.keymap, { layers: this.layers })
 
@@ -81,6 +88,8 @@ export default {
       v-if="editingKey"
       :target="editingKey.target"
       :code="editingKey.code"
+      @select="handleConfirmKeySelection"
+      @cancel="handleCancelKeySelection"
     />
     <div id="actions">
       <button id="compile" @click="handleCompile">Compile</button>

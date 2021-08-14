@@ -9,7 +9,7 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-code :code="parsed" />
+    <key-code :code="parsed" @select-code="handleSelectCode" />
   </div>
 </template>
 
@@ -32,6 +32,8 @@ function parse(code) {
 
 export default {
   props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
+  inject: ['onSelectKey'],
+  emits: ['select-key'],
   components: { 'key-code': KeyCode },
   computed: {
     uClass() { return `key-${this.u}u` },
@@ -61,6 +63,9 @@ export default {
     },
     onMouseLeave(event) {
       event.target.classList.remove('highlight')
+    },
+    handleSelectCode({ target, code }) {
+      this.$emit('select-key', { target, code })
     }
   }
 }
