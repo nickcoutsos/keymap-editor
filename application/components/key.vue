@@ -5,16 +5,25 @@
     :data-label="label"
     :data-u="u"
     :data-h="h"
+    :data-depth="depth"
     :style="positioningStyle"
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-code :code="parsed" @select-code="handleSelectCode" />
+    <key-value v-if="keycode" :value="parsed.value" :onSelect="onSelectKey" />
+    <key-paramlist
+      v-if="keycode && keycode.params.length > 0"
+      :params="keycode.params"
+      :values="parsed.params"
+      :onSelect="onSelectKey"
+    />
   </div>
 </template>
 
 <script>
 import KeyCode from './key-code.vue'
+import KeyValue from './key-value.vue'
+import KeyParamlist from './key-paramlist.vue'
 
 const paramsPattern = /\((.+)\)/
 
@@ -26,15 +35,19 @@ function parse(code) {
     .filter(s => !!s)
 
   return params.length > 0
-    ? { fn, params: params.map(parse) }
-    : code
+    ? { value: fn, fn, params: params.map(parse) }
+    : { value: code }
 }
 
 export default {
   props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
-  inject: ['onSelectKey'],
+  inject: ['onSelectKey', 'indexedKeycodes'],
   emits: ['select-key'],
-  components: { 'key-code': KeyCode },
+  components: {
+    'key-code': KeyCode,
+    'key-value': KeyValue,
+    'key-paramlist': KeyParamlist
+  },
   computed: {
     uClass() { return `key-${this.u}u` },
     hClass() { return `key-${this.h}h` },
@@ -53,6 +66,21 @@ export default {
     },
     parsed() {
       return parse(this.code)
+    },
+    keycode() {
+      if (Object.keys(this.indexedKeycodes) == 0) return null
+
+      const code = this.parsed.fn || this.parsed.value
+      return code && this.indexedKeycodes[code]
+    },
+    depth() {
+      function getDepth(code) {
+        const childDepths = (code.params || []).map(getDepth)
+        return code.fn
+          ? 2 + Math.max(0, ...childDepths)
+          : 1
+      }
+      return getDepth(this.parsed)
     }
   },
   methods: {
