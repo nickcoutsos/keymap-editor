@@ -5,6 +5,8 @@
         :key="`param-${i}`"
         :param="param"
         :value="values && values[i] && values[i].value"
+        :index="values && values[i] && values[i].index"
+        :keycode="values && values[i] && values[i].keycode"
         :onSelect="onSelect"
       />
 

@@ -1,5 +1,11 @@
 <template>
-  <span class="code" :data-depth="depth" :data-code="value" :data-empty="value === undefined" @click.stop="onSelect({ target: $event.target, code: value, param })">
+  <span
+    class="code"
+    :data-depth="depth"
+    :data-code="value"
+    :data-empty="value === undefined"
+    @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
+  >
     {{(param == 'layer') ? value : ''}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
@@ -11,13 +17,7 @@
 <script>
 export default {
   name: 'key-value',
-  props: ['param', 'value', 'depth', 'onSelect'],
-  inject: ['indexedKeycodes'],
-  computed: {
-    keycode() {
-      return this.value && this.indexedKeycodes[this.value]
-    }
-  }
+  props: ['param', 'keycode', 'index', 'value', 'depth', 'onSelect']
 }
 </script>
 

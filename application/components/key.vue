@@ -10,10 +10,16 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-value v-if="keycode" :value="parsed.value" :onSelect="handleSelectCode" />
+    <key-value
+      v-if="parsed && parsed.keycode"
+      :value="parsed.value"
+      :index="parsed.index"
+      :keycode="parsed.keycode"
+      :onSelect="handleSelectCode"
+    />
     <key-paramlist
-      v-if="keycode && keycode.params.length > 0"
-      :params="keycode.params"
+      v-if="parsed && parsed.keycode && parsed.keycode.params.length > 0"
+      :params="parsed.keycode.params"
       :values="parsed.params"
       :onSelect="handleSelectCode"
     />
@@ -24,23 +30,8 @@
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
 
-const paramsPattern = /\((.+)\)/
-
-function parse(code) {
-  const fn = code.replace(paramsPattern, '')
-  const params = (code.match(paramsPattern) || ['', ''])[1]
-    .split(',')
-    .map(s => s.trim())
-    .filter(s => !!s)
-
-  return params.length > 0
-    ? { value: fn, fn, params: params.map(parse) }
-    : { value: code }
-}
-
 export default {
-  props: ['position', 'rotation', 'size', 'label', 'code'],
-  inject: ['indexedKeycodes'],
+  props: ['position', 'rotation', 'size', 'label', 'parsed', 'mapping'],
   emits: ['select-key'],
   components: {
     'key-value': KeyValue,
@@ -62,15 +53,6 @@ export default {
         transform: `rotate(${this.rotation.a || 0}deg)`
       }
     },
-    parsed() {
-      return parse(this.code)
-    },
-    keycode() {
-      if (Object.keys(this.indexedKeycodes) == 0) return null
-
-      const code = this.parsed.fn || this.parsed.value
-      return code && this.indexedKeycodes[code]
-    },
     depth() {
       function getDepth(code) {
         const childDepths = (code.params || []).map(getDepth)
@@ -78,7 +60,7 @@ export default {
           ? 2 + Math.max(0, ...childDepths)
           : 1
       }
-      return getDepth(this.parsed)
+      return getDepth(this.mapping.binding)
     }
   },
   methods: {
@@ -91,7 +73,12 @@ export default {
       event.target.classList.remove('highlight')
     },
     handleSelectCode(event) {
-      this.$emit('select-key', event)
+      // console.log('handleSelectCode(...)', this.mapping, event)
+      this.$emit('select-key', {
+        layer: this.mapping.layer,
+        index: this.mapping.index,
+        ...event
+      })
     }
   }
 }

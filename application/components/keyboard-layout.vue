@@ -8,8 +8,9 @@
       :rotation="rotation(key)"
       :size="size(key)"
       :label="key.label"
-      :code="keys[i]"
-      @select-key="handleSelectKey(key, i, $event)"
+      :mapping="keys[i]"
+      :parsed="keys[i].parsed"
+      @select-key="onSelectKey"
     >
     </key-thing>
   </div>
@@ -35,9 +36,6 @@ export default {
     size(key) {
       const { u, h } = key
       return { u, h }
-    },
-    handleSelectKey(key, index, { target, param,  code }) {
-      this.onSelectKey({ key, index, target, param, code })
     }
   }
 }
