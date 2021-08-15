@@ -4,13 +4,9 @@
     <key-thing
       v-for="(key, i) in layout"
       :key="i"
-      :x="key.x"
-      :y="key.y"
-      :rx="key.rx"
-      :ry="key.ry"
-      :r="key.r"
-      :u="key.u"
-      :h="key.h"
+      :position="position(key)"
+      :rotation="rotation(key)"
+      :size="size(key)"
       :label="key.label"
       :code="keys[i]"
       @select-key="handleSelectKey(key, i, $event)"
@@ -28,8 +24,20 @@ export default {
     'key-thing': Key,
   },
   methods: {
-    handleSelectKey(key, index, { target, code }) {
-      this.onSelectKey({ key, index, target, code })
+    position(key) {
+      const { x, y } = key
+      return { x, y }
+    },
+    rotation(key) {
+      const { rx, ry, r } = key
+      return { x: rx, y: ry, a: r }
+    },
+    size(key) {
+      const { u, h } = key
+      return { u, h }
+    },
+    handleSelectKey(key, index, { target, param,  code }) {
+      this.onSelectKey({ key, index, target, param, code })
     }
   }
 }

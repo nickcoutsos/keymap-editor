@@ -3,8 +3,8 @@
     class="key"
     :class="[uClass, hClass]"
     :data-label="label"
-    :data-u="u"
-    :data-h="h"
+    :data-u="size.u"
+    :data-h="size.h"
     :data-depth="depth"
     :style="positioningStyle"
     @mouseover="onMouseOver"
@@ -40,7 +40,7 @@ function parse(code) {
 }
 
 export default {
-  props: ['x', 'y', 'rx', 'ry', 'r', 'u', 'h', 'label', 'code'],
+  props: ['position', 'rotation', 'size', 'label', 'code'],
   inject: ['onSelectKey', 'indexedKeycodes'],
   emits: ['select-key'],
   components: {
@@ -49,19 +49,19 @@ export default {
     'key-paramlist': KeyParamlist
   },
   computed: {
-    uClass() { return `key-${this.u}u` },
-    hClass() { return `key-${this.h}h` },
+    uClass() { return `key-${this.size.u}u` },
+    hClass() { return `key-${this.size.h}h` },
     positioningStyle() {
-      const x = this.x * 65
-      const y = this.y * 65
-      const rx = (this.x - (this.rx || this.x)) * -65
-      const ry = (this.y - (this.ry || this.y)) * -65
+      const x = this.position.x * 65
+      const y = this.position.y * 65
+      const rx = (this.position.x - (this.rotation.x || this.position.x)) * -65
+      const ry = (this.position.y - (this.rotation.y || this.position.y)) * -65
 
       return {
         top: `${y}px`,
         left: `${x}px`,
         transformOrigin: `${rx}px ${ry}px`,
-        transform: `rotate(${this.r || 0}deg)`
+        transform: `rotate(${this.rotation.a || 0}deg)`
       }
     },
     parsed() {
