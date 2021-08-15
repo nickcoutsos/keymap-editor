@@ -1,5 +1,5 @@
 <template>
-  <span class="code" :data-depth="depth" @click.stop="onSelect({ target: $event.target, code: value, param })">
+  <span class="code" :data-depth="depth" :data-code="value" :data-empty="value === undefined" @click.stop="onSelect({ target: $event.target, code: value, param })">
     {{(param == 'layer') ? value : ''}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
@@ -20,3 +20,7 @@ export default {
   }
 }
 </script>
+
+<style>
+[data-empty="true"]::before { content: '∅'; font-size: 80%; }
+</style>

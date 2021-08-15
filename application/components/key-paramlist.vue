@@ -4,15 +4,15 @@
       <key-value
         :key="`param-${i}`"
         :param="param"
-        :value="values[i].value"
+        :value="values && values[i] && values[i].value"
         :onSelect="onSelect"
       />
 
       <key-paramlist
-        v-if="values[i].params"
+        v-if="values && values[i] && values[i].params"
         :key="`param-${i}-paramslist`"
         :params="params"
-        :values="values[i].params"
+        :values="values && values[i] && values[i].params"
         :onSelect="onSelect"
       />
     </template>
