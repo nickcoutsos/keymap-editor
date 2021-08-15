@@ -14,7 +14,7 @@ const getOptions = (param, keycodes) => {
 export default {
   name: 'search',
   emits: ['cancel', 'select'],
-  props: ['target', 'code'],
+  props: ['target', 'param', 'code'],
   inject: ['keycodes'],
   data() {
     return {
@@ -28,9 +28,6 @@ export default {
     document.body.removeEventListener('click', this.cancel)
   },
   computed: {
-    param() {
-      return this.code.fn || this.code || 'kc'
-    },
     prompt() {
       const target = this.target// document.querySelector('.active')
       if (target.dataset.param === 'layer') {

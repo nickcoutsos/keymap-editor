@@ -10,18 +10,17 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-value v-if="keycode" :value="parsed.value" :onSelect="onSelectKey" />
+    <key-value v-if="keycode" :value="parsed.value" :onSelect="handleSelectCode" />
     <key-paramlist
       v-if="keycode && keycode.params.length > 0"
       :params="keycode.params"
       :values="parsed.params"
-      :onSelect="onSelectKey"
+      :onSelect="handleSelectCode"
     />
   </div>
 </template>
 
 <script>
-import KeyCode from './key-code.vue'
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
 
@@ -41,10 +40,9 @@ function parse(code) {
 
 export default {
   props: ['position', 'rotation', 'size', 'label', 'code'],
-  inject: ['onSelectKey', 'indexedKeycodes'],
+  inject: ['indexedKeycodes'],
   emits: ['select-key'],
   components: {
-    'key-code': KeyCode,
     'key-value': KeyValue,
     'key-paramlist': KeyParamlist
   },
@@ -92,8 +90,8 @@ export default {
     onMouseLeave(event) {
       event.target.classList.remove('highlight')
     },
-    handleSelectCode({ target, code }) {
-      this.$emit('select-key', { target, code })
+    handleSelectCode(event) {
+      this.$emit('select-key', event)
     }
   }
 }

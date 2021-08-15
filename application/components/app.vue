@@ -88,6 +88,7 @@ export default {
       v-if="editingKey"
       :target="editingKey.target"
       :code="editingKey.code"
+      :param="editingKey.param"
       @select="handleConfirmKeySelection"
       @cancel="handleCancelKeySelection"
     />
