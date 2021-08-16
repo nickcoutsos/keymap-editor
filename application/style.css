@@ -12,26 +12,6 @@ html, body {
 	margin: 0;
 }
 
-#layer-selector { position: relative; z-index: 2; }
-#layer-selector * { display: inline-block; }
-#layer-selector ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-#layer-selector li {
-	cursor: pointer;
-	background-color: lightgray;
-	color: darkgray;
-	border-radius: 5px;
-	padding: 5px;
-	margin: 2px;
-}
-#layer-selector li.active {
-	background-color: mediumseagreen;
-	color: white;
-}
-
 #layers { padding-left: 20px;}
 #layers .layer {
 	position: relative;

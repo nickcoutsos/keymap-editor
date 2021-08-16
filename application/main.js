@@ -5,25 +5,17 @@ import { Terminal } from 'xterm'
 import * as Vue from 'vue'
 
 import App from './components/app.vue'
-import KeyboardLayout from './components/keyboard-layout.vue'
-import LayerSelector from './components/layer-selector.vue'
 
-import * as search from './search.js'
-import { loadKeymap, setKeycode } from './keymap.js'
-import { addLayer, selectLayer } from './layers.js'
+import { loadKeymap } from './keymap.js'
+import { addLayer } from './layers.js'
 import { loadLayout } from './layout.js'
-import { createComboKeyInput } from './combo-key-input.js'
-import { addComboDefinition, getComboDefinitions } from './combo-editor.js'
-
 
 async function main() {
   const layout = await loadLayout()
   const keymap = await loadKeymap()
-  let active
 
   const app = Vue.createApp(App)
   const vm = app.mount('#app')
-
 
   const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
   const terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
@@ -36,80 +28,12 @@ async function main() {
 
   setInterval(() => socket.send('ping'), 10000)
 
-  // search.onSelect(code => {
-  //   if (active) {
-  //     setKeycode(active, code)
-  //     // recalculateDepth(active)
-  //   }
-  // })
-
   vm.keymap = keymap
   vm.layout = layout
   vm.layers = keymap.layers
 
   console.log(keymap)
-
-  // addLayer(layout, keymap)
-  // document.getElementById('layers').appendChild(renderLayout(layout))
-  // for (let layer of keymap.layers) {
-  //   addLayer(layout, layer)
-  // }
-
-  // document.body.addEventListener('click', event => {
-  //   if (event.target.classList.contains('key') || event.target.classList.contains('code')) {
-  //     active = event.target
-  //     search.activate(event.target)
-  //   }
-  // })
-
-  document.querySelector('#layer-selector button').addEventListener('click', () => {
-    addLayer(layout, [])
-  })
-
-  function extractCode (code) {
-    const paramsElement = code.querySelector('.params')
-    if (!paramsElement) {
-      return code.dataset.code
-    }
-
-    const params = [...paramsElement.children].map(extractCode)
-    return `${code.dataset.code}(${params.join(',')})`
-  }
-
-  function buildKeymap () {
-    const combos = getComboDefinitions()
-    const layers = []
-    for (let layer of [...document.querySelectorAll('#layers .layer')]) {
-      const layerExport = []
-      for (let key of [...layer.childNodes]) {
-        layerExport.push(extractCode(key.querySelector('.code')))
-      }
-
-      layers.push(layerExport)
-    }
-
-    return Object.assign({}, keymap, { layers, combos })
-  }
-
-  function compile ({ flash = false } = {}) {
-    const keymap = buildKeymap()
-    document.querySelector('#compile').disabled = true
-    document.querySelector('#flash').disabled = true
-
-    terminal.clear()
-    toggleTerminal(true)
-    fetch(flash ? '/keymap?flash' : '/keymap', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(keymap)
-    }).then(() => {
-      document.querySelector('#compile').disabled = false
-      document.querySelector('#flash').disabled = false
-    })
-  }
-
+ 
   function toggleTerminal (forceOpen = false) {
     const button = document.getElementById('toggle')
     const element = document.querySelector('#terminal > div')

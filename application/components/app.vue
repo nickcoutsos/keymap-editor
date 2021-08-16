@@ -146,7 +146,7 @@ export default {
 
 <template>
   <div>
-    <layer-selector :layers="layers" @select="handleSelectLayer" />
+    <layer-selector :layers="layers" :activeLayer="activeLayer" @select="handleSelectLayer" />
     <div id="layers">
       <keyboard-layout
         v-for="(layer, i) in parsedLayers"
