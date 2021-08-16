@@ -2,6 +2,7 @@
   <span class="params">
     <template class="param" v-for="(param, i) in params">
       <key-value
+        class="param"
         :key="`param-${i}`"
         :param="param"
         :value="values && values[i] && values[i].value"
@@ -13,7 +14,7 @@
       <key-paramlist
         v-if="values && values[i] && values[i].params"
         :key="`param-${i}-paramslist`"
-        :params="params"
+        :params="values && values[i] && values[i].keycode && values[i].keycode.params"
         :values="values && values[i] && values[i].params"
         :onSelect="onSelect"
       />

@@ -5,26 +5,6 @@ import Search from './search.vue'
 
 const { loadKeycodes, loadIndexedKeycodes } = require('../keycodes')
 
-const paramsPattern = /\((.+)\)/
-
-function parse(code, indexedKeycodes, index=0) {
-  const value = code.replace(paramsPattern, '')
-  const keycode = indexedKeycodes[value]
-  const params = (code.match(paramsPattern) || ['', ''])[1]
-    .split(',')
-    .map(s => s.trim())
-    .filter(s => !!s)
-
-  return params.length === 0
-    ? { value, keycode, index }
-    : { value, keycode, index, fn: value, params: params.reduce((params, param) => {
-      const sub = parse(param, indexedKeycodes, index + 1)
-      index = sub.index + 1
-      params.push(sub)
-      return params
-    }, []) }
-}
-
 export default {
   components: {
     'keyboard-layout': KeyboardLayout,
@@ -53,7 +33,7 @@ export default {
   async beforeMount() {
     const keycodes = await loadKeycodes()
     const indexedKeycodes = await loadIndexedKeycodes()
-    
+
     this.keycodes.splice(0, this.keycodes.length, ...keycodes)
     Object.assign(this.indexedKeycodes, indexedKeycodes)
 
@@ -63,13 +43,12 @@ export default {
           layer: i,
           index: j,
           binding: key,
-          parsed: parse(key, indexedKeycodes)
+          parsed: this.parseKeyBinding(key, indexedKeycodes)
         }
       })
     })
 
     this.parsedLayers = parsedLayers
-    console.log(this.parsedLayers)
   },
   watched: {},
   methods: {
@@ -79,23 +58,37 @@ export default {
     handleSelectKey(target) {
       this.editingKey = target
     },
-    processKeymap() {},
     handleCancelKeySelection() { this.editingKey = null },
     handleConfirmKeySelection(newCode) {
-      const { layer, index, codeIndex, code } = this.editingKey
-      const keymap = this.layers[this.activeLayer]
-      console.log('want to edit', {
-        layer,
-        index,
-        codeIndex,
-        code,
-        newCode
-      })
-      keymap[index] = keymap[index].replace(code, newCode)
+      const { layer, index, codeIndex, param } = this.editingKey
+      const key = this.parsedLayers[layer][index]
+      const keyValue = key.parsed._index[codeIndex]
+
+      keyValue.value = newCode
+      delete keyValue.params
+      if (param !== 'layer') {
+        const keycode = this.indexedKeycodes[newCode]
+        keyValue.keycode = keycode
+        if (keycode.params.length > 0) {
+          keyValue.params = keycode.params.map(() => ({
+            value: 'KC_TRNS',
+            keycode: this.indexedKeycodes.KC_TRNS
+          }))
+        }
+      }
+      key.parsed._index = this.indexKeyBinding(key.parsed)
+
       this.editingKey = null
     },
     handleCompile() {
-      const keymap = Object.assign({}, this.keymap, { layers: this.layers })
+      function encode(parsed) {
+        const params = (parsed.params || []).map(encode)
+        const paramString = params.length > 0 ? `(${params.join(',')})` : ''
+        return parsed.value + paramString
+      }
+
+      const layers = this.parsedLayers.map(layer => layer.map(key => encode(key.parsed)))
+      const keymap = Object.assign({}, this.keymap, { layers })
 
       // terminal.clear()
       // toggleTerminal(true)
@@ -106,6 +99,46 @@ export default {
         },
         body: JSON.stringify(keymap)
       })
+    },
+    parseKeyBinding(binding, indexedKeycodes) {
+      const paramsPattern = /\((.+)\)/
+
+      function parse(code, parent) {
+        const value = code.replace(paramsPattern, '')
+        const keycode = indexedKeycodes[value]
+        const params = (code.match(paramsPattern) || ['', ''])[1]
+          .split(',')
+          .map(s => s.trim())
+          .filter(s => !!s)
+
+        const tree = { value, keycode, parent }
+
+        if (keycode && keycode.params.length > 0) {
+          tree.fn = value
+          tree.params = keycode.params.map((_, i) => {
+            return parse(params[i] || 'KC_TRANS', tree)
+          })
+        }
+
+        return tree
+      }
+
+      const parsed = parse(binding)
+      parsed._index = this.indexKeyBinding(parsed)
+      return parsed
+    },
+    indexKeyBinding(key) {
+      let index = []
+
+      function traverse(tree) {
+        tree.index = index.length
+        index.push(tree)
+        const params = tree.params || []
+        params.forEach(traverse)
+      }
+      traverse(key)
+
+      return index
     }
   }
 }

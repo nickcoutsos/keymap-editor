@@ -47,6 +47,8 @@ async function main() {
   vm.layout = layout
   vm.layers = keymap.layers
 
+  console.log(keymap)
+
   // addLayer(layout, keymap)
   // document.getElementById('layers').appendChild(renderLayout(layout))
   // for (let layer of keymap.layers) {

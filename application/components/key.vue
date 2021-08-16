@@ -60,7 +60,7 @@ export default {
           ? 2 + Math.max(0, ...childDepths)
           : 1
       }
-      return getDepth(this.mapping.binding)
+      return getDepth(this.mapping.parsed)
     }
   },
   methods: {
@@ -73,7 +73,6 @@ export default {
       event.target.classList.remove('highlight')
     },
     handleSelectCode(event) {
-      // console.log('handleSelectCode(...)', this.mapping, event)
       this.$emit('select-key', {
         layer: this.mapping.layer,
         index: this.mapping.index,
