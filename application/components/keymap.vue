@@ -44,6 +44,17 @@ export default {
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
         layers: encode(this.parsedKeymap)
       }))
+    },
+    handleCreateLayer() {
+      const layer = this.parsedKeymap.length
+      const binding = 'KC_TRNS'
+      this.parsedKeymap.push(this.layout.map((_, index) => ({
+        layer, index, binding, parsed: parseKeyBinding(binding, this.indexedKeycodes)
+      })))
+
+      this.$emit('keymap-updated', Object.assign({}, this.keymap, {
+        layers: encode(this.parsedKeymap)
+      }))
     }
   },
   async beforeMount() {
@@ -66,6 +77,7 @@ export default {
       :layers="layers"
       :activeLayer="activeLayer"
       @select="activeLayer = $event"
+      @new-layer="handleCreateLayer"
     />
     <keyboard-layout
       v-if="parsedKeymap[activeLayer]"

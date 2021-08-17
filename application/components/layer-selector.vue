@@ -2,10 +2,13 @@
 <script>
 export default {
   props: ['layers', 'activeLayer', 'onSelect'],
-  emits: ['select'],
+  emits: ['select', 'new-layer'],
   methods: {
-    handleSelect(event) {
-      this.$emit('select', event.target.dataset.layer)
+    handleSelect(layer) {
+      this.$emit('select', layer)
+    },
+    handleAdd() {
+      this.$emit('new-layer')
     }
   }
 }
@@ -20,12 +23,12 @@ export default {
         :class="{ active: activeLayer == i }"
         :key="`layer-${i}`"
         :data-layer="i"
-        @click="handleSelect"
+        @click="handleSelect(i)"
       >
         {{i}}
       </li>
     </ul>
-    <button>Add layer</button>
+    <button @click="handleAdd">Add layer</button>
   </div>
 </template>
 
