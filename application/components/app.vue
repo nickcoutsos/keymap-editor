@@ -2,6 +2,7 @@
 import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
 import Search from './search.vue'
+import Terminal from './terminal.vue'
 
 const { loadKeycodes, loadIndexedKeycodes } = require('../keycodes')
 
@@ -9,7 +10,8 @@ export default {
   components: {
     'keyboard-layout': KeyboardLayout,
     'layer-selector': LayerSelector,
-    search: Search
+    search: Search,
+    terminal: Terminal
   },
   provide() {
     return {
@@ -27,7 +29,9 @@ export default {
       layout: [],
       layers: [],
       parsedLayers: [],
-      editingKey: null
+      editingKey: null,
+      terminalOpen: false,
+      socket: null
     }
   },
   async beforeMount() {
@@ -169,11 +173,16 @@ export default {
       @select="handleConfirmKeySelection"
       @cancel="handleCancelKeySelection"
     />
+    <terminal
+      :open="terminalOpen"
+      :socket="socket"
+      @new-message="terminalOpen = true"
+    />
     <div id="actions">
       <button id="compile" @click="handleCompile">Compile</button>
       <button id="flash">Flash</button>
       <button id="export">Export</button>
-      <button id="toggle">⇡</button>
+      <button id="toggle" @click="terminalOpen = !terminalOpen">{{ !terminalOpen ? '⇡' : '⇣' }}</button>
     </div>
   </div>
 </template>

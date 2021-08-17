@@ -39,25 +39,6 @@ html, body {
 .param:not(:last-child)::after { content: ','; }
 .param[data-code="undefined"]::before { content: '∅'; font-size: 80%; }
 
-#terminal {
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	opacity: 0.85;
-}
-#terminal:hover {
-	opacity: 0.98;
-}
-
-#terminal > .collapsed {
-	overflow: hidden;
-	height: 30px;
-}
-
-#terminal .xterm-screen {
-	/*margin: auto;*/
-}
-
 #actions {
 	position: absolute;
 	bottom: 5px;
