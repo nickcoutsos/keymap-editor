@@ -44,8 +44,4 @@ export default {
 	overflow: hidden;
 	height: 30px;
 }
-
-#terminal .xterm-screen {
-	/*margin: auto;*/
-}
 </style>

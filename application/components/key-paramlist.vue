@@ -5,17 +5,17 @@
         class="param"
         :key="`param-${i}`"
         :param="param"
-        :value="values && values[i] && values[i].value"
-        :index="values && values[i] && values[i].index"
-        :keycode="values && values[i] && values[i].keycode"
+        :value="getValueProperty(i, 'value')"
+        :index="getValueProperty(i, 'index')"
+        :keycode="getValueProperty(i, 'keycode')"
         :onSelect="onSelect"
       />
 
       <key-paramlist
-        v-if="values && values[i] && values[i].params"
+        v-if="getValueProperty(i, 'params')"
         :key="`param-${i}-paramslist`"
-        :params="values && values[i] && values[i].keycode && values[i].keycode.params"
-        :values="values && values[i] && values[i].params"
+        :params="getValueProperty(i, 'keycode') && values[i].keycode.params"
+        :values="getValueProperty(i, 'params')"
         :onSelect="onSelect"
       />
     </template>
@@ -30,7 +30,12 @@ export default {
   components: {
     'key-value': KeyValue
   },
-  props: ['params', 'values', 'onSelect']
+  props: ['params', 'values', 'onSelect'],
+  methods: {
+    getValueProperty(index, property) {
+      return this.values && this.values[index] && this.values[index][property]
+    }
+  }
 }
 </script>
 

@@ -22,5 +22,18 @@ export default {
 </script>
 
 <style>
+.code {
+	cursor: pointer;
+	display: inline-block;
+	box-sizing: content-box;
+	min-width: 0.5em;
+	text-align: center;
+	border-radius: 4px;
+}
+.code.highlight {
+	background-color: white !important;
+	color: var(--dark-red) !important;
+}
+
 [data-empty="true"]::before { content: '∅'; font-size: 80%; }
 </style>
