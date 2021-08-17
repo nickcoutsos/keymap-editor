@@ -6,7 +6,6 @@ import * as Vue from 'vue'
 import App from './components/app.vue'
 
 import { loadKeymap } from './keymap.js'
-import { addLayer } from './layers.js'
 import { loadLayout } from './layout.js'
 
 async function main() {
