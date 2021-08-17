@@ -99,8 +99,8 @@ function exportKeymap (generatedKeymap, flash, callback) {
   const makeArgs = [`${KEYBOARD}:generated${flash ? ':avrdude': ''}`]
 
   fs.existsSync(keymapPath) || fs.mkdirSync(keymapPath)
-  fs.writeFileSync(`${keymapPath}/__keymap.json`, generatedKeymap.code)
-  fs.writeFileSync(`${keymapPath}/keymap.c`, generatedKeymap.json)
+  fs.writeFileSync(`${keymapPath}/__keymap.json`, generatedKeymap.json)
+  fs.writeFileSync(`${keymapPath}/keymap.c`, generatedKeymap.code)
 
   return childProcess.execFile('make', makeArgs, { cwd: QMK_PATH }, callback)
 }
