@@ -3,7 +3,7 @@ import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
 import Search from './search.vue'
 
-import { loadIndexedKeycodes } from '../keycodes'
+import { loadIndexedBehaviours, loadIndexedKeycodes } from '../keycodes'
 import {
   parseKeyBinding,
   updateKeyCode,
@@ -19,6 +19,7 @@ export default {
   },
   props: ['layout', 'layers'],
   emits: ['keymap-updated'],
+  inject: ['indexedBehaviours'],
   provide() {
     return {
       onSelectKey: this.handleSelectKey
@@ -49,7 +50,7 @@ export default {
       const layer = this.parsedKeymap.length
       const binding = 'KC_TRNS'
       this.parsedKeymap.push(this.layout.map((_, index) => ({
-        layer, index, binding, parsed: parseKeyBinding(binding, this.indexedKeycodes)
+        layer, index, binding, parsed: parseKeyBinding(binding, this.indexedKeycodes, this.indexedBehaviours)
       })))
 
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
@@ -59,14 +60,18 @@ export default {
   },
   async beforeMount() {
     const indexedKeycodes = await loadIndexedKeycodes()
+    const indexedBehaviours = await loadIndexedBehaviours()
     Object.assign(this.indexedKeycodes, indexedKeycodes)
+    Object.assign(this.indexedBehaviours, indexedBehaviours)
 
     this.parsedKeymap = this.layers.map((layer, i) => {
       return layer.map((binding, j) => {
-        const parsed = parseKeyBinding(binding, indexedKeycodes)
+        const parsed = parseKeyBinding(binding, indexedKeycodes, indexedBehaviours)
         return { layer: i, index: j, binding, parsed }
       })
     })
+
+    console.log(this.parsedKeymap)
   }
 }
 </script>

@@ -2,7 +2,8 @@
 import Keymap from './keymap.vue'
 import Terminal from './terminal.vue'
 
-const { loadKeycodes, loadIndexedKeycodes } = require('../keycodes')
+import * as config from '../config'
+const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('../keycodes')
 
 export default {
   components: {
@@ -12,13 +13,16 @@ export default {
   provide() {
     return {
       keycodes: this.keycodes,
-      indexedKeycodes: this.indexedKeycodes
+      indexedKeycodes: this.indexedKeycodes,
+      indexedBehaviours: this.indexedBehaviours
     }
   },
   data() {
     return {
       keycodes: [],
       indexedKeycodes: {},
+      behaviours: [],
+      indexedBehaviours: {},
       keymap: {},
       layout: [],
       layers: [],
@@ -32,6 +36,7 @@ export default {
 
     this.keycodes.splice(0, this.keycodes.length, ...keycodes)
     Object.assign(this.indexedKeycodes, indexedKeycodes)
+    Object.assign(this.indexedBehaviours, await loadIndexedBehaviours())
   },
   watched: {},
   methods: {
@@ -43,7 +48,7 @@ export default {
 
       // terminal.clear()
       // toggleTerminal(true)
-      fetch('/keymap', {
+      fetch(`/keymap?${config.library}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,6 +1,7 @@
+import * as config from './config'
 
 export function loadKeymap () {
-  return fetch('/keymap')
+  return fetch(`/keymap?${config.library}`, )
     .then(response => response.json())
 }
 
@@ -10,11 +11,16 @@ export function loadKeymap () {
  * @param {Map<code:obj>} indexedKeycodes
  * @returns {Object}
  */
-export function parseKeyBinding(binding, indexedKeycodes) {
+export function parseKeyBinding(binding, indexedKeycodes, indexedBehaviours) {
   const paramsPattern = /\((.+)\)/
   const DEFAULT_CODE = 'KC_TRNS'
 
-  function parse(code, parent) {
+  const isZmk = binding.startsWith('&')
+  const parameters = isZmk ? binding.replace(/^&.+?\b\s*/, '').split(' ') : [binding]
+  const bind = isZmk ? binding.match(/^(&.+?)\b/)[1] : '&kp'
+  const behaviour = indexedBehaviours[bind]
+
+  function parse(code) {
     const value = code.replace(paramsPattern, '')
     const keycode = indexedKeycodes[value]
     const params = (code.match(paramsPattern) || ['', ''])[1]
@@ -22,19 +28,19 @@ export function parseKeyBinding(binding, indexedKeycodes) {
       .map(s => s.trim())
       .filter(s => !!s)
 
-    const tree = { value, keycode, parent }
+    const tree = { value, keycode }
 
     if (keycode && keycode.params.length > 0) {
       tree.fn = value
       tree.params = keycode.params.map((_, i) => {
-        return parse(params[i] || DEFAULT_CODE, tree)
+        return parse(params[i] || DEFAULT_CODE)
       })
     }
 
     return tree
   }
 
-  const parsed = parse(binding)
+  const parsed = { behaviour, params: parameters.map(parse) }
   parsed._index = indexKeyBinding(parsed)
   return parsed
 }
@@ -82,5 +88,12 @@ export function encode(parsedKeymap) {
     return parsed.value + paramString
   }
 
-  return parsedKeymap.map(layer => layer.map(key => encodeBinding(key.parsed)))
+  return parsedKeymap.map(layer => layer.map(key => {
+    const { behaviour, params } = key.parsed
+    if (config.library === 'qmk') {
+      return encodeBinding(params[0])
+    }
+
+    return `${behaviour.bind} ${params.map(encodeBinding).join(' ')}`
+  }))
 }

@@ -10,16 +10,10 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <key-value
-      v-if="parsed && parsed.keycode"
-      :value="parsed.value"
-      :index="parsed.index"
-      :keycode="parsed.keycode"
-      :onSelect="handleSelectCode"
-    />
+    <span v-if="parsed.behaviour" class="behaviour-binding">{{parsed.behaviour.bind}}</span>
     <key-paramlist
-      v-if="parsed && parsed.keycode && parsed.keycode.params.length > 0"
-      :params="parsed.keycode.params"
+      :root="true"
+      :params="parsed.behaviour.params"
       :values="parsed.params"
       :onSelect="handleSelectCode"
     />
@@ -115,4 +109,13 @@ export default {
 
 .key[data-depth="3"] { font-size: 90%; }
 .key[data-depth="5"] { font-size: 75%; }
+
+.behaviour-binding {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  font-variant: smallcaps;
+  opacity: 0.5;
+}
 </style>

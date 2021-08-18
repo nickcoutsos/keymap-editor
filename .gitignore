@@ -81,3 +81,4 @@ typings/
 
 dist
 qmk_firmware
+zmk-config

@@ -6,7 +6,7 @@
     :data-empty="value === undefined"
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
-    {{(param == 'layer') ? value : ''}}
+    {{(param == 'layer') ? value : (!keycode ? '⦸' : '')}}
     <template v-if="param !== 'layer' && keycode">
       <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
       <template v-else>{{keycode.symbol}}</template>

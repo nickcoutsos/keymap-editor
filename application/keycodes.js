@@ -47,7 +47,7 @@ function normalizeKeycodes (keycodes) {
       .map(code => code.replace(/`/g, ''))
       .map(code => code.replace(/\(.+\)/, ''))
 
-    keycode.symbol = keycode.symbol || shortestAlias(aliases)
+    keycode.symbol = keycode.symbol || shortestAlias(keycode.aliases)
     return keycode
   })
   .reduce((keycodes, keycode) => {
