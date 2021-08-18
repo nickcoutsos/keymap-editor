@@ -23,18 +23,20 @@ function renderTable (layout, layer, opts={}) {
     ))
   ))
 
-  const block = table.map(row => {
+  return table.map((row, rowIndex) => {
+    const isLastRow = rowIndex === table.length - 1
     return linePrefix + columnIndices.map(i => {
-      const isLast = row.slice(i).every(col => col === undefined)
+      const noMoreValues = row.slice(i).every(col => col === undefined)
+      const noFollowingValues = row.slice(i+1).every(col => col === undefined)
       const padding = Math.max(minWidth, columnWidths[i])
 
-      if (isLast) return ''
+      if (noMoreValues) return ''
       if (!row[i]) return ' '.repeat(padding + 1)
-      return (useQuotes ? `"${row[i]}"` : row[i]).padStart(padding) + columnSeparator
+      const column =  (useQuotes ? `"${row[i]}"` : row[i]).padStart(padding)
+      const suffix = (isLastRow && noFollowingValues) ? '' : columnSeparator
+      return column + suffix
     }).join('').replace(/\s+$/, '')
   }).join('\n')
-
-  return block.substr(0, block.length - 1)
 }
 
 module.exports = { renderTable }
