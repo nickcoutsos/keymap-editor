@@ -53,7 +53,8 @@ function generateKeymapCode (layout, keymap) {
   const layers = keymap.layers.map((layer, i) => {
     const name = i === 0 ? 'default_layer' : `layer_${i}`
     const rendered = renderTable(layout, layer, {
-      linePrefix: ''
+      linePrefix: '',
+      columnSeparator: ' '
     })
 
     return `

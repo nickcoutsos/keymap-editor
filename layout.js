@@ -1,5 +1,9 @@
 function renderTable (layout, layer, opts={}) {
-  const { useQuotes = false, linePrefix = '' } = opts
+  const {
+    useQuotes = false,
+    linePrefix = '',
+    columnSeparator = ','
+  } = opts
   const minWidth = useQuotes ? 9 : 7
   const table = layer.reduce((map, code, i) => {
     const { row, col } = layout[i]
@@ -13,7 +17,8 @@ function renderTable (layout, layer, opts={}) {
   const columnWidths = columnIndices.map(i => Math.max(
     ...table.map(row => (
       (row[i] || []).length
-      + (useQuotes ? 3 : 1) // wrapping with quotes adds 2 characters, comma adds 1
+      + columnSeparator.length
+      + (useQuotes ? 2 : 0) // wrapping with quotes adds 2 characters
       + (i === 6 ? 10 : 0) // sloppily add a little space between halves (right half starts at column 6)
     ))
   ))
@@ -25,8 +30,8 @@ function renderTable (layout, layer, opts={}) {
 
       if (isLast) return ''
       if (!row[i]) return ' '.repeat(padding + 1)
-      return (useQuotes ? `"${row[i]}"` : row[i]).padStart(padding) + ','
-    }).join('')
+      return (useQuotes ? `"${row[i]}"` : row[i]).padStart(padding) + columnSeparator
+    }).join('').replace(/\s+$/, '')
   }).join('\n')
 
   return block.substr(0, block.length - 1)
