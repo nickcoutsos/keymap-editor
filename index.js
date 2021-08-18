@@ -4,6 +4,7 @@ const express = require('express')
 const expressWs = require('express-ws')
 const bodyParser = require('body-parser')
 const qmk = require('./qmk')
+const zmk = require('./zmk')
 
 const app = express()
 const subscribers = []
@@ -16,14 +17,19 @@ childProcess.execFile('npm', ['run', 'build-watch'], { cwd: './application' }, e
   process.exit(1)
 })
 
+function addLibrary(req, res, next) {
+  req.keyboard = 'zmk' in req.query ? zmk : qmk
+  next()
+}
+
 app.get('/', (req, res) => res.redirect('/application'))
 app.use('/application', express.static('application/dist'))
-app.get('/keymap', (req, res) => res.json(qmk.loadKeymap()))
-app.post('/keymap', (req, res) => {
+app.get('/keymap', addLibrary, (req, res) => res.json(req.keyboard.loadKeymap()))
+app.post('/keymap', addLibrary, (req, res) => {
   const keymap = req.body
-  const layout = qmk.loadLayout()
-  const generatedKeymap = qmk.generateKeymap(layout, keymap)
-  const exportStdout = qmk.exportKeymap(generatedKeymap, 'flash' in req.query, err => {
+  const layout = req.keyboard.loadLayout()
+  const generatedKeymap = req.keyboard.generateKeymap(layout, keymap)
+  const exportStdout = req.keyboard.exportKeymap(generatedKeymap, 'flash' in req.query, err => {
     if (err) {
       res.status(500).send(err)
       return

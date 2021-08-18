@@ -1,0 +1,37 @@
+[
+  {
+    "bind": "&kp",
+    "name": "Key Press",
+    "params": ["code"]
+  },
+  {
+    "bind": "&lt",
+    "name": "Layer Tap",
+    "params": ["layer", "code"]
+  },
+  {
+    "bind": "&mo",
+    "name": "Momentary Layer",
+    "params": ["layer"]
+  },
+  {
+    "bind": "&mt",
+    "name": "Mod Tap",
+    "params": ["mod", "code"]
+  },
+  {
+    "bind": "&tog",
+    "name": "Toggle Layer",
+    "params": ["layer"]
+  },
+  {
+    "bind": "&reset",
+    "name": "Reset",
+    "params": []
+  },
+  {
+    "bind": "&trans",
+    "name": "Transparent",
+    "params": []
+  }
+]
