@@ -1,25 +1,4 @@
 <script>
-const getOptions = (param, keycodes) => {
-  switch (param) {
-    case 'layer':
-      return [{
-        code: '1',
-        description: 'Layer 1'
-      }, {
-        code: '2',
-        description: 'Layer 2'
-      }, {
-        code: '3',
-        description: 'Layer 3'
-      }]
-    case 'mod':
-      return keycodes.filter(keycode => keycode.isModifier)
-    case 'kc':
-    default:
-      return keycodes
-  }
-}
-
 const cycle = (array, index, step=1) => {
   const next = (index + step) % array.length
   return next < 0 ? array.length + next : next
@@ -28,7 +7,7 @@ const cycle = (array, index, step=1) => {
 export default {
   name: 'search',
   emits: ['cancel', 'select'],
-  props: ['target', 'param', 'code', 'keycodes'],
+  props: ['target', 'targets', 'param', 'code'],
   data() {
     return {
       query: null,
@@ -50,9 +29,6 @@ export default {
       } else {
         return 'Select key code...'
       }
-    },
-    targets() {
-      return getOptions(this.param, this.keycodes)
     },
     results() {
       const { query, targets } = this

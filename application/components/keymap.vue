@@ -35,7 +35,20 @@ export default {
   },
   methods: {
     handleSelectKey(event) {
-      this.editing = event
+      const targets = this.getSearchTargets(event.param)
+      this.editing = { ...event, targets }
+    },
+    getSearchTargets(param) {
+      const { keycodes, layers } = this
+      switch (param) {
+        case 'layer':
+          return layers.map((_, i) => ({ code: i, description: `Layer ${i}` }))
+        case 'mod':
+          return keycodes.filter(keycode => keycode.isModifier)
+        case 'kc':
+        default:
+          return keycodes
+      }
     },
     handleChangeBinding(code) {
       const { index, codeIndex, param } = this.editing
@@ -94,6 +107,7 @@ export default {
       :target="editing.target"
       :code="editing.code"
       :param="editing.param"
+      :targets="editing.targets"
       :keycodes="keycodes"
       @select="handleChangeBinding"
       @cancel="editing = null"
