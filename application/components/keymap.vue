@@ -19,7 +19,7 @@ export default {
   },
   props: ['layout', 'layers'],
   emits: ['keymap-updated'],
-  inject: ['indexedBehaviours'],
+  inject: ['keycodes', 'indexedBehaviours'],
   provide() {
     return {
       onSelectKey: this.handleSelectKey
@@ -70,8 +70,6 @@ export default {
         return { layer: i, index: j, binding, parsed }
       })
     })
-
-    console.log(this.parsedKeymap)
   }
 }
 </script>
@@ -96,6 +94,7 @@ export default {
       :target="editing.target"
       :code="editing.code"
       :param="editing.param"
+      :keycodes="keycodes"
       @select="handleChangeBinding"
       @cancel="editing = null"
     />

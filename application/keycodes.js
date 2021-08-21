@@ -70,7 +70,8 @@ function normalizeZmkKeycodes (keycodes) {
 
     for (let code of aliases) {
       keycodes.push(Object.assign({}, base, {
-        code
+        code,
+        isModifier: !!fnCode
       }))
     }
 

@@ -2,7 +2,16 @@
 const getOptions = (param, keycodes) => {
   switch (param) {
     case 'layer':
-      return [{code: '1' }, {code: '2' }, {code: '3' }]
+      return [{
+        code: '1',
+        description: 'Layer 1'
+      }, {
+        code: '2',
+        description: 'Layer 2'
+      }, {
+        code: '3',
+        description: 'Layer 3'
+      }]
     case 'mod':
       return keycodes.filter(keycode => keycode.isModifier)
     case 'kc':
@@ -19,8 +28,7 @@ const cycle = (array, index, step=1) => {
 export default {
   name: 'search',
   emits: ['cancel', 'select'],
-  props: ['target', 'param', 'code'],
-  inject: ['keycodes'],
+  props: ['target', 'param', 'code', 'keycodes'],
   data() {
     return {
       query: null,
@@ -35,22 +43,26 @@ export default {
   },
   computed: {
     prompt() {
-      const target = this.target
-      if (target.dataset.param === 'layer') {
+      if (this.param === 'layer') {
         return 'Select layer...'
-      } else if (target.dataset.param === 'mod') {
+      } else if (this.param === 'mod') {
         return 'Select modifier...'
       } else {
         return 'Select key code...'
       }
     },
+    targets() {
+      return getOptions(this.param, this.keycodes)
+    },
     results() {
-      const options = getOptions(this.param, this.keycodes)
-      const results =  fuzzysort.go(this.query, options, {
-        key: 'code',
-        limit: 30
-      })
-      return results
+      const { query, targets } = this
+      const options = { key: 'code', limit: 30 }
+      const filtered = fuzzysort.go(query, targets, options)
+
+      return targets.length <= 10 ? targets : filtered.map(result => ({
+        ...result.obj,
+        search: result
+      }))
     },
     style() {
       const rect = this.target.getBoundingClientRect()
@@ -66,7 +78,7 @@ export default {
       return fuzzysort.highlight(result)
     },
     handleClickResult(result) {
-      this.$emit('select', result.obj.code)
+      this.$emit('select', result.code)
     },
     handleKeyPress(event) {
       setTimeout(() => {
@@ -131,6 +143,7 @@ export default {
   >
     <p>{{prompt}}</p>
     <input
+      v-if="targets.length > 10"
       type="text"
       :value="query !== null ? query : code"
       @keypress="handleKeyPress"
@@ -139,10 +152,10 @@ export default {
       <li
         :key="`result-${i}`"
         :class="{ highlighted: highlighted === i }"
-        :title="result.obj.description"
+        :title="result.description"
         :data-result-index="i"
         v-for="(result, i) in results"
-        v-html="highlight(result)"
+        v-html="result.search ? highlight(result.search) : result.description"
         @click="handleClickResult(result)"
         @mouseover="setHighlight(i)"
       />
