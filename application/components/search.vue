@@ -11,6 +11,11 @@ const getOptions = (param, keycodes) => {
   }
 }
 
+const cycle = (array, index, step=1) => {
+  const next = (index + step) % array.length
+  return next < 0 ? array.length + next : next
+}
+
 export default {
   name: 'search',
   emits: ['cancel', 'select'],
@@ -18,18 +23,19 @@ export default {
   inject: ['keycodes'],
   data() {
     return {
-      query: null
+      query: null,
+      highlighted: null
     }
   },
   mounted() {
-    document.body.addEventListener('click', this.cancel)
+    document.body.addEventListener('click', this.handleClickOutside)
   },
   unmounted() {
-    document.body.removeEventListener('click', this.cancel)
+    document.body.removeEventListener('click', this.handleClickOutside)
   },
   computed: {
     prompt() {
-      const target = this.target// document.querySelector('.active')
+      const target = this.target
       if (target.dataset.param === 'layer') {
         return 'Select layer...'
       } else if (target.dataset.param === 'mod') {
@@ -40,10 +46,11 @@ export default {
     },
     results() {
       const options = getOptions(this.param, this.keycodes)
-      return fuzzysort.go(this.query, options, {
+      const results =  fuzzysort.go(this.query, options, {
         key: 'code',
         limit: 30
       })
+      return results
     },
     style() {
       const rect = this.target.getBoundingClientRect()
@@ -66,15 +73,62 @@ export default {
         this.query = event.target.value
       })
     },
+    handleSelectActive() {
+      if (this.results.length > 0 && this.highlighted !== null) {
+        this.handleClickResult(this.results[this.highlighted])
+      }
+    },
+    handleHighlightNext() {
+      this.setHighlight(0, 1)
+    },
+    handleHighlightPrev() {
+      this.setHighlight(this.results.length - 1, -1)
+    },
+    setHighlight(initial, offset) {
+      if (this.results.length === 0) {
+        this.highlighted = null
+        return
+      }
+      if (offset === undefined) {
+        this.highlighted = initial
+        return
+      }
+
+      this.highlighted = this.highlighted === null ? initial : cycle(this.results, this.highlighted, offset)
+      this.scrollIntoViewIfNeeded(this.$el.querySelector(`.results li[data-result-index="${this.highlighted}`), false)
+    },
+    handleClickOutside(event) {
+      if (!this.$el.contains(event.target)) {
+        this.cancel()
+      }
+    },
     cancel() {
       this.$emit('cancel', 'select')
+    },
+    scrollIntoViewIfNeeded (element, alignToTop) {
+      const scroll = element.offsetParent.scrollTop
+      const height = element.offsetParent.offsetHeight
+      const top = element.offsetTop
+      const bottom = top + element.scrollHeight
+
+      if (top < scroll || bottom > scroll + height) {
+        element.scrollIntoView(alignToTop)
+      }
     }
+
   }
 }
 </script>
 
 <template>
-  <div class="dialog" :style="style">
+  <div
+    class="dialog"
+    :style="style"
+    @keydown.down.prevent="handleHighlightNext"
+    @keydown.up.prevent="handleHighlightPrev"
+    @keydown.enter.prevent="handleSelectActive"
+    @keydown.esc.prevent="cancel"
+  >
     <p>{{prompt}}</p>
     <input
       type="text"
@@ -84,15 +138,19 @@ export default {
     <ul class="results">
       <li
         :key="`result-${i}`"
+        :class="{ highlighted: highlighted === i }"
+        :title="result.obj.description"
+        :data-result-index="i"
         v-for="(result, i) in results"
         v-html="highlight(result)"
         @click="handleClickResult(result)"
+        @mouseover="setHighlight(i)"
       />
     </ul>
   </div>
 </template>
 
-<style scoped>
+<style>
 
 .dialog {
 	position: absolute;
@@ -132,7 +190,7 @@ ul.results {
 	color: white;
 	padding: 5px;
 }
-.results li:hover {
+.results li:hover, .results li.highlighted {
 	background: white;
 	color: black;
 }
