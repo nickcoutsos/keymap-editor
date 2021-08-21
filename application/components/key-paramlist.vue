@@ -44,5 +44,5 @@ export default {
 .params:not([data-is-root="true"][data-param-count="1"])::after { content: ')'; opacity: 0.4; font-weight: bold; margin: 2px; }
 .param:not(:last-child)::after { content: ','; }
 .param[data-code="undefined"]::before { content: '∅'; font-size: 80%; }
-
+.code { padding: 0px 4px; margin-left: -2px; margin-right: -2px; }
 </style>

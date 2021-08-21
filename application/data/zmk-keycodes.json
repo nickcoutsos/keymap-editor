@@ -693,6 +693,7 @@
   },
   {
     "names": ["RETURN", "ENTER", "RET"],
+    "symbol": "⏎",
     "description": "Return (Enter)",
     "context": "Keyboard",
     "clarify": false,
@@ -753,6 +754,7 @@
   },
   {
     "names": ["SPACE"],
+    "symbol": "␣",
     "description": "Space",
     "context": "Keyboard",
     "clarify": false,

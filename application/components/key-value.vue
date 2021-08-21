@@ -4,6 +4,7 @@
     :data-depth="depth"
     :data-code="value"
     :data-empty="value === undefined"
+    :title="keycode && `(${keycode.code}) ${keycode.description}`"
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
     {{(param == 'layer') ? value : (!keycode ? '⦸' : '')}}

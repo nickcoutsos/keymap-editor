@@ -3,7 +3,9 @@
 	--dark-blue: #6d99c6;
 }
 
-html { font-family: avenir, sans-serif; }
+html {
+  font-family: Quicksand, avenir, sans-serif;
+}
 html, body {
 	width: 100vw;
 	height: 100vh;

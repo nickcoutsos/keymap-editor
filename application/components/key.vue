@@ -6,6 +6,8 @@
     :data-u="size.u"
     :data-h="size.h"
     :data-depth="depth"
+    :data-simple="isSimple"
+    :data-long="isComplex"
     :style="positioningStyle"
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
@@ -55,6 +57,21 @@ export default {
           : 1
       }
       return getDepth(this.mapping.parsed)
+    },
+    isSimple() {
+      const [first] = this.parsed.params
+      return (
+        this.parsed.params.length === 1
+        && first.keycode && first.keycode.symbol.length === 1
+      )
+    },
+    isComplex() {
+      const [first] = this.parsed.params
+      return (
+        this.parsed.params.length > 1
+        || (first.keycode && first.keycode.symbol.length > 4)
+        || (first.params || []).length > 0
+      )
     }
   },
   methods: {
@@ -100,7 +117,6 @@ export default {
 	z-index: 1;
 }
 .key:hover .code {
-	background-color: var(--dark-red);
 	color: white;
 }
 .key > .code {
@@ -109,6 +125,8 @@ export default {
 
 .key[data-depth="3"] { font-size: 90%; }
 .key[data-depth="5"] { font-size: 75%; }
+.key[data-simple="true"] { font-size: 140%; }
+.key[data-long="true"] { font-size: 60%; }
 
 .behaviour-binding {
   position: absolute;
