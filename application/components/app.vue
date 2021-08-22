@@ -64,7 +64,7 @@ export default {
   <div>
     <keymap
       :layout="layout"
-      :layers="layers"
+      :keymap="keymap"
       @keymap-updated="handleKeymapUpdated"
     />
     <terminal

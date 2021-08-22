@@ -40,3 +40,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.layer {
+  position: relative;
+  left: 40px;
+  top: 40px;
+}
+</style>

@@ -50,8 +50,9 @@ function generateKeymap (layout, keymap) {
 }
 
 function generateKeymapCode (layout, keymap) {
+  const { layer_names: names = [] } = keymap
   const layers = keymap.layers.map((layer, i) => {
-    const name = i === 0 ? 'default_layer' : `layer_${i}`
+    const name = i === 0 ? 'default_layer' : `layer_${names[i] || i}`
     const rendered = renderTable(layout, layer, {
       linePrefix: '',
       columnSeparator: ' '

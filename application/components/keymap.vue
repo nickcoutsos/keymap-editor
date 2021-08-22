@@ -17,7 +17,7 @@ export default {
     'keyboard-layout': KeyboardLayout,
     'search': Search
   },
-  props: ['layout', 'layers'],
+  props: ['layout', 'keymap'],
   emits: ['keymap-updated'],
   inject: ['keycodes', 'indexedBehaviours'],
   provide() {
@@ -39,10 +39,10 @@ export default {
       this.editing = { ...event, targets }
     },
     getSearchTargets(param) {
-      const { keycodes, layers } = this
+      const { keycodes, keymap } = this
       switch (param) {
         case 'layer':
-          return layers.map((_, i) => ({ code: i, description: `Layer ${i}` }))
+          return keymap.layers.map((_, i) => ({ code: i, description: `Layer ${i}` }))
         case 'mod':
           return keycodes.filter(keycode => keycode.isModifier)
         case 'kc':
@@ -77,7 +77,7 @@ export default {
     Object.assign(this.indexedKeycodes, indexedKeycodes)
     Object.assign(this.indexedBehaviours, indexedBehaviours)
 
-    this.parsedKeymap = this.layers.map((layer, i) => {
+    this.parsedKeymap = this.keymap.layers.map((layer, i) => {
       return layer.map((binding, j) => {
         const parsed = parseKeyBinding(binding, indexedKeycodes, indexedBehaviours)
         return { layer: i, index: j, binding, parsed }
@@ -90,7 +90,7 @@ export default {
 <template>
   <div>
     <layer-selector
-      :layers="layers"
+      :layers="keymap.layer_names"
       :activeLayer="activeLayer"
       @select="activeLayer = $event"
       @new-layer="handleCreateLayer"
