@@ -6,14 +6,14 @@
         :param="param"
         :value="getValueProperty(i, 'value')"
         :index="getValueProperty(i, 'index')"
-        :keycode="getValueProperty(i, 'keycode')"
+        :source="getValueProperty(i, 'source')"
         :onSelect="onSelect"
       />
 
       <key-paramlist
         v-if="getValueProperty(i, 'params')"
         :key="`param-${i}-paramslist`"
-        :params="getValueProperty(i, 'keycode') && values[i].keycode.params"
+        :params="getValueProperty(i, 'source') && values[i].source.params"
         :values="getValueProperty(i, 'params')"
         :onSelect="onSelect"
       />

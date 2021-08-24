@@ -4,13 +4,13 @@
     :data-depth="depth"
     :data-code="value"
     :data-empty="value === undefined"
-    :title="keycode && `(${keycode.code}) ${keycode.description}`"
+    :title="source && `(${source.code}) ${source.description}`"
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
-    {{(param == 'layer') ? value : (!keycode ? '⦸' : '')}}
-    <template v-if="param !== 'layer' && keycode">
-      <span v-if="keycode.faIcon" class="['fa', `fa-${keycode.faIcon}" />
-      <template v-else>{{keycode.symbol}}</template>
+    {{(param == 'layer') ? value : (!source ? '⦸' : '')}}
+    <template v-if="param !== 'layer' && source">
+      <span v-if="source.faIcon" class="['fa', `fa-${source.faIcon}" />
+      <template v-else>{{source.symbol || source.code}}</template>
     </template>
   </span>
 </template>
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'key-value',
-  props: ['param', 'keycode', 'index', 'value', 'depth', 'onSelect']
+  props: ['param', 'source', 'index', 'value', 'depth', 'onSelect']
 }
 </script>
 

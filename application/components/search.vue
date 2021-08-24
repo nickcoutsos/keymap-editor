@@ -54,7 +54,7 @@ export default {
       return fuzzysort.highlight(result)
     },
     handleClickResult(result) {
-      this.$emit('select', result.code)
+      this.$emit('select', result)
     },
     handleKeyPress(event) {
       setTimeout(() => {
@@ -131,7 +131,7 @@ export default {
         :title="result.description"
         :data-result-index="i"
         v-for="(result, i) in results"
-        v-html="result.search ? highlight(result.search) : result.description"
+        v-html="result.search ? highlight(result.search) : result.code"
         @click="handleClickResult(result)"
         @mouseover="setHighlight(i)"
       />

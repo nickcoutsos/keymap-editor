@@ -1,4 +1,6 @@
 <script>
+import filter from 'lodash/filter'
+import keyBy from 'lodash/keyBy'
 import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
 import Search from './search.vue'
@@ -33,27 +35,47 @@ export default {
       editing: null
     }
   },
+  computed: {
+    layers() {
+      return keyBy(
+        this.keymap.layers.map((_, i) => ({ code: i, description: `Layer ${i}` })),
+        'code'
+      )
+    },
+    sources() {
+      return {
+        kc: this.indexedKeycodes,
+        code: this.indexedKeycodes,
+        mod: keyBy(filter(this.keycodes, 'isModifier'), 'code'),
+        behaviours: this.indexedBehaviours,
+        layer: this.layers
+      }
+    }
+  },
   methods: {
     handleSelectKey(event) {
-      const targets = this.getSearchTargets(event.param)
+      const key = this.parsedKeymap[event.layer][event.index]
+      const targets = this.getSearchTargets(event.param, key)
       this.editing = { ...event, targets }
     },
-    getSearchTargets(param) {
-      const { keycodes, keymap } = this
+    getSearchTargets(param, key) {
+      const { keycodes } = this
       switch (param) {
         case 'layer':
-          return keymap.layers.map((_, i) => ({ code: i, description: `Layer ${i}` }))
+          return this.layers
         case 'mod':
-          return keycodes.filter(keycode => keycode.isModifier)
+          return filter(keycodes, 'isModifier')
+        case 'command':
+          return (key.parsed.behaviour.commands || [])
         case 'kc':
         default:
           return keycodes
       }
     },
-    handleChangeBinding(code) {
+    handleChangeBinding(source) {
       const { index, codeIndex, param } = this.editing
       const key = this.parsedKeymap[this.activeLayer][index]
-      updateKeyCode(key, codeIndex, code, param, this.indexedKeycodes)
+      updateKeyCode(key, codeIndex, source, param)
       this.editing = null
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
         layers: encode(this.parsedKeymap)
@@ -63,7 +85,7 @@ export default {
       const layer = this.parsedKeymap.length
       const binding = 'KC_TRNS'
       this.parsedKeymap.push(this.layout.map((_, index) => ({
-        layer, index, binding, parsed: parseKeyBinding(binding, this.indexedKeycodes, this.indexedBehaviours)
+        layer, index, binding, parsed: parseKeyBinding(binding, this.sources)
       })))
 
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
@@ -79,7 +101,7 @@ export default {
 
     this.parsedKeymap = this.keymap.layers.map((layer, i) => {
       return layer.map((binding, j) => {
-        const parsed = parseKeyBinding(binding, indexedKeycodes, indexedBehaviours)
+        const parsed = parseKeyBinding(binding, this.sources)
         return { layer: i, index: j, binding, parsed }
       })
     })

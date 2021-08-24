@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "lodash": "^4.17.21",
     "xterm": "^4.8.1"
   },
   "devDependencies": {

@@ -1,5 +1,23 @@
 [
   {
+    "bind": "&bt",
+    "name": "Bluetooth",
+    "params": ["command", "raw"],
+    "commands": [{
+      "code": "BT_CLR",
+      "description": "Clear bond information between the keyboard and host for the selected profile."
+    }, {
+      "code": "BT_NXT",
+      "description": "Switch to the next profile, cycling through to the first one when the end is reached."
+    }, {
+      "code": "BT_PRV",
+      "description": "Switch to the previous profile, cycling through to the last one when the beginning is reached."
+    }, {
+      "code": "BT_SEL",
+      "description": "Select the 0-indexed profile by number. Please note: this definition must include a number as an argument in the keymap to work correctly. eg. BT_SEL 0"
+    }]
+  },
+  {
     "bind": "&kp",
     "name": "Key Press",
     "params": ["code"]
@@ -18,6 +36,21 @@
     "bind": "&mt",
     "name": "Mod Tap",
     "params": ["mod", "code"]
+  },
+  {
+    "bind": "&out",
+    "name": "Output selection",
+    "params": ["command"],
+    "commands": [{
+      "code": "OUT_BLE",
+      "description": "Prefer sending to USB"
+    }, {
+      "code": "OUT_USB",
+      "description": "Prefer sending to the current bluetooth profile"
+    }, {
+      "code": "OUT_TOG",
+      "description": "Toggle between USB and BLE"
+    }]
   },
   {
     "bind": "&tog",

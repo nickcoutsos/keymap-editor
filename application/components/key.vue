@@ -12,7 +12,11 @@
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
   >
-    <span v-if="parsed.behaviour" class="behaviour-binding">{{parsed.behaviour.bind}}</span>
+    <span
+      v-if="parsed.behaviour"
+      v-text="parsed.behaviour.bind"
+      class="behaviour-binding"
+    />
     <key-paramlist
       :root="true"
       :params="parsed.behaviour.params"
@@ -62,14 +66,14 @@ export default {
       const [first] = this.parsed.params
       return (
         this.parsed.params.length === 1
-        && first.keycode && first.keycode.symbol.length === 1
+        && first.source && (first.source.symbol || first.source.code).length === 1
       )
     },
     isComplex() {
       const [first] = this.parsed.params
-      return (
+      return first && (
         this.parsed.params.length > 1
-        || (first.keycode && first.keycode.symbol.length > 4)
+        || (first.source && (first.source.symbol || first.source.code).length > 4)
         || (first.params || []).length > 0
       )
     }
