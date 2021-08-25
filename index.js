@@ -17,19 +17,36 @@ childProcess.execFile('npm', ['run', 'build-watch'], { cwd: './application' }, e
   process.exit(1)
 })
 
-function addLibrary(req, res, next) {
-  req.keyboard = 'zmk' in req.query ? zmk : qmk
+const firmwares = { qmk, zmk }
+
+function addFirmwareLibrary(req, res, next) {
+
+  if (!('firmware' in req.query)) {
+    return res.status(400).json({
+      error: 'Must include "firmware" query parameter'
+    })
+  }
+
+  if (!firmwares[req.query.firmware]) {
+    return res.status(400).json({
+      error: `Unknown firmware "${req.query.firmware}"`
+    })
+  }
+
+  req.firmware = firmwares[req.query.firmware]
   next()
 }
 
 app.get('/', (req, res) => res.redirect('/application'))
 app.use('/application', express.static('application/dist'))
-app.get('/keymap', addLibrary, (req, res) => res.json(req.keyboard.loadKeymap()))
-app.post('/keymap', addLibrary, (req, res) => {
+app.get('/behaviors', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadBehaviors()))
+app.get('/keycodes', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadKeycodes()))
+app.get('/keymap', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadKeymap()))
+app.post('/keymap', addFirmwareLibrary, (req, res) => {
   const keymap = req.body
-  const layout = req.keyboard.loadLayout()
-  const generatedKeymap = req.keyboard.generateKeymap(layout, keymap)
-  const exportStdout = req.keyboard.exportKeymap(generatedKeymap, 'flash' in req.query, err => {
+  const layout = req.firmware.loadLayout()
+  const generatedKeymap = req.firmware.generateKeymap(layout, keymap)
+  const exportStdout = req.firmware.exportKeymap(generatedKeymap, 'flash' in req.query, err => {
     if (err) {
       res.status(500).send(err)
       return

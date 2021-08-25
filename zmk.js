@@ -5,6 +5,14 @@ const { renderTable } = require('./layout')
 const ZMK_PATH = 'zmk-config'
 const KEYBOARD = 'dactyl'
 
+function loadBehaviors() {
+  return JSON.parse(fs.readFileSync('./data/zmk-behaviors.json'))
+}
+
+function loadKeycodes() {
+  return JSON.parse(fs.readFileSync('./data/zmk-keycodes.json'))
+}
+
 function loadLayout () {
   const layoutPath = 'application/data/layout.json'
   return JSON.parse(fs.readFileSync(layoutPath))
@@ -105,6 +113,8 @@ function exportKeymap (generatedKeymap, flash, callback) {
 }
 
 module.exports = {
+  loadBehaviors,
+  loadKeycodes,
   loadLayout,
   loadKeymap,
   generateKeymap,

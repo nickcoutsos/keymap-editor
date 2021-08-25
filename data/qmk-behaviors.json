@@ -1,0 +1,7 @@
+[
+  {
+    "bind": "&kp",
+    "name": "Key Press",
+    "params": ["code"]
+  }
+]

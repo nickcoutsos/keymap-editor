@@ -5,6 +5,14 @@ const { renderTable } = require('./layout')
 const QMK_PATH = 'qmk_firmware'
 const KEYBOARD = 'handwired/dactyl_reduced'
 
+function loadBehaviors() {
+  return JSON.parse(fs.readFileSync('./data/qmk-behaviors.json'))
+}
+
+function loadKeycodes() {
+  return JSON.parse(fs.readFileSync('./data/qmk-keycodes.json'))
+}
+
 function loadLayout () {
   const layoutPath = 'application/data/layout.json'
   return JSON.parse(fs.readFileSync(layoutPath))
@@ -72,6 +80,8 @@ function exportKeymap (generatedKeymap, flash, callback) {
 }
 
 module.exports = {
+  loadBehaviors,
+  loadKeycodes,
   loadKeymap,
   loadLayout,
   generateKeymap,

@@ -1,15 +1,7 @@
 import keyBy from 'lodash/keyBy'
 import filter from 'lodash/filter'
 import * as config from './config'
-
-export function loadKeymap () {
-  return fetch(`/keymap?${config.library}`, )
-    .then(response => response.json())
-    .then(keymap => {
-      keymap.layer_names = keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)
-      return keymap
-    })
-}
+export { loadKeymap } from './api'
 
 /**
  * Parse a bind string into a tree of source values/parameters

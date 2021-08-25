@@ -1,33 +1,25 @@
+import keyBy from 'lodash/keyBy'
+import * as api from './api'
 import * as config from './config'
 
 export function loadBehaviours () {
-  return import('./data/zmk-behaviours.json')
-    .then(behaviours => behaviours.default)
+  return api.loadBehaviours()
 }
 
 export function loadKeycodes () {
-  const library = config.library === 'zmk'
-    ? loadZMKKeycodes()
-    : loadQMKKeycodes()
-
-  return library
+  return api.loadKeycodes().then((
+    config.library === 'zmk'
+      ? normalizeZmkKeycodes
+      : normalizeKeycodes
+  ))
 }
 
-function loadQMKKeycodes() { return import('./data/keycodes.json').then(keycodes => keycodes.default).then(normalizeKeycodes) }
-function loadZMKKeycodes() { return import('./data/zmk-keycodes.json').then(keycodes => keycodes.default).then(normalizeZmkKeycodes) }
-
-export async function loadIndexedKeycodes() {
-  return loadKeycodes()
-    .then(keycodes => (
-      keycodes.reduce((map, keycode) => Object.assign(map, { [keycode.code]: keycode }), {})
-    ))
+export function loadIndexedKeycodes() {
+  return loadKeycodes().then(keycodes => keyBy(keycodes, 'code'))
 }
 
-export async function loadIndexedBehaviours() {
-  return loadBehaviours()
-    .then(behaviours => (
-      behaviours.reduce((map, behaviour) => Object.assign(map, { [behaviour.bind]: behaviour }), {})
-    ))
+export function loadIndexedBehaviours() {
+  return loadBehaviours().then(behaviours => keyBy(behaviours, 'bind'))
 }
 
 function shortestAlias (aliases) {
