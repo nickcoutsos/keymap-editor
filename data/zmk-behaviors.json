@@ -2,7 +2,7 @@
   {
     "bind": "&bt",
     "name": "Bluetooth",
-    "params": ["command", "raw"],
+    "params": ["command"],
     "commands": [{
       "code": "BT_CLR",
       "description": "Clear bond information between the keyboard and host for the selected profile."
@@ -14,7 +14,12 @@
       "description": "Switch to the previous profile, cycling through to the last one when the beginning is reached."
     }, {
       "code": "BT_SEL",
-      "description": "Select the 0-indexed profile by number. Please note: this definition must include a number as an argument in the keymap to work correctly. eg. BT_SEL 0"
+      "description": "Select the 0-indexed profile by number. Please note: this definition must include a number as an argument in the keymap to work correctly. eg. BT_SEL 0",
+      "additionalParams": [{
+        "name": "index",
+        "type": "integer",
+        "enum": [0, 1, 2, 3, 4]
+      }]
     }]
   },
   {

@@ -37,10 +37,7 @@ export default {
   },
   computed: {
     layers() {
-      return keyBy(
-        this.keymap.layers.map((_, i) => ({ code: i, description: `Layer ${i}` })),
-        'code'
-      )
+      return this.keymap.layers.map((_, i) => ({ code: i, description: `Layer ${i}` }))
     },
     sources() {
       return {
@@ -48,7 +45,7 @@ export default {
         code: this.indexedKeycodes,
         mod: keyBy(filter(this.keycodes, 'isModifier'), 'code'),
         behaviours: this.indexedBehaviours,
-        layer: this.layers
+        layer: keyBy(this.layers, 'code')
       }
     }
   },
@@ -60,6 +57,9 @@ export default {
     },
     getSearchTargets(param, key) {
       const { keycodes } = this
+      if (param.enum) {
+        return param.enum.map(v => ({ code: v }))
+      }
       switch (param) {
         case 'layer':
           return this.layers
@@ -73,9 +73,9 @@ export default {
       }
     },
     handleChangeBinding(source) {
-      const { index, codeIndex, param } = this.editing
+      const { index, codeIndex } = this.editing
       const key = this.parsedKeymap[this.activeLayer][index]
-      updateKeyCode(key, codeIndex, source, param)
+      updateKeyCode(key, codeIndex, source, this.sources)
       this.editing = null
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
         layers: encode(this.parsedKeymap)

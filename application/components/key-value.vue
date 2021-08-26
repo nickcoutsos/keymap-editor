@@ -7,11 +7,11 @@
     :title="source && `(${source.code}) ${source.description}`"
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
-    {{(param == 'layer') ? value : (!source ? '⦸' : '')}}
-    <template v-if="param !== 'layer' && source">
+    <template v-if="source">
       <span v-if="source.faIcon" class="['fa', `fa-${source.faIcon}" />
       <template v-else>{{source.symbol || source.code}}</template>
     </template>
+    <template v-else>⦸</template>
   </span>
 </template>
 
@@ -36,5 +36,4 @@ export default {
 	color: var(--dark-red) !important;
 }
 
-[data-empty="true"]::before { content: '∅'; font-size: 80%; }
 </style>

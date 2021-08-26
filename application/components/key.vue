@@ -19,7 +19,7 @@
     />
     <key-paramlist
       :root="true"
-      :params="parsed.behaviour.params"
+      :params="parsed.behaviourParams"
       :values="parsed.params"
       :onSelect="handleSelectCode"
     />

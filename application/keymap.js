@@ -1,7 +1,10 @@
+import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
 import filter from 'lodash/filter'
 import * as config from './config'
 export { loadKeymap } from './api'
+
+const paramsPattern = /\((.+)\)/
 
 /**
  * Parse a bind string into a tree of source values/parameters
@@ -10,51 +13,76 @@ export { loadKeymap } from './api'
  * @returns {Object}
  */
 export function parseKeyBinding(binding, sources) {
-  const paramsPattern = /\((.+)\)/
-  const DEFAULT_CODE = 'KC_TRNS'
-
   const isZmk = binding.startsWith('&')
-  const parameters = isZmk
+  const bind = isZmk ? binding.match(/^(&.+?)\b/)[1] : '&kp'
+  const params = isZmk
     ? filter(binding.replace(/^&.+?\b\s*/, '').split(' '))
     : [binding]
-  const bind = isZmk ? binding.match(/^(&.+?)\b/)[1] : '&kp'
-  const behaviour = sources.behaviours[bind]
-  const commands = keyBy(behaviour.commands || [], 'code')
+
+  function parse(code) {
+    const params = filter(
+      get(code.match(paramsPattern), '[1]', '')
+        .split(',')
+        .map(s => s.trim())
+    )
+
+    return {
+      value: code.replace(paramsPattern, ''),
+      params: params.map(parse)
+    }
+  }
+
+  return hydrateParsedKeyBinding({ binding, behaviourBind: bind, params: params.map(parse) }, sources)
+}
+
+function hydrateParsedKeyBinding(parsed, sources) {
+  const behaviour = sources.behaviours[parsed.behaviourBind]
+  const firstParsedParam = get(parsed, 'params[0]')
+  const commands = keyBy(behaviour.commands, 'code')
+  const behaviourParams = [].concat(
+    behaviour.params,
+    get(behaviour, 'params[0]') === 'command'
+      ? get(commands[firstParsedParam.value], 'additionalParams', [])
+      : []
+  )
 
   function getSourceValue(value, as) {
     if (as === 'command') return commands[value]
-    if (as === 'raw') return { code: value }
+    if (as === 'raw' || as.enum) return { code: value }
     return sources[as][value]
   }
 
-  function parse(code, as) {
-    const value = code.replace(paramsPattern, '')
+  function hydrate(tree, as) {
+    const { value } = tree
     const source = getSourceValue(value, as)
-    const params = (code.match(paramsPattern) || ['', ''])[1]
-      .split(',')
-      .map(s => s.trim())
-      .filter(s => !!s)
+    const params = get(source, 'params', []).map((sourceParam, i) => (
+      tree.params[i]
+        ? hydrate(tree.params[i], sourceParam)
+        : { value: undefined, params: [] }
+    ))
 
-
-    const tree = { value, source }
-
-    if (source && (source.params || []).length > 0) {
-      tree.fn = value
-      tree.params = source.params.map((param, i) => {
-        return parse(params[i] || DEFAULT_CODE, param)
-      })
+    return {
+      value,
+      source,
+      params
     }
-
-    return tree
   }
 
-  const parsed = {
+  const hydrated = {
+    binding: parsed.binding,
+    behaviourBind: parsed.behaviourBind,
     behaviour,
-    params: parameters.map((code, i) => parse(code, behaviour.params[i]))
+    behaviourParams,
+    params: behaviourParams.map((as, i) => (
+      parsed.params[i]
+        ? hydrate(parsed.params[i], as)
+        : { value: undefined, params: [] }
+    ))
   }
 
-  parsed._index = indexKeyBinding(parsed)
-  return parsed
+  return Object.assign(hydrated, {
+    _index: indexKeyBinding(hydrated)
+  })
 }
 
 /**
@@ -74,21 +102,9 @@ export function indexKeyBinding(tree) {
   })(tree)
 }
 
-export function updateKeyCode(key, index, source, param) {
-  const keyValue = key.parsed._index[index]
-  keyValue.value = source.code
-  delete keyValue.params
-
-  if (param !== 'layer') {
-    keyValue.source = source
-    if (source && source.params.length > 0) {
-      keyValue.params = source.params.map(() => ({
-        value: 'KC_TRNS',
-        keycode: indexedKeycodes.KC_TRNS
-      }))
-    }
-  }
-  key.parsed._index = indexKeyBinding(key.parsed)
+export function updateKeyCode(key, index, source, sources) {
+  key.parsed._index[index].value = source.code
+  Object.assign(key.parsed, hydrateParsedKeyBinding(key.parsed, sources))
 }
 
 export function encode(parsedKeymap) {
