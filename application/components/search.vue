@@ -131,10 +131,12 @@ export default {
         :title="result.description"
         :data-result-index="i"
         v-for="(result, i) in results"
-        v-html="result.search ? highlight(result.search) : result.code"
         @click="handleClickResult(result)"
         @mouseover="setHighlight(i)"
-      />
+      >
+        <span v-if="result.search" v-html="highlight(result.search)" />
+        <span v-else v-text="result.code" />
+      </li>
     </ul>
   </div>
 </template>

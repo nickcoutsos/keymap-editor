@@ -19,7 +19,7 @@ export function loadIndexedKeycodes() {
 }
 
 export function loadIndexedBehaviours() {
-  return loadBehaviours().then(behaviours => keyBy(behaviours, 'bind'))
+  return loadBehaviours().then(behaviours => keyBy(behaviours, 'code'))
 }
 
 function shortestAlias (aliases) {

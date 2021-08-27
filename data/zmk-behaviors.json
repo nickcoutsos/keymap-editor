@@ -1,6 +1,6 @@
 [
   {
-    "bind": "&bt",
+    "code": "&bt",
     "name": "Bluetooth",
     "params": ["command"],
     "commands": [{
@@ -23,27 +23,27 @@
     }]
   },
   {
-    "bind": "&kp",
+    "code": "&kp",
     "name": "Key Press",
     "params": ["code"]
   },
   {
-    "bind": "&lt",
+    "code": "&lt",
     "name": "Layer Tap",
     "params": ["layer", "code"]
   },
   {
-    "bind": "&mo",
+    "code": "&mo",
     "name": "Momentary Layer",
     "params": ["layer"]
   },
   {
-    "bind": "&mt",
+    "code": "&mt",
     "name": "Mod Tap",
     "params": ["mod", "code"]
   },
   {
-    "bind": "&out",
+    "code": "&out",
     "name": "Output selection",
     "params": ["command"],
     "commands": [{
@@ -58,17 +58,17 @@
     }]
   },
   {
-    "bind": "&tog",
+    "code": "&tog",
     "name": "Toggle Layer",
     "params": ["layer"]
   },
   {
-    "bind": "&reset",
+    "code": "&reset",
     "name": "Reset",
     "params": []
   },
   {
-    "bind": "&trans",
+    "code": "&trans",
     "name": "Transparent",
     "params": []
   }

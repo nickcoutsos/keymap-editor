@@ -32,11 +32,15 @@ export function parseKeyBinding(binding, sources) {
     }
   }
 
-  return hydrateParsedKeyBinding({ binding, behaviourBind: bind, params: params.map(parse) }, sources)
+  return hydrateParsedKeyBinding({
+    binding,
+    value: bind,
+    params: params.map(parse)
+  }, sources)
 }
 
-function hydrateParsedKeyBinding(parsed, sources) {
-  const behaviour = sources.behaviours[parsed.behaviourBind]
+function hydrateParsedKeyBinding(parsed, sources, out = {}) {
+  const behaviour = sources.behaviours[parsed.value]
   const firstParsedParam = get(parsed, 'params[0]')
   const commands = keyBy(behaviour.commands, 'code')
   const behaviourParams = [].concat(
@@ -68,9 +72,11 @@ function hydrateParsedKeyBinding(parsed, sources) {
     }
   }
 
-  const hydrated = {
+  const hydrated = out || {}
+
+  Object.assign(hydrated, {
     binding: parsed.binding,
-    behaviourBind: parsed.behaviourBind,
+    value: parsed.value,
     behaviour,
     behaviourParams,
     params: behaviourParams.map((as, i) => (
@@ -78,7 +84,7 @@ function hydrateParsedKeyBinding(parsed, sources) {
         ? hydrate(parsed.params[i], as)
         : { value: undefined, params: [] }
     ))
-  }
+  })
 
   return Object.assign(hydrated, {
     _index: indexKeyBinding(hydrated)
@@ -93,18 +99,21 @@ function hydrateParsedKeyBinding(parsed, sources) {
 export function indexKeyBinding(tree) {
   let index = []
 
-  return (function traverse(tree) {
+  ;(function traverse(tree) {
+    const params = tree.params || []
     tree.index = index.length
     index.push(tree)
-    const params = tree.params || []
     params.forEach(traverse)
-    return index
   })(tree)
+
+  return index
 }
 
 export function updateKeyCode(key, index, source, sources) {
-  key.parsed._index[index].value = source.code
-  Object.assign(key.parsed, hydrateParsedKeyBinding(key.parsed, sources))
+  const code = key.parsed._index[index]
+  code.value = source.code
+  code.params.splice(0, code.params.length)
+  hydrateParsedKeyBinding(key.parsed, sources, key.parsed)
 }
 
 export function encode(parsedKeymap) {

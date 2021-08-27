@@ -3,6 +3,7 @@ import Keymap from './keymap.vue'
 import Terminal from './terminal.vue'
 
 import * as config from '../config'
+import { loadBehaviours } from '../api'
 const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('../keycodes')
 
 export default {
@@ -13,6 +14,7 @@ export default {
   provide() {
     return {
       keycodes: this.keycodes,
+      behaviours: this.behaviours,
       indexedKeycodes: this.indexedKeycodes,
       indexedBehaviours: this.indexedBehaviours
     }
@@ -35,6 +37,7 @@ export default {
     const indexedKeycodes = await loadIndexedKeycodes()
 
     this.keycodes.splice(0, this.keycodes.length, ...keycodes)
+    this.behaviours.splice(0, this.behaviours.length, ...await loadBehaviours())
     Object.assign(this.indexedKeycodes, indexedKeycodes)
     Object.assign(this.indexedBehaviours, await loadIndexedBehaviours())
   },

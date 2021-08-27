@@ -21,7 +21,7 @@ export default {
   },
   props: ['layout', 'keymap'],
   emits: ['keymap-updated'],
-  inject: ['keycodes', 'indexedBehaviours'],
+  inject: ['keycodes', 'behaviours', 'indexedBehaviours'],
   provide() {
     return {
       onSelectKey: this.handleSelectKey
@@ -61,6 +61,8 @@ export default {
         return param.enum.map(v => ({ code: v }))
       }
       switch (param) {
+        case 'behaviour':
+          return this.behaviours
         case 'layer':
           return this.layers
         case 'mod':

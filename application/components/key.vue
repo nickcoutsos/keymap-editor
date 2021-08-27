@@ -14,8 +14,9 @@
   >
     <span
       v-if="parsed.behaviour"
-      v-text="parsed.behaviour.bind"
+      v-text="parsed.behaviour.code"
       class="behaviour-binding"
+      @click.stop="handleSelectBinding"
     />
     <key-paramlist
       :root="true"
@@ -92,6 +93,16 @@ export default {
         layer: this.mapping.layer,
         index: this.mapping.index,
         ...event
+      })
+    },
+    handleSelectBinding(event) {
+      this.$emit('select-key', {
+        layer: this.mapping.layer,
+        index: this.mapping.index,
+        target: event.target,
+        codeIndex: 0,
+        code: this.parsed.bindCode,
+        param: 'behaviour'
       })
     }
   }
