@@ -41,9 +41,9 @@ export default {
 
 <style>
 
-.params:not([data-is-root="true"][data-param-count="1"])::before { content: '('; opacity: 0.4; font-weight: bold; margin: 2px; }
-.params:not([data-is-root="true"][data-param-count="1"])::after { content: ')'; opacity: 0.4; font-weight: bold; margin: 2px; }
-.param:not(:last-child)::after { content: ','; }
+.params:not([data-is-root="true"])::before { content: '('; opacity: 0.4; font-weight: bold; margin: 2px; }
+.params:not([data-is-root="true"])::after { content: ')'; opacity: 0.4; font-weight: bold; margin: 2px; }
+.params:not([data-is-root="true"]) .param:not(:last-child)::after { content: ','; }
 
 .code { padding: 0px 4px; margin-left: -2px; margin-right: -2px; }
 </style>
