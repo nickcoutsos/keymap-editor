@@ -41,7 +41,7 @@ export function parseKeyBinding(binding, sources) {
 
 function hydrateParsedKeyBinding(parsed, sources, out = {}) {
   const behaviour = sources.behaviours[parsed.value]
-  const firstParsedParam = get(parsed, 'params[0]')
+  const firstParsedParam = get(parsed, 'params[0]', {})
   const commands = keyBy(behaviour.commands, 'code')
   const behaviourParams = [].concat(
     behaviour.params,

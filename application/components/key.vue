@@ -149,6 +149,15 @@ export default {
   left: 0;
   font-size: 10px;
   font-variant: smallcaps;
+  padding: 2px;
   opacity: 0.5;
+}
+
+.behaviour-binding:hover {
+  cursor: pointer;
+  color: var(--dark-red);
+  background-color: white;
+  border-radius: 5px 0;
+  opacity: 1;
 }
 </style>
