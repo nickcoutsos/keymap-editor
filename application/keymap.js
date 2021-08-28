@@ -129,6 +129,6 @@ export function encode(parsedKeymap) {
       return encodeBinding(params[0])
     }
 
-    return `${behaviour.bind} ${params.map(encodeBinding).join(' ')}`.trim()
+    return `${behaviour.code} ${params.map(encodeBinding).join(' ')}`.trim()
   }))
 }

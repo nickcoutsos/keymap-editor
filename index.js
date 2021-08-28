@@ -41,6 +41,7 @@ app.get('/', (req, res) => res.redirect('/application'))
 app.use('/application', express.static('application/dist'))
 app.get('/behaviors', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadBehaviors()))
 app.get('/keycodes', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadKeycodes()))
+app.get('/layout', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadLayout()))
 app.get('/keymap', addFirmwareLibrary, (req, res) => res.json(req.firmware.loadKeymap()))
 app.post('/keymap', addFirmwareLibrary, (req, res) => {
   const keymap = req.body

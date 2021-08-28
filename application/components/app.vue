@@ -51,7 +51,7 @@ export default {
 
       // terminal.clear()
       // toggleTerminal(true)
-      fetch(`/keymap?${config.library}`, {
+      fetch(`/keymap?firmware=${config.library}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
