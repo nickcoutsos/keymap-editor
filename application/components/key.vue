@@ -42,14 +42,19 @@ export default {
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },
     positioningStyle() {
+      // TODO: fix padding
       const x = this.position.x * 65
       const y = this.position.y * 65
+      const u = this.size.u * 60;
+      const h = this.size.h * 60;
       const rx = (this.position.x - (this.rotation.x || this.position.x)) * -65
       const ry = (this.position.y - (this.rotation.y || this.position.y)) * -65
 
       return {
         top: `${y}px`,
         left: `${x}px`,
+        width: `${u}px`,
+        height: `${h}px`,
         transformOrigin: `${rx}px ${ry}px`,
         transform: `rotate(${this.rotation.a || 0}deg)`
       }
@@ -110,11 +115,6 @@ export default {
 </script>
 
 <style>
-[data-u="1"] { width: 60px; }
-[data-u="2"] { width: 125px; }
-[data-h="1"] { height: 60px; }
-[data-h="2"] { height: 125px; }
-
 .key {
 	position: absolute;
 	display: flex;
