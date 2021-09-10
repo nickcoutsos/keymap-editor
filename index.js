@@ -3,7 +3,6 @@ const process = require('process')
 const express = require('express')
 const expressWs = require('express-ws')
 const bodyParser = require('body-parser')
-const qmk = require('./qmk')
 const zmk = require('./zmk')
 
 const app = express()
@@ -17,7 +16,7 @@ childProcess.execFile('npm', ['run', 'build-watch'], { cwd: './application' }, e
   process.exit(1)
 })
 
-const firmwares = { qmk, zmk }
+const firmwares = { zmk }
 
 function addFirmwareLibrary(req, res, next) {
 

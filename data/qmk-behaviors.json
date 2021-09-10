@@ -1,7 +1,0 @@
-[
-  {
-    "code": "&kp",
-    "name": "Key Press",
-    "params": ["code"]
-  }
-]
