@@ -109,3 +109,11 @@ make this a useful tool for users of either firmware, let me know.
 I'm not committing to taking this on myself, and I'll probably never do much
 testing on any other keyboards, but I'm happy to have discussions on where this
 (or another tool) can go.
+
+
+## License
+
+The code in this repo is available under the MIT license.
+
+The collection of ZMK keycodes is taken from the ZMK documentation under the MIT
+license as well.
