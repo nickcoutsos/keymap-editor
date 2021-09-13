@@ -3,15 +3,15 @@ const fs = require('fs')
 const path = require('path')
 const { renderTable } = require('./layout')
 
-const ZMK_PATH = 'zmk-config'
+const ZMK_PATH = path.join(__dirname, '..', '..', '..', 'zmk-config')
 const KEYBOARD = 'dactyl'
 
 function loadBehaviors() {
-  return JSON.parse(fs.readFileSync('./data/zmk-behaviors.json'))
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'zmk-behaviors.json')))
 }
 
 function loadKeycodes() {
-  return JSON.parse(fs.readFileSync('./data/zmk-keycodes.json'))
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'zmk-keycodes.json')))
 }
 
 function loadLayout (layout = 'LAYOUT') {
