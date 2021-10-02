@@ -9,6 +9,7 @@ const app = express()
 app.use(bodyParser.json())
 applicationInit(app)
 app.use(keyboards)
+app.use(require('./routes/github'))
 
 module.exports = app
 
