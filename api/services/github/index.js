@@ -155,7 +155,6 @@ function updateFile(installationToken, url, oldSha, content, message) {
 async function commitChanges (installationId, repository, layout, keymap) {
   const token = createAppToken()
   const accessTokensUrl = `https://api.github.com/app/installations/${installationId}/access_tokens`
-  const contentsUrl = `https://api.github.com/repos/${repository}/contents`
   const generatedKeymap = zmk.generateKeymap(layout, keymap)
 
   const { data: { token: installationToken } } = await apiRequest(accessTokensUrl, token, 'POST')
@@ -165,25 +164,52 @@ async function commitChanges (installationId, repository, layout, keymap) {
   // (a limitation of GitHub's repo contents API).
   const { data: directory } = await fetchFile(installationToken, repository, 'config/')
   const originalCodeKeymap = directory.find(file => file.name.toLowerCase().endsWith('.keymap'))
-  const originalJSONKeymap = directory.find(file => file.name.toLowerCase() === 'keymap.json')
- 
-  // This is sloppy but it's the simplest wait to update multiple files.
-  // Instead, this should create blobs of each file to update and craft a proper
-  // git commit object for a single API call.
-  await updateFile(
-    installationToken,
-    `${contentsUrl}/${originalCodeKeymap.path}`,
-    originalCodeKeymap.sha,
-    generatedKeymap.code,
-    'Updated keymap'
-  )
-  await updateFile(
-    installationToken,
-    `${contentsUrl}/config/keymap.json`,
-    originalJSONKeymap.sha,
-    generatedKeymap.json,
-    'Updated keymap'
-  )
+
+  const { data: repo } = await apiRequest(`https://api.github.com/repos/${repository}`, installationToken)
+  const { data: [{sha, commit}] } = await apiRequest(`https://api.github.com/repos/${repository}/commits?per_page=1`, installationToken)
+
+  const { data: { sha: newTreeSha } } = await axios({
+    url: `https://api.github.com/repos/${repository}/git/trees`,
+    method: 'POST',
+    headers: { Authorization: `Bearer ${installationToken}` },
+    data: {
+      base_tree: commit.tree.sha,
+      tree: [
+        {
+          path: originalCodeKeymap.path,
+          mode: '100644',
+          type: 'blob',
+          content: generatedKeymap.code
+        },
+        {
+          path: 'config/keymap.json',
+          mode: '100644',
+          type: 'blob',
+          content: generatedKeymap.json
+        }
+      ]
+    }
+  })
+
+  const { data: { sha: newSha } } = await axios({
+    url: `https://api.github.com/repos/${repository}/git/commits`,
+    method: 'POST',
+    headers: { Authorization: `Bearer ${installationToken}` },
+    data: {
+      tree: newTreeSha,
+      message: 'Updated keymap',
+      parents: [sha]
+    }
+  })
+
+  await axios({
+    url: `https://api.github.com/repos/${repository}/git/refs/heads/${repo.default_branch}`,
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${installationToken}` },
+    data: {
+      sha: newSha
+    }
+  })
 }
 
 module.exports = {
