@@ -19,12 +19,6 @@ export default {
   mounted() {
     this.terminal = new Terminal({ disableStdin: true, rows: 12, cols: 104 })
     this.terminal.open(document.querySelector('#terminal > div'))
-    this.$nextTick(function() {
-      this.socket.onmessage = message => {
-        this.$emit('new-message')
-        this.terminal.write(message.data.replace(/\n/g, '\r\n'))
-      }
-    })
   }
 }
 </script>

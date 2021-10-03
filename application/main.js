@@ -26,13 +26,6 @@ async function main() {
   const app = Vue.createApp(App)
   const vm = app.mount('#app')
 
-  const socket = new WebSocket(`${location.protocol.replace('http', 'ws')}//${location.host}/console`)
-  socket.onopen = () => console.log(new Date(), 'connected to console')
-  socket.onclose = () => console.log(new Date(), 'disconnected from server')
-  socket.onerror = err => console.error(new Date(), err)
-
-  setInterval(() => socket.send('ping'), 10000)
-
   vm.keymap = Object.assign(keymap, {
     layer_names: keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)
   })
@@ -42,7 +35,6 @@ async function main() {
   ))
 
   vm.layers = keymap.layers
-  vm.socket = socket
 }
 
 main()
