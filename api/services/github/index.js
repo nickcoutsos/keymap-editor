@@ -5,6 +5,8 @@ const path = require('path')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 
+const zmk = require('../zmk/zmk')
+
 const pemPath = path.join(__dirname, '..', '..', '..', 'private-key.pem')
 const privateKey = fs.readFileSync(pemPath)
 
@@ -118,13 +120,7 @@ async function fetchKeyboardFiles (installationId, repository) {
   const contentsUrl = `https://api.github.com/repos/${repository}/contents`
 
   const { data: { token: installationToken } } = await apiRequest(accessTokensUrl, token, 'POST')
-  const { data: info } = await axios({
-    url: `${contentsUrl}/config/info.json`,
-    headers: {
-      Accept: 'application/vnd.github.v3.raw',
-      Authorization: `Bearer ${installationToken}`
-    }
-  })
+  const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', true)
   const { data: keymap } = await axios({
     url: `${contentsUrl}/config/keymap.json`,
     headers: {
@@ -136,6 +132,59 @@ async function fetchKeyboardFiles (installationId, repository) {
   return { info, keymap }
 }
 
+function fetchFile (installationToken, repository, path, raw = false) {
+  const contentsUrl = `https://api.github.com/repos/${repository}/contents`
+  return axios({
+    url: `${contentsUrl}/${path}`,
+    headers: {
+      Accept: raw ? 'application/vnd.github.v3.raw' : 'application/json',
+      Authorization: `Bearer ${installationToken}`
+    }
+  })
+}
+
+function updateFile(installationToken, url, oldSha, content, message) {
+  console.log(content, btoa(content))
+  return axios({
+    url,
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${installationToken}` },
+    data: { content: btoa(content), message, sha: oldSha }
+  }).then(res => {
+    console.log(res.status, res.data)
+  })
+}
+
+async function commitChanges (installationId, repository, layout, keymap) {
+  const token = createAppToken()
+  const accessTokensUrl = `https://api.github.com/app/installations/${installationId}/access_tokens`
+  const contentsUrl = `https://api.github.com/repos/${repository}/contents`
+  const generatedKeymap = zmk.generateKeymap(layout, keymap)
+
+  const { data: { token: installationToken } } = await apiRequest(accessTokensUrl, token, 'POST')
+  const { data: originalJSONKeymap } = await fetchFile(installationToken, repository, 'config/keymap.json')
+  const { data: originalCodeKeymap } = await fetchFile(installationToken, repository, 'config/dactyl.keymap')
+
+  // This is sloppy but it's the simplest wait to update multiple files.
+  // Instead, this should create blobs of each file to update and craft a proper
+  // git commit object for a single API call.
+  // Also, we may need to search the repo for a keymap file.
+  await updateFile(
+    installationToken,
+    `${contentsUrl}/config/dactyl.keymap`,
+    originalCodeKeymap.sha,
+    generatedKeymap.code,
+    'Updated keymap'
+  )
+  await updateFile(
+    installationToken,
+    `${contentsUrl}/config/keymap.json`,
+    originalJSONKeymap.sha,
+    generatedKeymap.json,
+    'Updated keymap'
+  )
+}
+
 module.exports = {
   createOauthFlowUrl,
   createOauthReturnUrl,
@@ -145,5 +194,6 @@ module.exports = {
   verifyUserToken,
   fetchInstallation,
   fetchInstallationRepos,
-  fetchKeyboardFiles
+  fetchKeyboardFiles,
+  commitChanges
 }

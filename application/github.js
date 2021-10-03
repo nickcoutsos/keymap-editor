@@ -54,3 +54,18 @@ export async function fetchLayoutAndKeymap() {
     keymap: data.keymap
   }
 }
+
+export function commitChanges(layout, keymap) {
+  const installationId = encodeURIComponent(installation.id)
+  const repository = encodeURIComponent(repositories[0].full_name)
+  const url = `${config.apiBaseUrl}/github/keyboard-files/${installationId}/${repository}`
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ layout, keymap })
+  })
+}

@@ -56,6 +56,10 @@ export default {
       localStorage.removeItem('auth_token')
       location.href = `${config.apiBaseUrl}/github/authorize`
     },
+    handleCommitChanges() {
+      const keymap = Object.assign({}, this.keymap, { layers: this.layers })
+      github.commitChanges(this.layout, keymap)
+    },
     handleCompile() {
       const keymap = Object.assign({}, this.keymap, { layers: this.layers })
 

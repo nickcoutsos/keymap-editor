@@ -9,7 +9,8 @@ const {
   fetchInstallationRepos,
   fetchKeyboardFiles,
   createOauthFlowUrl,
-  createOauthReturnUrl
+  createOauthReturnUrl,
+  commitChanges
 } = require('../services/github')
 
 const router = Router()
@@ -76,8 +77,24 @@ const getKeyboardFiles = async (req, res) => {
   }
 }
 
+const updateKeyboardFiles = async (req, res) => {
+  const { installationId, repository } = req.params
+  const { keymap, layout } = req.body
+
+  try {
+    await commitChanges(installationId, repository, layout, keymap)
+  } catch (err) {
+    const message = err.response ? err.response.data : err
+    console.error(message)
+    res.status(500).json(message)
+  }
+
+  res.sendStatus(200)
+}
+
 router.get('/github/authorize', authorize)
 router.get('/github/installation', authenticate, getInstallation)
 router.get('/github/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
+router.post('/github/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
 
 module.exports = router
