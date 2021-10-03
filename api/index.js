@@ -7,7 +7,11 @@ const keyboards = require('./routes/keyboards')
 const app = express()
 
 app.use(bodyParser.json())
-applicationInit(app)
+
+if (process.env.ENABLE_DEV_SERVER) {
+  applicationInit(app)
+}
+
 app.use(keyboards)
 app.use(require('./routes/github'))
 

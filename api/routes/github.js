@@ -92,9 +92,14 @@ const updateKeyboardFiles = async (req, res) => {
   res.sendStatus(200)
 }
 
+const receiveWebhook = (req, res) => {
+  res.sendStatus(200)
+}
+
 router.get('/github/authorize', authorize)
 router.get('/github/installation', authenticate, getInstallation)
 router.get('/github/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
 router.post('/github/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
+router.post('/github/webhook', receiveWebhook)
 
 module.exports = router

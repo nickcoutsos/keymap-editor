@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const zmk = require('../zmk/zmk')
 
 const pemPath = path.join(__dirname, '..', '..', '..', 'private-key.pem')
-const privateKey = fs.readFileSync(pemPath)
+const privateKey = process.env.GITHUB_APP_PRIVATE_KEY || fs.readFileSync(pemPath)
 
 function createAppToken () {
   return  jwt.sign({ iss: process.env.GITHUB_APP_ID }, privateKey, {
