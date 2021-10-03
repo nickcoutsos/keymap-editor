@@ -144,14 +144,11 @@ function fetchFile (installationToken, repository, path, raw = false) {
 }
 
 function updateFile(installationToken, url, oldSha, content, message) {
-  console.log(content, btoa(content))
   return axios({
     url,
     method: 'PUT',
     headers: { Authorization: `Bearer ${installationToken}` },
     data: { content: btoa(content), message, sha: oldSha }
-  }).then(res => {
-    console.log(res.status, res.data)
   })
 }
 
@@ -162,16 +159,20 @@ async function commitChanges (installationId, repository, layout, keymap) {
   const generatedKeymap = zmk.generateKeymap(layout, keymap)
 
   const { data: { token: installationToken } } = await apiRequest(accessTokensUrl, token, 'POST')
-  const { data: originalJSONKeymap } = await fetchFile(installationToken, repository, 'config/keymap.json')
-  const { data: originalCodeKeymap } = await fetchFile(installationToken, repository, 'config/dactyl.keymap')
 
+  // Assume that the relevant files are under `config/` and not a complicated
+  // directory structure, and that there are fewer than 1000 files in this path
+  // (a limitation of GitHub's repo contents API).
+  const { data: directory } = await fetchFile(installationToken, repository, 'config/')
+  const originalCodeKeymap = directory.find(file => file.name.toLowerCase().endsWith('.keymap'))
+  const originalJSONKeymap = directory.find(file => file.name.toLowerCase() === 'keymap.json')
+ 
   // This is sloppy but it's the simplest wait to update multiple files.
   // Instead, this should create blobs of each file to update and craft a proper
   // git commit object for a single API call.
-  // Also, we may need to search the repo for a keymap file.
   await updateFile(
     installationToken,
-    `${contentsUrl}/config/dactyl.keymap`,
+    `${contentsUrl}/${originalCodeKeymap.path}`,
     originalCodeKeymap.sha,
     generatedKeymap.code,
     'Updated keymap'
