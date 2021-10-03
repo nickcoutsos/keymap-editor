@@ -3,6 +3,7 @@ import Keymap from './keymap.vue'
 import Terminal from './terminal.vue'
 
 import * as config from '../config'
+import * as github from '../github'
 import { loadBehaviours } from '../api'
 const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('../keycodes')
 
@@ -21,6 +22,7 @@ export default {
   },
   data() {
     return {
+      config,
       keycodes: [],
       indexedKeycodes: {},
       behaviours: [],
@@ -41,10 +43,18 @@ export default {
     Object.assign(this.indexedKeycodes, indexedKeycodes)
     Object.assign(this.indexedBehaviours, await loadIndexedBehaviours())
   },
-  watched: {},
+  computed: {
+    githubAuthorized() {
+      return !!github.isGitHubAuthorized()
+    }
+  },
   methods: {
     handleKeymapUpdated(keymap) {
       this.layers.splice(0, this.layers.length, ...keymap.layers)
+    },
+    handleGithubAuthorize() {
+      localStorage.removeItem('auth_token')
+      location.href = `${config.apiBaseUrl}/github/authorize`
     },
     handleCompile() {
       const keymap = Object.assign({}, this.keymap, { layers: this.layers })
@@ -76,9 +86,20 @@ export default {
       @new-message="terminalOpen = true"
     />
     <div id="actions">
-      <button id="compile" @click="handleCompile">Compile</button>
-      <button id="flash">Flash</button>
-      <button id="export">Export</button>
+      <button id="compile" @click="handleCompile">Save Local</button>
+      <button
+        v-if="config.enableGitHub && !githubAuthorized"
+        v-text="`Authorize GitHub`"
+        @click="handleGithubAuthorize"
+        title="Install as a GitHub app to edit a zmk-config repository."
+
+      />
+      <button
+        v-if="config.enableGitHub && githubAuthorized"
+        v-text="`Commit Changes`"
+        @click="handleCommitChanges"
+        title="Commit keymap changes to GitHub repository"
+      />
       <button id="toggle" @click="terminalOpen = !terminalOpen">{{ !terminalOpen ? '⇡' : '⇣' }}</button>
     </div>
   </div>

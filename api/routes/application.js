@@ -7,8 +7,18 @@ const appDir = path.join(__dirname, '..', '..', 'application')
 
 function init (app) {
   expressWs(app)
+
+  const opts = {
+    cwd: appDir,
+    env: Object.assign({}, process.env, {
+      ENABLE_LOCAL: true,
+      ENABLE_GITHUB: true,
+      API_BASE_URL: 'http://localhost:8080',
+      APP_BASE_URL: 'http://localhost:8080/application'
+    })
+  }
   
-  childProcess.execFile('npm', ['run', 'build-watch'], { cwd: appDir }, err => {
+  childProcess.execFile('npm', ['run', 'build-watch'], opts, err => {
     console.error(err)
     console.error('Application serving failed')
     process.exit(1)
