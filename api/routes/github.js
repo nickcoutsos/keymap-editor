@@ -55,7 +55,7 @@ const authenticate = (req, res, next) => {
   try {
     req.user = verifyUserToken(token)
   } catch (err) {
-    next(err)
+    return res.sendStatus(401)
   }
 
   next()

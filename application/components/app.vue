@@ -53,8 +53,7 @@ export default {
       this.layers.splice(0, this.layers.length, ...keymap.layers)
     },
     handleGithubAuthorize() {
-      localStorage.removeItem('auth_token')
-      location.href = `${config.apiBaseUrl}/github/authorize`
+      github.beginLoginFlow()
     },
     handleCommitChanges() {
       const keymap = Object.assign({}, this.keymap, { layers: this.layers })

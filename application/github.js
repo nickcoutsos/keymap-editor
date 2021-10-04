@@ -4,6 +4,15 @@ let token
 let installation
 let repositories
 
+function request (...args) {
+  return fetch(...args).then(res => {
+    return res.status !== 401 ? res : (
+      console.error('Authentication failure. Retrying login'),
+      beginLoginFlow()
+    )
+  })
+}
+
 export async function init () {
   const param = new URLSearchParams(location.search).get('token')
   if (!localStorage.auth_token && param) {
@@ -13,7 +22,7 @@ export async function init () {
 
   if (localStorage.auth_token) {
     token = localStorage.auth_token
-    const data = await fetch(`${config.apiBaseUrl}/github/installation`, {
+    const data = await request(`${config.apiBaseUrl}/github/installation`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -39,12 +48,17 @@ export async function init () {
   }
 }
 
+export function beginLoginFlow () {
+  localStorage.removeItem('auth_token')
+  location.href = `${config.apiBaseUrl}/github/authorize`
+}
+
 export function isGitHubAuthorized() {
   return !!token && installation && repositories && repositories.length
 }
 
 export async function fetchLayoutAndKeymap() {
-  const data = await fetch(
+  const data = await request(
     `${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repositories[0].full_name)}`,
     { headers: { Authorization: `Bearer ${localStorage.auth_token}`} }
   ).then(res => res.json())
@@ -60,7 +74,7 @@ export function commitChanges(layout, keymap) {
   const repository = encodeURIComponent(repositories[0].full_name)
   const url = `${config.apiBaseUrl}/github/keyboard-files/${installationId}/${repository}`
 
-  return fetch(url, {
+  return request(url, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
