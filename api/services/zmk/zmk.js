@@ -43,12 +43,6 @@ const header = `
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#define BASE 0
-#define FPS 1
-#define SYMB 2
-#define MDIA 3
-#define FN 4
-
 `
 
 function generateKeymap (layout, keymap) {
