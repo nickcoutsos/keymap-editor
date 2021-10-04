@@ -17,10 +17,16 @@ const router = Router()
 
 const authorize = async (req, res) => {
   if (req.query.code) {
-    const { data: oauth } = await getOauthToken(req.query.code)
-    const { data: user } = await getOauthUser(oauth.access_token)
-    const token = getUserToken(oauth, user)
-    res.redirect(createOauthReturnUrl(token))
+    try {
+      const { data: oauth } = await getOauthToken(req.query.code)
+      const { data: user } = await getOauthUser(oauth.access_token)
+      const token = getUserToken(oauth, user)
+      res.redirect(createOauthReturnUrl(token))
+    } catch (err) {
+      const message = err.response ? err.response.data : err
+      console.error(message)
+      res.sendStatus(500)
+    }
   } else {
     res.redirect(createOauthFlowUrl())
   }
@@ -73,6 +79,7 @@ const getKeyboardFiles = async (req, res) => {
   } catch (err) {
     const message = err.response ? err.response.data : err
     console.error(message)
+    console.error(err.stack)
     res.status(500).json(message)
   }
 }
