@@ -13,11 +13,12 @@ function init (app) {
     env: Object.assign({}, process.env, {
       ENABLE_LOCAL: true,
       ENABLE_GITHUB: true,
+      GITHUB_APP_NAME: process.env.GITHUB_APP_NAME,
       API_BASE_URL: 'http://localhost:8080',
       APP_BASE_URL: 'http://localhost:8080/application'
     })
   }
-  
+
   childProcess.execFile('npm', ['run', 'build-watch'], opts, err => {
     console.error(err)
     console.error('Application serving failed')
