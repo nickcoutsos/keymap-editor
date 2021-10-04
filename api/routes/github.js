@@ -32,6 +32,18 @@ const authorize = async (req, res) => {
   }
 }
 
+const handleError = (err, req, res, next) => {
+  const message = err.response ? `[${err.response.status}] ${err.response.data}` : err
+  console.error(message, err)
+
+  if (err.response && err.response.status === 401) {
+    console.error('Received upstream authentication error', err.re)
+    return res.sendStatus(401)
+  }
+
+  res.sendStatus(500)
+}
+
 const authenticate = (req, res, next) => {
   const header = req.headers.authorization
   const token = (header || '').split(' ')[1]
@@ -43,14 +55,13 @@ const authenticate = (req, res, next) => {
   try {
     req.user = verifyUserToken(token)
   } catch (err) {
-    console.error('Failed to verify token', err)
-    return res.sendStatus(401)
+    next(err)
   }
 
   next()
 }
 
-const getInstallation = async (req, res) => {
+const getInstallation = async (req, res, next) => {
   const { user } = req
   
   try {
@@ -64,36 +75,29 @@ const getInstallation = async (req, res) => {
 
     res.json({ installation, repositories })
   } catch (err) {
-    const message = err.response ? err.response.data : err
-    console.error(message)
-    res.status(500).json(message)
+    next(err)
   }
 }
 
-const getKeyboardFiles = async (req, res) => {
+const getKeyboardFiles = async (req, res, next) => {
   const { installationId, repository } = req.params
 
   try {
     const keyboardFiles = await fetchKeyboardFiles(installationId, repository)
     res.json(keyboardFiles)
   } catch (err) {
-    const message = err.response ? err.response.data : err
-    console.error(message)
-    console.error(err.stack)
-    res.status(500).json(message)
+    next(err)
   }
 }
 
-const updateKeyboardFiles = async (req, res) => {
+const updateKeyboardFiles = async (req, res, next) => {
   const { installationId, repository } = req.params
   const { keymap, layout } = req.body
 
   try {
     await commitChanges(installationId, repository, layout, keymap)
   } catch (err) {
-    const message = err.response ? err.response.data : err
-    console.error(message)
-    res.status(500).json(message)
+    return next(err)
   }
 
   res.sendStatus(200)
@@ -103,10 +107,11 @@ const receiveWebhook = (req, res) => {
   res.sendStatus(200)
 }
 
-router.get('/github/authorize', authorize)
-router.get('/github/installation', authenticate, getInstallation)
-router.get('/github/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
-router.post('/github/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
-router.post('/github/webhook', receiveWebhook)
+router.use(handleError)
+router.get('/authorize', authorize)
+router.get('/installation', authenticate, getInstallation)
+router.get('/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
+router.post('/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
+router.post('/webhook', receiveWebhook)
 
 module.exports = router
