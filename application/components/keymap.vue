@@ -86,6 +86,7 @@ export default {
     handleCreateLayer() {
       const layer = this.parsedKeymap.length
       const binding = 'KC_TRNS'
+      this.keymap.layer_names.push(`Layer #${layer}`)
       this.parsedKeymap.push(this.layout.map((_, index) => ({
         layer, index, binding, parsed: parseKeyBinding(binding, this.sources)
       })))
