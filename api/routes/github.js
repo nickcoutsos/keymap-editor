@@ -107,11 +107,11 @@ const receiveWebhook = (req, res) => {
   res.sendStatus(200)
 }
 
-router.use(handleError)
 router.get('/authorize', authorize)
 router.get('/installation', authenticate, getInstallation)
 router.get('/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
 router.post('/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
 router.post('/webhook', receiveWebhook)
+router.use(handleError)
 
 module.exports = router
