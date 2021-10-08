@@ -1,6 +1,6 @@
 const api = require('./api')
 const auth = require('./auth')
-const zmk = require('../zmk/zmk')
+const zmk = require('../zmk')
 
 const MODE_FILE = '100644'
 

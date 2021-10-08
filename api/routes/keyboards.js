@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const zmk = require('../services/zmk/zmk')
+const zmk = require('../services/zmk')
 
 const firmwares = { zmk }
 const router = Router()
