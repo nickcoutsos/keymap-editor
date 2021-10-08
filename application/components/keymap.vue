@@ -1,11 +1,13 @@
 <script>
 import filter from 'lodash/filter'
+import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
+import times from 'lodash/times'
+
 import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
 import Search from './search.vue'
 
-import { loadIndexedBehaviours, loadIndexedKeycodes } from '../keycodes'
 import {
   parseKeyBinding,
   updateKeyCode,
@@ -21,7 +23,12 @@ export default {
   },
   props: ['layout', 'keymap'],
   emits: ['keymap-updated'],
-  inject: ['keycodes', 'behaviours', 'indexedBehaviours'],
+  inject: [
+    'keycodes',
+    'behaviours',
+    'indexedKeycodes',
+    'indexedBehaviours'
+  ],
   provide() {
     return {
       onSelectKey: this.handleSelectKey
@@ -30,8 +37,6 @@ export default {
   data() {
     return {
       activeLayer: 0,
-      indexedKeycodes: {},
-      parsedKeymap: {},
       editing: null
     }
   },
@@ -47,11 +52,25 @@ export default {
         behaviours: this.indexedBehaviours,
         layer: keyBy(this.layers, 'code')
       }
+    },
+    parsedLayers() {
+      const ready = (
+        !isEmpty(this.keymap) &&
+        !isEmpty(this.indexedBehaviours) &&
+        !isEmpty(this.indexedKeycodes)
+      )
+
+      return ready ? this.keymap.layers.map((layer, i) => {
+        return layer.map((binding, j) => {
+          const parsed = parseKeyBinding(binding, this.sources)
+          return { layer: i, index: j, binding, parsed }
+        })
+      }) : []
     }
   },
   methods: {
     handleSelectKey(event) {
-      const key = this.parsedKeymap[event.layer][event.index]
+      const key = this.parsedLayers[event.layer][event.index]
       const targets = this.getSearchTargets(event.param, key)
       this.editing = { ...event, targets }
     },
@@ -76,38 +95,39 @@ export default {
     },
     handleChangeBinding(source) {
       const { index, codeIndex } = this.editing
-      const key = this.parsedKeymap[this.activeLayer][index]
-      updateKeyCode(key, codeIndex, source, this.sources)
+      const layer = this.parsedLayers[this.activeLayer]
+      const key = layer[index]
+
+      const updatedKey = updateKeyCode(key, codeIndex, source, this.sources)
+      const updatedLayer = [...layer.slice(0, index), updatedKey, ...layer.slice(index + 1)]
+      const updatedLayers = [
+        ...this.parsedLayers.slice(0, this.activeLayer),
+        updatedLayer,
+        ...this.parsedLayers.slice(this.activeLayer + 1)
+      ]
+
       this.editing = null
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
-        layers: encode(this.parsedKeymap)
+        layers: encode(updatedLayers)
       }))
     },
     handleCreateLayer() {
-      const layer = this.parsedKeymap.length
-      const binding = 'KC_TRNS'
-      this.keymap.layer_names.push(`Layer #${layer}`)
-      this.parsedKeymap.push(this.layout.map((_, index) => ({
-        layer, index, binding, parsed: parseKeyBinding(binding, this.sources)
-      })))
+      const layer = this.parsedLayers.length
+      const binding = '&trans'
+
+      const updatedLayerNames = [ ...this.keymap.layer_names, `Layer #${layer}` ]
+      const updatedLayers = [
+        ...this.parsedLayers,
+        times(this.layout.length, index => ({
+          layer, index, binding, parsed: parseKeyBinding(binding, this.sources)
+        }))
+      ]
 
       this.$emit('keymap-updated', Object.assign({}, this.keymap, {
-        layers: encode(this.parsedKeymap)
+        layer_names: updatedLayerNames,
+        layers: encode(updatedLayers)
       }))
     }
-  },
-  async beforeMount() {
-    const indexedKeycodes = await loadIndexedKeycodes()
-    const indexedBehaviours = await loadIndexedBehaviours()
-    Object.assign(this.indexedKeycodes, indexedKeycodes)
-    Object.assign(this.indexedBehaviours, indexedBehaviours)
-
-    this.parsedKeymap = this.keymap.layers.map((layer, i) => {
-      return layer.map((binding, j) => {
-        const parsed = parseKeyBinding(binding, this.sources)
-        return { layer: i, index: j, binding, parsed }
-      })
-    })
   }
 }
 </script>
@@ -121,10 +141,10 @@ export default {
       @new-layer="handleCreateLayer"
     />
     <keyboard-layout
-      v-if="parsedKeymap[activeLayer]"
+      v-if="parsedLayers[activeLayer]"
       :data-layer="activeLayer"
       :layout="layout"
-      :keys="parsedKeymap[activeLayer]"
+      :keys="parsedLayers[activeLayer]"
       class="active"
     />
     <search

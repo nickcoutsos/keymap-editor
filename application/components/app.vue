@@ -50,26 +50,21 @@ export default {
   },
   methods: {
     handleKeymapUpdated(keymap) {
-      this.layers.splice(0, this.layers.length, ...keymap.layers)
+      Object.assign(this.keymap, keymap)
     },
     handleGithubAuthorize() {
       github.beginLoginFlow()
     },
     handleCommitChanges() {
-      const keymap = Object.assign({}, this.keymap, { layers: this.layers })
-      github.commitChanges(this.layout, keymap)
+      github.commitChanges(this.layout, this.keymap)
     },
     handleCompile() {
-      const keymap = Object.assign({}, this.keymap, { layers: this.layers })
-
-      // terminal.clear()
-      // toggleTerminal(true)
       fetch(`/keymap?firmware=${config.library}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(keymap)
+        body: JSON.stringify(this.keymap)
       })
     }
   }

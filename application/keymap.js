@@ -1,7 +1,7 @@
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
 import filter from 'lodash/filter'
-import * as config from './config'
 export { loadKeymap } from './api'
 
 const paramsPattern = /\((.+)\)/
@@ -110,10 +110,12 @@ export function indexKeyBinding(tree) {
 }
 
 export function updateKeyCode(key, index, source, sources) {
-  const code = key.parsed._index[index]
+  const updated = cloneDeep(key)
+  const code = updated.parsed._index[index]
   code.value = source.code
   code.params.splice(0, code.params.length)
-  hydrateParsedKeyBinding(key.parsed, sources, key.parsed)
+  hydrateParsedKeyBinding(updated.parsed, sources, updated.parsed)
+  return updated
 }
 
 export function encode(parsedKeymap) {
@@ -125,9 +127,6 @@ export function encode(parsedKeymap) {
 
   return parsedKeymap.map(layer => layer.map(key => {
     const { behaviour, params } = key.parsed
-    if (config.library === 'qmk') {
-      return encodeBinding(params[0])
-    }
 
     return `${behaviour.code} ${params.map(encodeBinding).join(' ')}`.trim()
   }))
