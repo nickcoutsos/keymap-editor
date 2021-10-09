@@ -74,7 +74,7 @@ function hydrateParsedKeyBinding(parsed, sources, out = {}) {
 
   const hydrated = out || {}
 
-  Object.assign(hydrated, {
+  return Object.assign(hydrated, {
     binding: parsed.binding,
     value: parsed.value,
     behaviour,
@@ -85,28 +85,6 @@ function hydrateParsedKeyBinding(parsed, sources, out = {}) {
         : { value: undefined, params: [] }
     ))
   })
-
-  return Object.assign(hydrated, {
-    _index: indexKeyBinding(hydrated)
-  })
-}
-
-/**
- * Traverse the tree of a parsed key binding and return a flat index.
- * @param {Object} tree
- * @returns {Array}
- */
-export function indexKeyBinding(tree) {
-  let index = []
-
-  ;(function traverse(tree) {
-    const params = tree.params || []
-    tree.index = index.length
-    index.push(tree)
-    params.forEach(traverse)
-  })(tree)
-
-  return index
 }
 
 export function updateKeyCode(key, index, source, sources) {
@@ -127,9 +105,9 @@ function encodeBindValue(parsed) {
 }
 
 function encodeKeyBinding(parsed) {
-  const { behaviour, params } = parsed
+  const { value, params } = parsed
 
-  return `${behaviour.code} ${params.map(encodeBindValue).join(' ')}`.trim()
+  return `${value} ${params.map(encodeBindValue).join(' ')}`.trim()
 }
 
 export function encode(parsedKeymap) {

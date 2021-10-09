@@ -19,6 +19,7 @@
     />
     <key-paramlist
       :root="true"
+      :index="index"
       :params="parsed.behaviourParams"
       :values="parsed.params"
       :onSelect="handleSelectCode"
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep'
 import pick from 'lodash/pick'
 
 import KeyValue from './key-value.vue'
@@ -45,6 +47,17 @@ import KeyParamlist from './key-paramlist.vue'
 import Search from './search.vue'
 
 import { updateKeyCode } from '../keymap'
+
+function makeIndex (tree) {
+  const index = []
+  ;(function traverse(tree) {
+    const params = tree.params || []
+    index.push(tree)
+    params.forEach(traverse)
+  })(tree)
+
+  return index
+}
 
 export default {
   props: [
@@ -67,6 +80,9 @@ export default {
   },
   inject: ['getSearchTargets', 'sources'],
   computed: {
+    index() {
+      return makeIndex(this.parsed)
+    },
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },
     positioningStyle() {
@@ -126,12 +142,18 @@ export default {
       }
     },
     handleSelectValue(source) {
-      const { parsed, sources } = this
+      const { parsed } = this
       const { codeIndex } = this.editing
-      const updated = updateKeyCode({ parsed }, codeIndex, source, sources)
+      const updated = cloneDeep(parsed)
+      const index = makeIndex(updated)
+      const targetCode = index[codeIndex]
+
+
+      targetCode.value = source.code
+      targetCode.params = []
 
       this.editing = null
-      this.$emit('update', updated.parsed)
+      this.$emit('update', updated)
     }
   }
 }

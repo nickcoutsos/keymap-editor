@@ -1,9 +1,6 @@
 <template>
   <span
     class="code"
-    :data-depth="depth"
-    :data-code="value"
-    :data-empty="value === undefined"
     :title="source && `(${source.code}) ${source.description}`"
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
@@ -18,7 +15,7 @@
 <script>
 export default {
   name: 'key-value',
-  props: ['param', 'source', 'index', 'value', 'depth', 'onSelect']
+  props: ['param', 'source', 'index', 'value', 'onSelect']
 }
 </script>
 

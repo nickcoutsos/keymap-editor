@@ -3,9 +3,9 @@
     <span :key="`param-${i}`" class="param" v-for="(param, i) in params">
       <key-value
         :key="`param-${i}`"
+        :index="index.indexOf(values[i])"
         :param="param"
         :value="getValueProperty(i, 'value')"
-        :index="getValueProperty(i, 'index')"
         :source="getValueProperty(i, 'source')"
         :onSelect="onSelect"
       />
@@ -30,7 +30,7 @@ export default {
   components: {
     'key-value': KeyValue
   },
-  props: ['params', 'values', 'onSelect', 'root'],
+  props: ['index', 'params', 'values', 'onSelect', 'root'],
   methods: {
     getValueProperty(index, property) {
       return get(this.values[index], property)
