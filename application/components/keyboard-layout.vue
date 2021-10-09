@@ -8,7 +8,6 @@
       :rotation="rotation(key)"
       :size="size(key)"
       :label="key.label"
-      :mapping="keys[i]"
       :parsed="keys[i].parsed"
       @update="handleUpdateBind(i, $event)"
     >
@@ -37,10 +36,10 @@ export default {
       const { u, h } = key
       return { u, h }
     },
-    handleUpdateBind(keyIndex, { binding, parsed }) {
+    handleUpdateBind(keyIndex, parsed) {
       this.$emit('update', [
         ...this.keys.slice(0, keyIndex),
-        { ...this.keys[keyIndex], binding, parsed },
+        { ...this.keys[keyIndex], parsed },
         ...this.keys.slice(keyIndex + 1)
       ])
     }

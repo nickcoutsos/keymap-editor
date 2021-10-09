@@ -5,7 +5,6 @@
     :data-label="label"
     :data-u="size.u"
     :data-h="size.h"
-    :data-depth="depth"
     :data-simple="isSimple"
     :data-long="isComplex"
     :style="positioningStyle"
@@ -53,10 +52,7 @@ export default {
     'rotation',
     'size',
     'label',
-    'parsed',
-    'mapping',
-    'layerIndex',
-    'keyIndex'
+    'parsed'
   ],
   emits: ['update'],
   components: {
@@ -90,15 +86,6 @@ export default {
         transformOrigin: `${rx}px ${ry}px`,
         transform: `rotate(${this.rotation.a || 0}deg)`
       }
-    },
-    depth() {
-      function getDepth(code) {
-        const childDepths = (code.params || []).map(getDepth)
-        return code.fn
-          ? 2 + Math.max(0, ...childDepths)
-          : 1
-      }
-      return getDepth(this.mapping.parsed)
     },
     isSimple() {
       const [first] = this.parsed.params
@@ -144,7 +131,7 @@ export default {
       const updated = updateKeyCode({ parsed }, codeIndex, source, sources)
 
       this.editing = null
-      this.$emit('update', updated)
+      this.$emit('update', updated.parsed)
     }
   }
 }
@@ -174,8 +161,6 @@ export default {
 	padding: 5px;
 }
 
-.key[data-depth="3"] { font-size: 90%; }
-.key[data-depth="5"] { font-size: 75%; }
 .key[data-simple="true"] { font-size: 140%; }
 .key[data-long="true"] { font-size: 60%; }
 
