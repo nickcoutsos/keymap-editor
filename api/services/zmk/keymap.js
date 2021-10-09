@@ -1,46 +1,58 @@
 const filter = require('lodash/filter')
 const get = require('lodash/get')
-const map = require('lodash/map')
+const { renderTable } = require('./layout')
 
-const paramsPattern = /\((.+)\)/
+function encodeBindValue(parsed) {
+  const params = (parsed.params || []).map(encodeBindValue)
+  const paramString = params.length > 0 ? `(${params.join(',')})` : ''
+  return parsed.value + paramString
+}
 
-function parse(code) {
-  const params = filter(
-    get(code.match(paramsPattern), '[1]', '')
-      .split(',')
-      .map(s => s.trim())
-  )
+function encodeKeyBinding(parsed) {
+  const { value, params } = parsed
 
-  return {
-    value: code.replace(paramsPattern, ''),
-    params: params.map(parse)
-  }
+  return `${value} ${params.map(encodeBindValue).join(' ')}`.trim()
+}
+
+function encodeKeymap(parsedKeymap) {
+  return Object.assign({}, parsedKeymap, {
+    layers: parsedKeymap.layers.map(layer => layer.map(encodeKeyBinding))
+  })
 }
 
 /**
- * Parse a key binding into a nested structure of values and parameters
- * @param {String} binding the raw bind string (e.g. `&kp LS(A)`)
- * @returns {Array}
+ * Parse a bind string into a tree of values and parameters
+ * @param {String} binding
+ * @returns {Object}
  */
-function parseKeyBinding (binding) {
-  const value = binding.match(/^(&.+?)\b/)[1]
-  const paramBinds = filter(binding.replace(/^&.+?\b\s*/, '').split(' '))
-  const params = map(paramBinds, parse)
+function parseKeyBinding(binding) {
+  const paramsPattern = /\((.+)\)/
 
-  return { binding, value, params }
+  function parse(code) {
+    const value = code.replace(paramsPattern, '')
+    const params = get(code.match(paramsPattern), '[1]', '').split(',')
+    .map(s => s.trim())
+    .filter(s => s.length > 0)
+    .map(parse)
+
+    return { value, params }
+  }
+
+  const value = binding.match(/^(&.+?)\b/)[1]
+  const params = filter(binding.replace(/^&.+?\b\s*/, '')
+    .split(' '))
+    .map(parse)
+
+  return { value, params }
 }
 
 function parseKeymap (keymap) {
   return Object.assign({}, keymap, {
-    layers: keymap.layers.map(layer => {
-      return layer.map(binding => {
-        return parseKeyBinding(binding, this.sources)
-      })
+    layers: keymap.layers.map(layer =>  {
+      return layer.map(parseKeyBinding)
     })
   })
 }
-
-const { renderTable } = require('./layout')
 
 const header = `
 /*
@@ -64,9 +76,10 @@ const header = `
 `
 
 function generateKeymap (layout, keymap) {
+  const encoded = encodeKeymap(keymap)
   return {
-    code: generateKeymapCode(layout, keymap),
-    json: generateKeymapJSON(layout, keymap)
+    code: generateKeymapCode(layout, encoded),
+    json: generateKeymapJSON(layout, encoded)
   }
 }
 
@@ -116,6 +129,7 @@ function generateKeymapJSON (layout, keymap) {
 }
 
 module.exports = {
+  encodeKeymap,
   parseKeymap,
   generateKeymap
 }

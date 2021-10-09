@@ -21,7 +21,7 @@ function loadLayout (layout = 'LAYOUT') {
 
 function loadKeymap () {
   const keymapPath = path.join(ZMK_PATH, 'config', 'keymap.json')
-  return JSON.parse(fs.readFileSync(keymapPath))
+  return parseKeymap(JSON.parse(fs.readFileSync(keymapPath)))
 }
 
 function exportKeymap (generatedKeymap, flash, callback) {

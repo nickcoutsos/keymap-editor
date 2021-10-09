@@ -68,9 +68,8 @@ export default {
       )
 
       return ready ? this.keymap.layers.map((layer, i) => {
-        return layer.map((binding, j) => {
-          const parsed = parseKeyBinding(binding, this.sources)
-          return { layer: i, index: j, binding, parsed }
+        return layer.map((parsed, j) => {
+          return { layer: i, index: j, parsed }
         })
       }) : []
     }
@@ -99,31 +98,24 @@ export default {
       const layer = this.parsedLayers.length
       const binding = '&trans'
       const makeKeycode = index => ({
-        layer, index, binding, parsed: parseKeyBinding(binding, this.sources)
+        layer, index, binding, parsed: { value: binding, params: [] }
       })
 
       const newLayer = times(this.layout.length, makeKeycode)
       const updatedLayerNames = [ ...this.keymap.layer_names, `Layer #${layer}` ]
-      const updatedLayers = [ ...this.parsedLayers, newLayer ]
+      const layers = [ ...this.parsedLayers, newLayer ]
 
-      this.$emit('update', {
-        ...this.keymap,
-        layer_names: updatedLayerNames,
-        layers: encode(updatedLayers)
-      })
+      this.$emit('update', { ...this.keymap, layer_names: updatedLayerNames, layers })
     },
     handleUpdateLayer(layerIndex, updatedLayer) {
       const parsedLayers = this.parsedLayers.map(layer => map(layer, 'parsed'))
-      const updatedLayers = [
+      const layers = [
         ...parsedLayers.slice(0, layerIndex),
         updatedLayer,
         ...parsedLayers.slice(layerIndex + 1)
       ]
 
-      this.$emit('update', {
-        ...this.keymap,
-        layers: encode(updatedLayers)
-      })
+      this.$emit('update', { ...this.keymap, layers })
     }
   }
 }

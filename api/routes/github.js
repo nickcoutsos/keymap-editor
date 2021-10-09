@@ -12,6 +12,7 @@ const {
   createOauthReturnUrl,
   commitChanges
 } = require('../services/github')
+const { parseKeymap } = require('../services/zmk/keymap')
 
 const router = Router()
 
@@ -84,6 +85,7 @@ const getKeyboardFiles = async (req, res, next) => {
 
   try {
     const keyboardFiles = await fetchKeyboardFiles(installationId, repository)
+    keyboardFiles.keymap = parseKeymap(keyboardFiles.keymap)
     res.json(keyboardFiles)
   } catch (err) {
     next(err)
