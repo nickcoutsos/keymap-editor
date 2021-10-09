@@ -12,8 +12,8 @@
     @mouseleave="onMouseLeave"
   >
     <span
-      v-if="parsed.behaviour"
-      v-text="parsed.behaviour.code"
+      v-if="behaviour"
+      v-text="behaviour.code"
       class="behaviour-binding"
       @click.stop="handleSelectBehaviour"
     />
@@ -21,7 +21,7 @@
       :root="true"
       :index="index"
       :params="behaviourParams"
-      :values="parsed.params"
+      :values="normalized.params"
       :onSelect="handleSelectCode"
     />
     <teleport to="body">
@@ -41,6 +41,7 @@
 <script>
 import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
+import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
 
 import { getBehaviourParams } from '../keymap'
@@ -81,8 +82,43 @@ export default {
   },
   inject: ['getSearchTargets', 'getSources'],
   computed: {
+    normalized() {
+      const { value, params } = this.parsed
+      const sources = this.getSources()
+      const commands = keyBy(this.behaviour.commands, 'code')
+
+      function getSourceValue(value, as) {
+        if (as === 'command') return commands[value]
+        if (as === 'raw' || as.enum) return { code: value }
+        return sources[as][value]
+      }
+
+      function normalize(node, as) {
+        if (!node) {
+          return { value: undefined, params: [] }
+        }
+        const { value, params } = node
+        const source = getSourceValue(value, as)
+
+        return {
+          value,
+          source,
+          params: get(source, 'params', []).map((as, i) => (
+            normalize(params[i], as)
+          ))
+        }
+      }
+
+      return {
+        value,
+        source: this.behaviour,
+        params: this.behaviourParams.map((as, i) => (
+          normalize(params[i], as)
+        ))
+      }
+    },
     index() {
-      return makeIndex(this.parsed)
+      return makeIndex(this.normalized)
     },
     behaviour() {
       const bind = this.parsed.value
@@ -113,19 +149,20 @@ export default {
       }
     },
     isSimple() {
-      const [first] = this.parsed.params
+      const [first] = this.normalized.params
       return (
-        this.parsed.params.length === 1
+        this.normalized.params.length === 1
         && first.source && (first.source.symbol || first.source.code).length === 1
       )
     },
     isComplex() {
-      const [first] = this.parsed.params
-      return first && (
-        this.parsed.params.length > 1
-        || (first.source && (first.source.symbol || first.source.code).length > 4)
-        || (first.params || []).length > 0
-      )
+      const [first] = this.normalized.params
+      const symbol = (get(first, 'source.symbol', first.value) || '')
+      const isLongSymbol = symbol.length > 4
+      const isMultiParam = this.behaviourParams.length > 1
+      const isNestedParam = get(first, 'params', []).length > 0
+
+      return isLongSymbol || isMultiParam || isNestedParam
     }
   },
   methods: {
@@ -146,17 +183,16 @@ export default {
         target: event.target,
         targets: this.getSearchTargets('behaviour'),
         codeIndex: 0,
-        code: this.parsed.bindCode,
+        code: this.parsed.value,
         param: 'behaviour'
       }
     },
     handleSelectValue(source) {
-      const { parsed } = this
+      const { normalized } = this
       const { codeIndex } = this.editing
-      const updated = cloneDeep(parsed)
+      const updated = cloneDeep(normalized)
       const index = makeIndex(updated)
       const targetCode = index[codeIndex]
-
 
       targetCode.value = source.code
       targetCode.params = []

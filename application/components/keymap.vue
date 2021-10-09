@@ -1,5 +1,6 @@
 <script>
 import filter from 'lodash/filter'
+import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import times from 'lodash/times'
@@ -87,7 +88,7 @@ export default {
         case 'mod':
           return filter(keycodes, 'isModifier')
         case 'command':
-          return (key.parsed.behaviour.commands || [])
+          get(this.sources, ['behaviours', key.parsed.value, 'commands'], [])
         case 'kc':
         default:
           return keycodes

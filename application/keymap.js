@@ -13,72 +13,22 @@ const paramsPattern = /\((.+)\)/
  * @returns {Object}
  */
 export function parseKeyBinding(binding, sources) {
-  const isZmk = binding.startsWith('&')
-  const bind = isZmk ? binding.match(/^(&.+?)\b/)[1] : '&kp'
-  const params = isZmk
-    ? filter(binding.replace(/^&.+?\b\s*/, '').split(' '))
-    : [binding]
-
   function parse(code) {
-    const params = filter(
-      get(code.match(paramsPattern), '[1]', '')
-        .split(',')
-        .map(s => s.trim())
-    )
-
-    return {
-      value: code.replace(paramsPattern, ''),
-      params: params.map(parse)
-    }
+    const value = code.replace(paramsPattern, '')
+    const params = get(code.match(paramsPattern), '[1]', '').split(',')
+    .map(s => s.trim())
+    .filter(s => s.length > 0)
+    .map(parse)
+    
+    return { value, params }
   }
+  
+  const value = binding.match(/^(&.+?)\b/)[1]
+  const params = filter(binding.replace(/^&.+?\b\s*/, '')
+    .split(' '))
+    .map(parse)
 
-  return hydrateParsedKeyBinding({
-    binding,
-    value: bind,
-    params: params.map(parse)
-  }, sources)
-}
-
-function hydrateParsedKeyBinding(parsed, sources, out = {}) {
-  const behaviour = sources.behaviours[parsed.value]
-  const commands = keyBy(behaviour.commands, 'code')
-  const behaviourParams = getBehaviourParams(parsed, behaviour)
-
-  function getSourceValue(value, as) {
-    if (as === 'command') return commands[value]
-    if (as === 'raw' || as.enum) return { code: value }
-    return sources[as][value]
-  }
-
-  function hydrate(tree, as) {
-    const { value } = tree
-    const source = getSourceValue(value, as)
-    const params = get(source, 'params', []).map((sourceParam, i) => (
-      tree.params[i]
-        ? hydrate(tree.params[i], sourceParam)
-        : { value: undefined, params: [] }
-    ))
-
-    return {
-      value,
-      source,
-      params
-    }
-  }
-
-  const hydrated = out || {}
-
-  return Object.assign(hydrated, {
-    binding: parsed.binding,
-    value: parsed.value,
-    behaviour,
-    behaviourParams,
-    params: behaviourParams.map((as, i) => (
-      parsed.params[i]
-        ? hydrate(parsed.params[i], as)
-        : { value: undefined, params: [] }
-    ))
-  })
+  return { value, params }
 }
 
 export function getBehaviourParams(parsed, behaviour) {
@@ -90,17 +40,6 @@ export function getBehaviourParams(parsed, behaviour) {
       ? get(commands[firstParsedParam.value], 'additionalParams', [])
       : []
   )
-}
-
-export function updateKeyCode(key, index, source, sources) {
-  const updatedKey = cloneDeep(key)
-  const targetCode = updatedKey.parsed._index[index]
-
-  targetCode.value = source.code
-  targetCode.params.splice(0, targetCode.params.length)
-  hydrateParsedKeyBinding(updatedKey.parsed, sources, updatedKey.parsed)
-
-  return updatedKey
 }
 
 function encodeBindValue(parsed) {
