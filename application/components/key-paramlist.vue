@@ -13,6 +13,7 @@
       <key-paramlist
         v-if="getValueProperty(i, 'source.params.length') > 0"
         :key="`param-${i}-paramslist`"
+        :index="index"
         :params="getValueProperty(i, 'source.params')"
         :values="getValueProperty(i, 'params')"
         :onSelect="onSelect"
