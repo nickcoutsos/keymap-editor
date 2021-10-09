@@ -10,7 +10,7 @@
       :label="key.label"
       :mapping="keys[i]"
       :parsed="keys[i].parsed"
-      @select-key="onSelectKey"
+      @update="handleUpdateBind(i, $event)"
     >
     </key-thing>
   </div>
@@ -20,7 +20,7 @@
 import Key from './key.vue'
 export default {
   props: ['layout', 'keys'],
-  inject: ['onSelectKey'],
+  emits: ['update'],
   components: {
     'key-thing': Key,
   },
@@ -36,6 +36,13 @@ export default {
     size(key) {
       const { u, h } = key
       return { u, h }
+    },
+    handleUpdateBind(keyIndex, { binding, parsed }) {
+      this.$emit('update', [
+        ...this.keys.slice(0, keyIndex),
+        { ...this.keys[keyIndex], binding, parsed },
+        ...this.keys.slice(keyIndex + 1)
+      ])
     }
   }
 }

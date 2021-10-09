@@ -110,24 +110,30 @@ export function indexKeyBinding(tree) {
 }
 
 export function updateKeyCode(key, index, source, sources) {
-  const updated = cloneDeep(key)
-  const code = updated.parsed._index[index]
-  code.value = source.code
-  code.params.splice(0, code.params.length)
-  hydrateParsedKeyBinding(updated.parsed, sources, updated.parsed)
-  return updated
+  const updatedKey = cloneDeep(key)
+  const targetCode = updatedKey.parsed._index[index]
+
+  targetCode.value = source.code
+  targetCode.params.splice(0, targetCode.params.length)
+  hydrateParsedKeyBinding(updatedKey.parsed, sources, updatedKey.parsed)
+
+  return updatedKey
+}
+
+function encodeBindValue(parsed) {
+  const params = (parsed.params || []).map(encodeBindValue)
+  const paramString = params.length > 0 ? `(${params.join(',')})` : ''
+  return parsed.value + paramString
+}
+
+function encodeKeyBinding(parsed) {
+  const { behaviour, params } = parsed
+
+  return `${behaviour.code} ${params.map(encodeBindValue).join(' ')}`.trim()
 }
 
 export function encode(parsedKeymap) {
-  function encodeBinding(parsed) {
-    const params = (parsed.params || []).map(encodeBinding)
-    const paramString = params.length > 0 ? `(${params.join(',')})` : ''
-    return parsed.value + paramString
-  }
-
   return parsedKeymap.map(layer => layer.map(key => {
-    const { behaviour, params } = key.parsed
-
-    return `${behaviour.code} ${params.map(encodeBinding).join(' ')}`.trim()
+    return encodeKeyBinding(key.parsed)
   }))
 }

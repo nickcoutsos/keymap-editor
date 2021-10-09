@@ -16,7 +16,7 @@
       v-if="parsed.behaviour"
       v-text="parsed.behaviour.code"
       class="behaviour-binding"
-      @click.stop="handleSelectBinding"
+      @click.stop="handleSelectBehaviour"
     />
     <key-paramlist
       :root="true"
@@ -24,20 +24,52 @@
       :values="parsed.params"
       :onSelect="handleSelectCode"
     />
+    <teleport to="body">
+      <search
+        v-if="editing"
+        :target="editing.target"
+        :code="editing.code"
+        :param="editing.param"
+        :targets="editing.targets"
+        @select="handleSelectValue"
+        @cancel="editing = null"
+      />
+    </teleport>
   </div>
 </template>
 
 <script>
+import pick from 'lodash/pick'
+
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
+import Search from './search.vue'
+
+import { updateKeyCode } from '../keymap'
 
 export default {
-  props: ['position', 'rotation', 'size', 'label', 'parsed', 'mapping'],
-  emits: ['select-key'],
+  props: [
+    'position',
+    'rotation',
+    'size',
+    'label',
+    'parsed',
+    'mapping',
+    'layerIndex',
+    'keyIndex'
+  ],
+  emits: ['update'],
   components: {
     'key-value': KeyValue,
-    'key-paramlist': KeyParamlist
+    'key-paramlist': KeyParamlist,
+    'search': Search
   },
+  data () {
+    return {
+      editing: null
+    }
+  },
+  inject: ['getSearchTargets', 'sources'],
   computed: {
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },
@@ -45,8 +77,8 @@ export default {
       // TODO: fix padding
       const x = this.position.x * 65
       const y = this.position.y * 65
-      const u = this.size.u * 60;
-      const h = this.size.h * 60;
+      const u = this.size.u * 60 + 5 * (this.size.u - 1);
+      const h = this.size.h * 60 + 5 * (this.size.h - 1);
       const rx = (this.position.x - (this.rotation.x || this.position.x)) * -65
       const ry = (this.position.y - (this.rotation.y || this.position.y)) * -65
 
@@ -94,21 +126,25 @@ export default {
       event.target.classList.remove('highlight')
     },
     handleSelectCode(event) {
-      this.$emit('select-key', {
-        layer: this.mapping.layer,
-        index: this.mapping.index,
-        ...event
-      })
+      this.editing = pick(event, ['target', 'codeIndex', 'code', 'param'])
+      this.editing.targets = this.getSearchTargets(this.editing.param)
     },
-    handleSelectBinding(event) {
-      this.$emit('select-key', {
-        layer: this.mapping.layer,
-        index: this.mapping.index,
+    handleSelectBehaviour(event) {
+      this.editing = {
         target: event.target,
+        targets: this.getSearchTargets('behaviour'),
         codeIndex: 0,
         code: this.parsed.bindCode,
         param: 'behaviour'
-      })
+      }
+    },
+    handleSelectValue(source) {
+      const { parsed, sources } = this
+      const { codeIndex } = this.editing
+      const updated = updateKeyCode({ parsed }, codeIndex, source, sources)
+
+      this.editing = null
+      this.$emit('update', updated)
     }
   }
 }

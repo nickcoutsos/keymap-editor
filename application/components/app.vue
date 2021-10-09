@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    handleKeymapUpdated(keymap) {
+    handleUpdateKeymap(keymap) {
       Object.assign(this.keymap, keymap)
     },
     handleGithubAuthorize() {
@@ -73,11 +73,7 @@ export default {
 
 <template>
   <div>
-    <keymap
-      :layout="layout"
-      :keymap="keymap"
-      @keymap-updated="handleKeymapUpdated"
-    />
+    <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <terminal
       :open="terminalOpen"
       :socket="socket"
