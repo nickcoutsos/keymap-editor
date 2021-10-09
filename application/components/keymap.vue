@@ -3,6 +3,7 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
+import map from 'lodash/map'
 import times from 'lodash/times'
 
 import KeyboardLayout from './keyboard-layout.vue'
@@ -112,13 +113,16 @@ export default {
       })
     },
     handleUpdateLayer(layerIndex, updatedLayer) {
+      const parsedLayers = this.parsedLayers.map(layer => map(layer, 'parsed'))
+      const updatedLayers = [
+        ...parsedLayers.slice(0, layerIndex),
+        updatedLayer,
+        ...parsedLayers.slice(layerIndex + 1)
+      ]
+
       this.$emit('update', {
         ...this.keymap,
-        layers: encode([
-          ...this.parsedLayers.slice(0, layerIndex),
-          updatedLayer,
-          ...this.parsedLayers.slice(layerIndex + 1)
-        ])
+        layers: encode(updatedLayers)
       })
     }
   }

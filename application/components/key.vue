@@ -198,7 +198,7 @@ export default {
       targetCode.params = []
 
       this.editing = null
-      this.$emit('update', updated)
+      this.$emit('update', pick(updated, ['value', 'params']))
     }
   }
 }

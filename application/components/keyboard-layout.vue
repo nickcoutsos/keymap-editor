@@ -16,7 +16,10 @@
 </template>
 
 <script>
+import map from 'lodash/map'
+
 import Key from './key.vue'
+
 export default {
   props: ['layout', 'keys'],
   emits: ['update'],
@@ -37,10 +40,11 @@ export default {
       return { u, h }
     },
     handleUpdateBind(keyIndex, parsed) {
+      const parsedKeys = map(this.keys, 'parsed')
       this.$emit('update', [
-        ...this.keys.slice(0, keyIndex),
-        { ...this.keys[keyIndex], parsed },
-        ...this.keys.slice(keyIndex + 1)
+        ...parsedKeys.slice(0, keyIndex),
+        { ...parsedKeys[keyIndex], ...parsed },
+        ...parsedKeys.slice(keyIndex + 1)
       ])
     }
   }

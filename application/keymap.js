@@ -55,7 +55,5 @@ function encodeKeyBinding(parsed) {
 }
 
 export function encode(parsedKeymap) {
-  return parsedKeymap.map(layer => layer.map(key => {
-    return encodeKeyBinding(key.parsed)
-  }))
+  return parsedKeymap.map(layer => layer.map(encodeKeyBinding))
 }
