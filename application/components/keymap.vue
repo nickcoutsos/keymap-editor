@@ -29,7 +29,7 @@ export default {
   provide() {
     return {
       getSearchTargets: this.getSearchTargets,
-      sources: this.sources
+      getSources: () => this.sources
     }
   },
   data() {
@@ -40,7 +40,11 @@ export default {
   },
   computed: {
     availableLayers() {
-      return !isEmpty(this.keymap) && this.keymap.layers.map((_, i) => ({
+      if (isEmpty(this.keymap)) {
+        return []
+      }
+
+      return this.keymap.layers.map((_, i) => ({
         code: i,
         description: this.keymap.layer_names[i] || `Layer ${i}`
       }))

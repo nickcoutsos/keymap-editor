@@ -20,7 +20,7 @@
     <key-paramlist
       :root="true"
       :index="index"
-      :params="parsed.behaviourParams"
+      :params="behaviourParams"
       :values="parsed.params"
       :onSelect="handleSelectCode"
     />
@@ -40,13 +40,14 @@
 
 <script>
 import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
 import pick from 'lodash/pick'
+
+import { getBehaviourParams } from '../keymap'
 
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
 import Search from './search.vue'
-
-import { updateKeyCode } from '../keymap'
 
 function makeIndex (tree) {
   const index = []
@@ -78,10 +79,18 @@ export default {
       editing: null
     }
   },
-  inject: ['getSearchTargets', 'sources'],
+  inject: ['getSearchTargets', 'getSources'],
   computed: {
     index() {
       return makeIndex(this.parsed)
+    },
+    behaviour() {
+      const bind = this.parsed.value
+      const sources = this.getSources()
+      return get(sources, ['behaviours', bind])
+    },
+    behaviourParams() {
+      return getBehaviourParams(this.parsed, this.behaviour)
     },
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },

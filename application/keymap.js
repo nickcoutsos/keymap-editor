@@ -41,14 +41,8 @@ export function parseKeyBinding(binding, sources) {
 
 function hydrateParsedKeyBinding(parsed, sources, out = {}) {
   const behaviour = sources.behaviours[parsed.value]
-  const firstParsedParam = get(parsed, 'params[0]', {})
   const commands = keyBy(behaviour.commands, 'code')
-  const behaviourParams = [].concat(
-    behaviour.params,
-    get(behaviour, 'params[0]') === 'command'
-      ? get(commands[firstParsedParam.value], 'additionalParams', [])
-      : []
-  )
+  const behaviourParams = getBehaviourParams(parsed, behaviour)
 
   function getSourceValue(value, as) {
     if (as === 'command') return commands[value]
@@ -85,6 +79,17 @@ function hydrateParsedKeyBinding(parsed, sources, out = {}) {
         : { value: undefined, params: [] }
     ))
   })
+}
+
+export function getBehaviourParams(parsed, behaviour) {
+  const firstParsedParam = get(parsed, 'params[0]', {})
+  const commands = keyBy(behaviour.commands, 'code')
+  return [].concat(
+    behaviour.params,
+    get(behaviour, 'params[0]') === 'command'
+      ? get(commands[firstParsedParam.value], 'additionalParams', [])
+      : []
+  )
 }
 
 export function updateKeyCode(key, index, source, sources) {
