@@ -1,6 +1,16 @@
+const fs = require('fs')
+const path = require('path')
 const filter = require('lodash/filter')
+const flatten = require('lodash/flatten')
 const get = require('lodash/get')
+const keyBy = require('lodash/keyBy')
+const map = require('lodash/map')
+const uniq = require('lodash/uniq')
+
 const { renderTable } = require('./layout')
+
+const behaviours = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/zmk-behaviors.json')))
+const behavioursByBind = keyBy(behaviours, 'code')
 
 function encodeBindValue(parsed) {
   const params = (parsed.params || []).map(encodeBindValue)
@@ -18,6 +28,11 @@ function encodeKeymap(parsedKeymap) {
   return Object.assign({}, parsedKeymap, {
     layers: parsedKeymap.layers.map(layer => layer.map(encodeKeyBinding))
   })
+}
+
+function getBehavioursUsed(keymap) {
+  const keybinds = flatten(keymap.layers)
+  return uniq(map(keybinds, 'value'))
 }
 
 /**
@@ -70,22 +85,22 @@ const header = `
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/outputs.h>
-
 `
 
 function generateKeymap (layout, keymap) {
   const encoded = encodeKeymap(keymap)
   return {
-    code: generateKeymapCode(layout, encoded),
-    json: generateKeymapJSON(layout, encoded)
+    code: generateKeymapCode(layout, keymap, encoded),
+    json: generateKeymapJSON(layout, keymap, encoded)
   }
 }
 
-function generateKeymapCode (layout, keymap) {
+function generateKeymapCode (layout, keymap, encoded) {
   const { layer_names: names = [] } = keymap
-  const layers = keymap.layers.map((layer, i) => {
+  const behaviourHeaders = flatten(getBehavioursUsed(keymap).map(
+    bind => get(behavioursByBind, [bind, 'includes'], [])
+  ))
+  const layers = encoded.layers.map((layer, i) => {
     const name = i === 0 ? 'default_layer' : `layer_${names[i] || i}`
     const rendered = renderTable(layout, layer, {
       linePrefix: '',
@@ -102,6 +117,8 @@ ${rendered}
   })
 
   const keymapOut = `${header}
+${behaviourHeaders.join('\n')}
+
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -114,9 +131,9 @@ ${layers.join('')}
   return keymapOut
 }
 
-function generateKeymapJSON (layout, keymap) {
-  const base = JSON.stringify(Object.assign({}, keymap, { layers: null }), null, 2)
-  const layers = keymap.layers.map(layer => {
+function generateKeymapJSON (layout, keymap, encoded) {
+  const base = JSON.stringify(Object.assign({}, encoded, { layers: null }), null, 2)
+  const layers = encoded.layers.map(layer => {
     const rendered = renderTable(layout, layer, {
       useQuotes: true,
       linePrefix: '      '

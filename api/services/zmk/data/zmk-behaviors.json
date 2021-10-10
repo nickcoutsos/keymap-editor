@@ -3,6 +3,7 @@
     "code": "&bt",
     "name": "Bluetooth",
     "params": ["command"],
+    "includes": ["#include <dt-bindings/zmk/bt.h>"],
     "commands": [{
       "code": "BT_CLR",
       "description": "Clear bond information between the keyboard and host for the selected profile."
@@ -46,6 +47,7 @@
     "code": "&out",
     "name": "Output selection",
     "params": ["command"],
+    "includes": ["#include <dt-bindings/zmk/outputs.h>"],
     "commands": [{
       "code": "OUT_BLE",
       "description": "Prefer sending to USB"

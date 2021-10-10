@@ -24,12 +24,18 @@ function loadKeymap () {
   return parseKeymap(JSON.parse(fs.readFileSync(keymapPath)))
 }
 
+function findKeymapFile () {
+  const files = fs.readdirSync(path.join(ZMK_PATH, 'config'))
+  return files.find(file => file.endsWith('.keymap'))
+}
+
 function exportKeymap (generatedKeymap, flash, callback) {
   const keymapPath = path.join(ZMK_PATH, 'config')
+  const keymapFile = findKeymapFile()
 
   fs.existsSync(keymapPath) || fs.mkdirSync(keymapPath)
   fs.writeFileSync(path.join(keymapPath, 'keymap.json'), generatedKeymap.json)
-  fs.writeFileSync(path.join(keymapPath, `${KEYBOARD}.keymap`), generatedKeymap.code)
+  fs.writeFileSync(path.join(keymapPath, keymapFile), generatedKeymap.code)
 
   // Note: This isn't really helpful. In the QMK version I had this actually
   // calling `make` and piping the output in realtime but setting up a ZMK dev
