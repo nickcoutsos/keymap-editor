@@ -67,7 +67,8 @@ export default {
     'rotation',
     'size',
     'label',
-    'parsed'
+    'value',
+    'params'
   ],
   emits: ['update'],
   components: {
@@ -83,7 +84,7 @@ export default {
   inject: ['getSearchTargets', 'getSources'],
   computed: {
     normalized() {
-      const { value, params } = this.parsed
+      const { value, params } = this
       const sources = this.getSources()
       const commands = keyBy(this.behaviour.commands, 'code')
 
@@ -121,12 +122,12 @@ export default {
       return makeIndex(this.normalized)
     },
     behaviour() {
-      const bind = this.parsed.value
+      const bind = this.value
       const sources = this.getSources()
       return get(sources, ['behaviours', bind])
     },
     behaviourParams() {
-      return getBehaviourParams(this.parsed, this.behaviour)
+      return getBehaviourParams(this.params, this.behaviour)
     },
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },
@@ -183,7 +184,7 @@ export default {
         target: event.target,
         targets: this.getSearchTargets('behaviour'),
         codeIndex: 0,
-        code: this.parsed.value,
+        code: this.value,
         param: 'behaviour'
       }
     },
@@ -196,6 +197,9 @@ export default {
 
       targetCode.value = source.code
       targetCode.params = []
+      index.forEach(node => {
+        delete node.source
+      })
 
       this.editing = null
       this.$emit('update', pick(updated, ['value', 'params']))

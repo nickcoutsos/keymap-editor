@@ -59,22 +59,16 @@ export default {
         behaviours: this.indexedBehaviours,
         layer: keyBy(this.availableLayers, 'code')
       }
-    },
-    parsedLayers() {
-      const ready = (
-        !isEmpty(this.keymap) &&
-        !isEmpty(this.indexedBehaviours) &&
-        !isEmpty(this.indexedKeycodes)
-      )
-
-      return ready ? this.keymap.layers.map((layer, i) => {
-        return layer.map((parsed, j) => {
-          return { layer: i, index: j, parsed }
-        })
-      }) : []
     }
   },
   methods: {
+    isReady() {
+      return (
+        Object.keys(this.indexedKeycodes).length > 0 &&
+        Object.keys(this.indexedBehaviours).length > 0 &&
+        get(this.keymap, 'layers.length', 0) > 0
+      )
+    },
     getSearchTargets(param, key) {
       const { keycodes } = this
       if (param.enum) {
@@ -95,24 +89,22 @@ export default {
       }
     },
     handleCreateLayer() {
-      const layer = this.parsedLayers.length
+      const layer = this.keymap.layers.length
       const binding = '&trans'
-      const makeKeycode = index => ({
-        layer, index, binding, parsed: { value: binding, params: [] }
-      })
+      const makeKeycode = () => ({ value: binding, params: [] })
 
       const newLayer = times(this.layout.length, makeKeycode)
       const updatedLayerNames = [ ...this.keymap.layer_names, `Layer #${layer}` ]
-      const layers = [ ...this.parsedLayers, newLayer ]
+      const layers = [ ...this.keymap.layers, newLayer ]
 
       this.$emit('update', { ...this.keymap, layer_names: updatedLayerNames, layers })
     },
     handleUpdateLayer(layerIndex, updatedLayer) {
-      const parsedLayers = this.parsedLayers.map(layer => map(layer, 'parsed'))
+      const original = this.keymap.layers
       const layers = [
-        ...parsedLayers.slice(0, layerIndex),
+        ...original.slice(0, layerIndex),
         updatedLayer,
-        ...parsedLayers.slice(layerIndex + 1)
+        ...original.slice(layerIndex + 1)
       ]
 
       this.$emit('update', { ...this.keymap, layers })
@@ -130,10 +122,10 @@ export default {
       @new-layer="handleCreateLayer"
     />
     <keyboard-layout
-      v-if="parsedLayers[activeLayer]"
+      v-if="isReady()"
       :data-layer="activeLayer"
       :layout="layout"
-      :keys="parsedLayers[activeLayer]"
+      :keys="keymap.layers[activeLayer]"
       @update="handleUpdateLayer(activeLayer, $event)"
       class="active"
     />

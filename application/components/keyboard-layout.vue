@@ -8,7 +8,9 @@
       :rotation="rotation(key)"
       :size="size(key)"
       :label="key.label"
-      :parsed="keys[i].parsed"
+      :parsed="keys[i]"
+      :value="keys[i].value"
+      :params="keys[i].params"
       @update="handleUpdateBind(i, $event)"
     >
     </key-thing>
@@ -16,8 +18,6 @@
 </template>
 
 <script>
-import map from 'lodash/map'
-
 import Key from './key.vue'
 
 export default {
@@ -39,12 +39,11 @@ export default {
       const { u, h } = key
       return { u, h }
     },
-    handleUpdateBind(keyIndex, parsed) {
-      const parsedKeys = map(this.keys, 'parsed')
+    handleUpdateBind(keyIndex, updatedBinding) {
       this.$emit('update', [
-        ...parsedKeys.slice(0, keyIndex),
-        { ...parsedKeys[keyIndex], ...parsed },
-        ...parsedKeys.slice(keyIndex + 1)
+        ...this.keys.slice(0, keyIndex),
+        updatedBinding,
+        ...this.keys.slice(keyIndex + 1)
       ])
     }
   }
