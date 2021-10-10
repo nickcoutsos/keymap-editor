@@ -6,6 +6,7 @@
         :index="index.indexOf(values[i])"
         :param="param"
         :value="getValueProperty(i, 'value')"
+        :source="getValueProperty(i, 'source')"
         :onSelect="onSelect"
       />
 

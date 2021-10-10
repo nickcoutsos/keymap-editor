@@ -151,14 +151,14 @@ export default {
     },
     isSimple() {
       const [first] = this.normalized.params
-      return (
-        this.normalized.params.length === 1
-        && first.source && (first.source.symbol || first.source.code).length === 1
-      )
+      const symbol = get(first, 'source.symbol', get(first, 'source.code', ''))
+      const shortSymbol = symbol.length === 1
+      const singleParam = this.normalized.params.length === 1
+      return singleParam && shortSymbol
     },
     isComplex() {
       const [first] = this.normalized.params
-      const symbol = (get(first, 'source.symbol', first.value) || '')
+      const symbol = get(first, 'source.symbol', get(first, 'value', ''))
       const isLongSymbol = symbol.length > 4
       const isMultiParam = this.behaviourParams.length > 1
       const isNestedParam = get(first, 'params', []).length > 0

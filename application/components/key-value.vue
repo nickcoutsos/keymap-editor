@@ -13,17 +13,9 @@
 </template>
 
 <script>
-import get from 'lodash/get'
-
 export default {
   name: 'key-value',
-  props: ['param', 'index', 'value', 'onSelect'],
-  inject: ['getSources'],
-  computed: {
-    source() {
-      return get(this.getSources(), [this.param, this.value])
-    }
-  }
+  props: ['param', 'index', 'value', 'source', 'onSelect']
 }
 </script>
 
