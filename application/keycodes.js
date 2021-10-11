@@ -7,11 +7,7 @@ export function loadBehaviours () {
 }
 
 export function loadKeycodes () {
-  return api.loadKeycodes().then((
-    config.library === 'zmk'
-      ? normalizeZmkKeycodes
-      : normalizeKeycodes
-  ))
+  return api.loadKeycodes().then(normalizeZmkKeycodes)
 }
 
 export function loadIndexedKeycodes() {
@@ -26,29 +22,6 @@ function shortestAlias (aliases) {
   return [...aliases]
     .sort((a, b) => a.length - b.length)[0]
     .replace(/^KC_/, '')
-}
-
-function normalizeKeycodes (keycodes) {
-  return keycodes.map(keycode => {
-    keycode.params = (keycode.code.match(/\((.+?)\)/) || ['', ''])[1]
-      .split(',')
-      .map(t => t.trim())
-      .filter(t => !!t)
-
-    keycode.aliases = [keycode.code, ...(keycode.aliases || [])]
-      .map(code => code.replace(/`/g, ''))
-      .map(code => code.replace(/\(.+\)/, ''))
-
-    keycode.symbol = keycode.symbol || shortestAlias(keycode.aliases)
-    return keycode
-  })
-  .reduce((keycodes, keycode) => {
-    for (let alias of keycode.aliases) {
-      keycodes.push(Object.assign({}, keycode, { code: alias }))
-    }
-
-    return keycodes
-  }, [])
 }
 
 function normalizeZmkKeycodes (keycodes) {

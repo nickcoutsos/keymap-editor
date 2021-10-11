@@ -59,7 +59,7 @@ export default {
       github.commitChanges(this.layout, this.keymap)
     },
     handleCompile() {
-      fetch(`/keymap?firmware=${config.library}`, {
+      fetch('/keymap', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
