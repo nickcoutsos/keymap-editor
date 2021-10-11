@@ -1,4 +1,6 @@
 <script>
+import fuzzysort from 'fuzzysort'
+
 const cycle = (array, index, step=1) => {
   const next = (index + step) % array.length
   return next < 0 ? array.length + next : next
