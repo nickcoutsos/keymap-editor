@@ -1,6 +1,5 @@
 <script>
 import Keymap from './keymap.vue'
-import Terminal from './terminal.vue'
 
 import * as config from '../config'
 import * as github from '../github'
@@ -10,7 +9,6 @@ const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('..
 export default {
   components: {
     keymap: Keymap,
-    terminal: Terminal
   },
   provide() {
     return {
@@ -74,11 +72,6 @@ export default {
 <template>
   <div style="width: 100%; height: 100%;">
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
-    <terminal
-      :open="terminalOpen"
-      :socket="socket"
-      @new-message="terminalOpen = true"
-    />
     <div id="actions">
       <button id="compile" @click="handleCompile">Save Local</button>
       <button
