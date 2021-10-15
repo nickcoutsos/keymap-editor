@@ -24,7 +24,7 @@ async function main() {
   }
 
   const app = Vue.createApp(App)
-  const vm = app.mount('#app')
+  const vm = app.mount('body')
 
   vm.keymap = Object.assign(keymap, {
     layer_names: keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)

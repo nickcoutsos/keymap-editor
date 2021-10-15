@@ -12,8 +12,7 @@
       :value="keys[i].value"
       :params="keys[i].params"
       @update="handleUpdateBind(i, $event)"
-    >
-    </key-thing>
+    />
   </div>
 </template>
 
@@ -53,7 +52,5 @@ export default {
 <style>
 .layer {
   position: relative;
-  left: 40px;
-  top: 40px;
 }
 </style>

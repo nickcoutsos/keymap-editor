@@ -45,6 +45,7 @@ import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
 
 import { getBehaviourParams } from '../keymap'
+import { getKeyStyles } from '../key-units'
 
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
@@ -132,22 +133,7 @@ export default {
     uClass() { return `key-${this.size.u}u` },
     hClass() { return `key-${this.size.h}h` },
     positioningStyle() {
-      // TODO: fix padding
-      const x = this.position.x * 65
-      const y = this.position.y * 65
-      const u = this.size.u * 60 + 5 * (this.size.u - 1);
-      const h = this.size.h * 60 + 5 * (this.size.h - 1);
-      const rx = (this.position.x - (this.rotation.x || this.position.x)) * -65
-      const ry = (this.position.y - (this.rotation.y || this.position.y)) * -65
-
-      return {
-        top: `${y}px`,
-        left: `${x}px`,
-        width: `${u}px`,
-        height: `${h}px`,
-        transformOrigin: `${rx}px ${ry}px`,
-        transform: `rotate(${this.rotation.a || 0}deg)`
-      }
+      return getKeyStyles(this.position, this.size, this.rotation)
     },
     isSimple() {
       const [first] = this.normalized.params

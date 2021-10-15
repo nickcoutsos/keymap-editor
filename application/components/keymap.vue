@@ -3,16 +3,12 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
-import map from 'lodash/map'
 import times from 'lodash/times'
+
+import { getKeyBoundingBox } from '../key-units'
 
 import KeyboardLayout from './keyboard-layout.vue'
 import LayerSelector from './layer-selector.vue'
-
-import {
-  parseKeyBinding,
-  encode
-} from '../keymap'
 
 export default {
   name: 'keymap',
@@ -88,6 +84,28 @@ export default {
           return keycodes
       }
     },
+    boundingBox() {
+      return this.layout.map(key => getKeyBoundingBox(
+        { x: key.x, y: key.y },
+        { u: key.u, h: key.h },
+        { x: key.rx, y: key.ry, a: key.r }
+      )).reduce(({ x, y }, { max }) => ({
+        x: Math.max(x, max.x),
+        y: Math.max(y, max.y)
+      }), { x: 0, y: 0 })
+    },
+    getWrapperStyle() {
+      const bbox = this.boundingBox()
+      return {
+        width: `${bbox.x}px`,
+        height: `${bbox.y}px`,
+        padding: '40px',
+        position: 'relative',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      }
+    },
     handleCreateLayer() {
       const layer = this.keymap.layers.length
       const binding = '&trans'
@@ -114,13 +132,13 @@ export default {
 </script>
 
 <template>
-  <div>
-    <layer-selector
-      :layers="keymap.layer_names"
-      :activeLayer="activeLayer"
-      @select="activeLayer = $event"
-      @new-layer="handleCreateLayer"
-    />
+  <layer-selector
+    :layers="keymap.layer_names"
+    :activeLayer="activeLayer"
+    @select="activeLayer = $event"
+    @new-layer="handleCreateLayer"
+  />
+  <div :style="getWrapperStyle()" v-bind="$attrs">
     <keyboard-layout
       v-if="isReady()"
       :data-layer="activeLayer"

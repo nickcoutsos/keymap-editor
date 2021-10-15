@@ -72,7 +72,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div style="width: 100%; height: 100%;">
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <terminal
       :open="terminalOpen"
