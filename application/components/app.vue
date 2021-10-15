@@ -70,7 +70,7 @@ export default {
 </script>
 
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div>
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <div id="actions">
       <button id="compile" @click="handleCompile">Save Local</button>

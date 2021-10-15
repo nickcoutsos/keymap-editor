@@ -99,11 +99,8 @@ export default {
       return {
         width: `${bbox.x}px`,
         height: `${bbox.y}px`,
-        padding: '40px',
-        position: 'relative',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
+        margin: '0 auto',
+        padding: '40px'
       }
     },
     handleCreateLayer() {
