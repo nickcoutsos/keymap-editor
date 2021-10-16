@@ -17,10 +17,10 @@ export default {
     }
   },
   mounted() {
-    document.body.addEventListener('click', this.handleClickOutside)
+    document.body.addEventListener('click', this.handleClickOutside, true)
   },
   unmounted() {
-    document.body.removeEventListener('click', this.handleClickOutside)
+    document.body.removeEventListener('click', this.handleClickOutside, true)
   },
   computed: {
     prompt() {
