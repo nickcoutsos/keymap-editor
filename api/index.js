@@ -19,6 +19,7 @@ if (process.env.ENABLE_DEV_SERVER) {
 app.use(morgan('dev'))
 app.use(keyboards)
 app.use('/github', require('./routes/github'))
+app.get('/health', (req, res) => res.sendStatus(200))
 
 module.exports = app
 
