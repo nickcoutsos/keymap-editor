@@ -35,16 +35,6 @@ export async function init () {
 
     installation = data.installation
     repositories = data.repositories
-
-    const logout = document.createElement('button')
-    logout.setAttribute('style', 'display: inline-block; z-index: 100; position: absolute; right: 0px')
-    logout.textContent = 'Logout'
-    logout.addEventListener('click', () => {
-      localStorage.removeItem('auth_token')
-      location.reload()
-    })
-
-    document.body.appendChild(logout)
   }
 }
 

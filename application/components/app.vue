@@ -135,7 +135,6 @@ export default {
         @click="handleCommitChanges"
         title="Commit keymap changes to GitHub repository"
       />
-      <button id="toggle" @click="terminalOpen = !terminalOpen">{{ !terminalOpen ? '⇡' : '⇣' }}</button>
     </div>
   </loader>
 </template>
