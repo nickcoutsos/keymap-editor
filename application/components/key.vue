@@ -202,16 +202,16 @@ export default {
 	align-items: center;
 
 	color: #999;
+	background-color: whitesmoke;
 	font-size: 110%;
-	border: 1px solid lightgray;
 	border-radius: 5px;
 }
 .key:hover {
-	background-color: var(--dark-red);
-	/*transition: 250ms;*/
+	background-color: var(--hover-selection);
+	transition: 200ms;
 	z-index: 1;
 }
-.key:hover .code {
+.key:hover .code, .key:hover .behaviour-binding {
 	color: white;
 }
 .key > .code {
@@ -233,7 +233,7 @@ export default {
 
 .behaviour-binding:hover {
   cursor: pointer;
-  color: var(--dark-red);
+  color: var(--hover-selection) !important;
   background-color: white;
   border-radius: 5px 0;
   opacity: 1;

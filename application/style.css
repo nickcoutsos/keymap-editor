@@ -1,6 +1,7 @@
 :root {
 	--dark-red: #910e0e;
 	--dark-blue: #6d99c6;
+  --hover-selection: rgba(60, 179, 113, 0.85);
 }
 
 html {

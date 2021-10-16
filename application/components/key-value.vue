@@ -30,7 +30,7 @@ export default {
 }
 .code.highlight {
 	background-color: white !important;
-	color: var(--dark-red) !important;
+	color: var(--hover-selection) !important;
 }
 
 </style>
