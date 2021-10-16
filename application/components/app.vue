@@ -1,14 +1,16 @@
 <script>
 import Keymap from './keymap.vue'
+import Loader from './loader.vue'
 
 import * as config from '../config'
 import * as github from '../github'
-import { loadBehaviours } from '../api'
+import { healthcheck, loadBehaviours } from '../api'
 const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('../keycodes')
 
 export default {
   components: {
     keymap: Keymap,
+    Loader
   },
   provide() {
     return {
@@ -64,13 +66,16 @@ export default {
         },
         body: JSON.stringify(this.keymap)
       })
+    },
+    doHealthCheck() {
+      return healthcheck()
     }
   }
 }
 </script>
 
 <template>
-  <div>
+  <loader :load="doHealthCheck">
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <div id="actions">
       <button id="compile" @click="handleCompile">Save Local</button>
@@ -89,5 +94,5 @@ export default {
       />
       <button id="toggle" @click="terminalOpen = !terminalOpen">{{ !terminalOpen ? '⇡' : '⇣' }}</button>
     </div>
-  </div>
+  </loader>
 </template>
