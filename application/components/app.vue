@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     async loadData() {
+      await github.init()
       const loadKeyboardData = async () => {
         if (config.enableGitHub && github.isGitHubAuthorized()) {
           return github.fetchLayoutAndKeymap()
