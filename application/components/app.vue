@@ -1,11 +1,16 @@
 <script>
+import keyBy from 'lodash/keyBy'
+
 import Keymap from './keymap.vue'
 import Loader from './loader.vue'
 
 import * as config from '../config'
 import * as github from '../github'
+
 import { healthcheck, loadBehaviours } from '../api'
-const { loadKeycodes, loadIndexedKeycodes, loadIndexedBehaviours } = require('../keycodes')
+import { loadLayout } from '../layout.js'
+import { loadKeymap } from '../keymap.js'
+import { loadKeycodes } from '../keycodes'
 
 export default {
   components: {
@@ -34,21 +39,50 @@ export default {
       socket: null
     }
   },
-  async beforeMount() {
-    const keycodes = await loadKeycodes()
-    const indexedKeycodes = await loadIndexedKeycodes()
-
-    this.keycodes.splice(0, this.keycodes.length, ...keycodes)
-    this.behaviours.splice(0, this.behaviours.length, ...await loadBehaviours())
-    Object.assign(this.indexedKeycodes, indexedKeycodes)
-    Object.assign(this.indexedBehaviours, await loadIndexedBehaviours())
-  },
   computed: {
     githubAuthorized() {
       return !!github.isGitHubAuthorized()
     }
   },
   methods: {
+    async loadData() {
+      const loadKeyboardData = async () => {
+        if (config.enableGitHub && github.isGitHubAuthorized()) {
+          return github.fetchLayoutAndKeymap()
+        } else if (config.enableLocal) {
+          const [layout, keymap] = await Promise.all([
+            loadLayout(),
+            loadKeymap()
+          ])
+          return { layout, keymap }
+        }
+      }
+
+      const [
+        keycodes,
+        behaviours,
+        { layout, keymap }
+      ] = await Promise.all([
+        loadKeycodes(),
+        loadBehaviours(),
+        loadKeyboardData()
+      ])
+
+      this.keycodes.splice(0, this.keycodes.length, ...keycodes)
+      this.behaviours.splice(0, this.behaviours.length, ...behaviours)
+      Object.assign(this.indexedKeycodes, keyBy(this.keycodes, 'code'))
+      Object.assign(this.indexedBehaviours, keyBy(this.behaviours, 'code'))
+
+      this.layout.splice(0, this.layout.length, ...layout.map(key => (
+        { ...key, u: key.u || key.w || 1, h: key.h || 1 }
+      )))
+
+      const layerNames = keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)
+      Object.assign(this.layers, keymap.layers)
+      Object.assign(this.keymap, keymap, {
+        layer_names: layerNames
+      })
+    },
     handleUpdateKeymap(keymap) {
       Object.assign(this.keymap, keymap)
     },
@@ -67,15 +101,16 @@ export default {
         body: JSON.stringify(this.keymap)
       })
     },
-    doHealthCheck() {
-      return healthcheck()
+    async doReadyCheck() {
+      await healthcheck()
+      await this.loadData()
     }
   }
 }
 </script>
 
 <template>
-  <loader :load="doHealthCheck">
+  <loader :load="doReadyCheck">
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <div id="actions">
       <button

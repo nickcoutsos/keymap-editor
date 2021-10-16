@@ -1,6 +1,4 @@
-import keyBy from 'lodash/keyBy'
 import * as api from './api'
-import * as config from './config'
 
 export function loadBehaviours () {
   return api.loadBehaviours()
@@ -8,14 +6,6 @@ export function loadBehaviours () {
 
 export function loadKeycodes () {
   return api.loadKeycodes().then(normalizeZmkKeycodes)
-}
-
-export function loadIndexedKeycodes() {
-  return loadKeycodes().then(keycodes => keyBy(keycodes, 'code'))
-}
-
-export function loadIndexedBehaviours() {
-  return loadBehaviours().then(behaviours => keyBy(behaviours, 'code'))
 }
 
 function shortestAlias (aliases) {
