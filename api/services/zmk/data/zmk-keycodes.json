@@ -693,7 +693,7 @@
   },
   {
     "names": ["RETURN", "ENTER", "RET"],
-    "symbol": "⏎",
+    "symbol": "⮐",
     "description": "Return (Enter)",
     "context": "Keyboard",
     "clarify": false,
