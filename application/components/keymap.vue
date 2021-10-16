@@ -130,6 +130,7 @@ export default {
 
 <template>
   <layer-selector
+    v-if="isReady()"
     :layers="keymap.layer_names"
     :activeLayer="activeLayer"
     @select="activeLayer = $event"

@@ -138,3 +138,18 @@ export default {
     </div>
   </loader>
 </template>
+
+<style scoped>
+button {
+  cursor: pointer;
+  background-color: var(--hover-selection);
+  color: white;
+
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+}
+
+</style>
