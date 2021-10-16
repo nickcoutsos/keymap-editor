@@ -16,7 +16,7 @@ function request (...args) {
 export async function init () {
   const param = new URLSearchParams(location.search).get('token')
   if (!localStorage.auth_token && param) {
-    history.replaceState({}, null, '/application')
+    history.replaceState({}, null, location.pathname)
     localStorage.auth_token = param
   }
 
