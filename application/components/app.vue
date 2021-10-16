@@ -78,7 +78,12 @@ export default {
   <loader :load="doHealthCheck">
     <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
     <div id="actions">
-      <button id="compile" @click="handleCompile">Save Local</button>
+      <button
+        v-if="config.enableLocal"
+        v-text="`Save Local`"
+        id="compile"
+        @click="handleCompile"
+      />
       <button
         v-if="config.enableGitHub && !githubAuthorized"
         v-text="`Authorize GitHub`"
