@@ -56,6 +56,8 @@ export default {
             loadKeymap()
           ])
           return { layout, keymap }
+        } else {
+          return { layout: [], keymap: { layers: [] } }
         }
       }
 
