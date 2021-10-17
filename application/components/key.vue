@@ -25,13 +25,14 @@
       :onSelect="handleSelectCode"
     />
     <teleport to="body">
-      <search
+      <value-picker
         v-if="editing"
         :target="editing.target"
-        :code="editing.code"
+        :value="editing.code"
         :param="editing.param"
-        :targets="editing.targets"
+        :choices="editing.targets"
         :prompt="createPromptMessage(editing.param)"
+        searchKey="code"
         @select="handleSelectValue"
         @cancel="editing = null"
       />
@@ -50,7 +51,7 @@ import { getKeyStyles } from '../key-units'
 
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
-import Search from './search.vue'
+import ValuePicker from './value-picker.vue'
 
 function makeIndex (tree) {
   const index = []
@@ -76,7 +77,7 @@ export default {
   components: {
     'key-value': KeyValue,
     'key-paramlist': KeyParamlist,
-    'search': Search
+    ValuePicker
   },
   data () {
     return {

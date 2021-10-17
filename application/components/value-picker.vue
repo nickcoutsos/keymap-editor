@@ -7,13 +7,13 @@ const cycle = (array, index, step=1) => {
 }
 
 export default {
-  name: 'search',
+  name: 'value-picker',
   emits: ['cancel', 'select'],
   props: {
     target: Object,
-    targets: Array,
+    choices: Array,
     param: [String, Object],
-    code: String,
+    value: String,
     prompt: String,
     searchKey: String
   },
@@ -31,11 +31,11 @@ export default {
   },
   computed: {
     results() {
-      const { query, targets } = this
-      const options = { key: 'code', limit: 30 }
-      const filtered = fuzzysort.go(query, targets, options)
+      const { query, choices } = this
+      const options = { key: this.searchKey, limit: 30 }
+      const filtered = fuzzysort.go(query, choices, options)
 
-      return targets.length <= 10 ? targets : filtered.map(result => ({
+      return choices.length <= 10 ? choices : filtered.map(result => ({
         ...result.obj,
         search: result
       }))
@@ -119,9 +119,9 @@ export default {
   >
     <p>{{prompt}}</p>
     <input
-      v-if="targets.length > 10"
+      v-if="choices.length > 10"
       type="text"
-      :value="query !== null ? query : code"
+      :value="query !== null ? query : value"
       @keypress="handleKeyPress"
     />
     <ul class="results">
@@ -135,7 +135,7 @@ export default {
         @mouseover="setHighlight(i)"
       >
         <span v-if="result.search" v-html="highlight(result.search)" />
-        <span v-else v-text="result.code" />
+        <span v-else v-text="result[searchKey]" />
       </li>
     </ul>
   </div>
