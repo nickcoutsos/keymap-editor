@@ -9,7 +9,14 @@ const cycle = (array, index, step=1) => {
 export default {
   name: 'search',
   emits: ['cancel', 'select'],
-  props: ['target', 'targets', 'param', 'code'],
+  props: {
+    target: Object,
+    targets: Array,
+    param: [String, Object],
+    code: String,
+    prompt: String,
+    searchKey: String
+  },
   data() {
     return {
       query: null,
@@ -23,15 +30,6 @@ export default {
     document.body.removeEventListener('click', this.handleClickOutside, true)
   },
   computed: {
-    prompt() {
-      if (this.param === 'layer') {
-        return 'Select layer...'
-      } else if (this.param === 'mod') {
-        return 'Select modifier...'
-      } else {
-        return 'Select key code...'
-      }
-    },
     results() {
       const { query, targets } = this
       const options = { key: 'code', limit: 30 }

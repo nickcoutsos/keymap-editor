@@ -31,6 +31,7 @@
         :code="editing.code"
         :param="editing.param"
         :targets="editing.targets"
+        :prompt="createPromptMessage(editing.param)"
         @select="handleSelectValue"
         @cancel="editing = null"
       />
@@ -153,6 +154,21 @@ export default {
     }
   },
   methods: {
+    createPromptMessage(param) {
+      const promptMapping = {
+        layer: 'Select layer',
+        mod: 'Select modifier',
+        behaviour: 'Select behaviour',
+        command: 'Select command',
+        keycode: 'Select key code'
+      }
+
+      if (param.name) {
+        return `Select ${param.name}`
+      }
+
+      return promptMapping[param] || promptMapping.keycode
+    },
     onMouseOver(event) {
       const old = document.querySelector('.highlight')
       old && old.classList.remove('highlight')
@@ -163,12 +179,12 @@ export default {
     },
     handleSelectCode(event) {
       this.editing = pick(event, ['target', 'codeIndex', 'code', 'param'])
-      this.editing.targets = this.getSearchTargets(this.editing.param)
+      this.editing.targets = this.getSearchTargets(this.editing.param, this.value)
     },
     handleSelectBehaviour(event) {
       this.editing = {
         target: event.target,
-        targets: this.getSearchTargets('behaviour'),
+        targets: this.getSearchTargets('behaviour', this.value),
         codeIndex: 0,
         code: this.value,
         param: 'behaviour'

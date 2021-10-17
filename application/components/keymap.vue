@@ -65,23 +65,26 @@ export default {
         get(this.keymap, 'layers.length', 0) > 0
       )
     },
-    getSearchTargets(param, key) {
-      const { keycodes } = this
+    getSearchTargets(param, behaviour) {
+      // Special case for behaviour commands which can dynamically add another
+      // parameter that isn't defined at the root level of the behaviour.
+      // Currently this is just `&bt BT_SEL` and is only represented as an enum.
       if (param.enum) {
         return param.enum.map(v => ({ code: v }))
       }
+
       switch (param) {
         case 'behaviour':
           return this.behaviours
         case 'layer':
           return this.availableLayers
         case 'mod':
-          return filter(keycodes, 'isModifier')
+          return filter(this.keycodes, 'isModifier')
         case 'command':
-          get(this.sources, ['behaviours', key.parsed.value, 'commands'], [])
+          get(this.sources, ['behaviours', behaviour, 'commands'], [])
         case 'kc':
         default:
-          return keycodes
+          return this.keycodes
       }
     },
     boundingBox() {
