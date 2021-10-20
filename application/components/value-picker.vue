@@ -15,16 +15,30 @@ export default {
     param: [String, Object],
     value: String,
     prompt: String,
-    searchKey: String
+    searchKey: String,
+    searchThreshold: {
+      type: Number,
+      default: 10
+    },
+    showAllThreshold: {
+      type: Number,
+      default: 50,
+      validator: value => value >= 0
+    }
   },
   data() {
     return {
       query: null,
-      highlighted: null
+      highlighted: null,
+      showAll: false
     }
   },
   mounted() {
     document.body.addEventListener('click', this.handleClickOutside, true)
+
+    if (this.$refs.searchBox) {
+      this.$refs.searchBox.focus()
+    }
   },
   unmounted() {
     document.body.removeEventListener('click', this.handleClickOutside, true)
@@ -34,18 +48,32 @@ export default {
       const { query, choices } = this
       const options = { key: this.searchKey, limit: 30 }
       const filtered = fuzzysort.go(query, choices, options)
+      const showAll = this.showAll || this.searchThreshold > choices.length
 
-      return choices.length <= 10 ? choices : filtered.map(result => ({
+      if (showAll) {
+        return choices
+      } else if (!query) {
+        return choices.slice(0, this.searchThreshold)
+      }
+
+      return filtered.map(result => ({
         ...result.obj,
         search: result
       }))
     },
+    enableShowAllButton() {
+      return (
+        !this.showAll &&
+        this.choices.length > this.searchThreshold &&
+        this.choices.length <= this.showAllThreshold
+      )
+    },
     style() {
       const rect = this.target.getBoundingClientRect()
       return  {
-        display: 'block',
-        top: `${window.scrollY + (rect.top + rect.bottom) / 2}px`,
-        left: `${window.scrollX + (rect.left + rect.right) / 2}px`
+        // display: 'block',
+        // top: `${window.scrollY + (rect.top + rect.bottom) / 2}px`,
+        // left: `${window.scrollX + (rect.left + rect.right) / 2}px`
       }
     }
   },
@@ -103,7 +131,6 @@ export default {
         element.scrollIntoView(alignToTop)
       }
     }
-
   }
 }
 </script>
@@ -119,7 +146,8 @@ export default {
   >
     <p>{{prompt}}</p>
     <input
-      v-if="choices.length > 10"
+      v-if="choices.length > searchThreshold"
+      ref="searchBox"
       type="text"
       :value="query !== null ? query : value"
       @keypress="handleKeyPress"
@@ -138,15 +166,24 @@ export default {
         <span v-else v-text="result[searchKey]" />
       </li>
     </ul>
+    <div
+      v-if="choices.length > searchThreshold"
+      class="choices-counter"
+    >
+      Total choices: {{choices.length}}.
+      <a
+        v-if="enableShowAllButton"
+        v-text="`Show all`"
+        @click.stop="showAll = true"
+      />
+    </div>
   </div>
 </template>
 
 <style>
 
 .dialog {
-	position: absolute;
-	transform: translate(-60px, -30px);
-	z-index: 2;
+  width: 300px;
 }
 .dialog p {
 	margin: 0;
@@ -155,16 +192,16 @@ export default {
 }
 .dialog input {
 	display: block;
-	padding: 0;
-	margin: 0;
-	width: 120px;
-	height: 60px;
-	font-size: 120%;
-	border: 2px solid steelblue;
-	border-radius: 4px;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
 
-	text-align: center;
-	line-height: 60px;
+	font-size: 120%;
+	margin: 0;
+	padding: 4px;
+	border: none;
+	border-radius: 4px;
+  box-sizing: border-box;
 }
 ul.results {
 	font-family: monospace;
@@ -173,6 +210,7 @@ ul.results {
 	max-height: 200px;
 	overflow: scroll;
 	padding: 4px;
+  margin: 4px 0;
 	background: rgba(0, 0, 0, 0.8);
 	border-radius: 4px;
 }
@@ -186,5 +224,15 @@ ul.results {
 	color: black;
 }
 .results li b { color: red; }
+
+.choices-counter {
+  font-size: 10px;
+}
+
+.choices-counter a {
+  color: var(--selection);
+  border-bottom: 1px dotted var(--selection);
+  cursor: pointer;
+}
 
 </style>
