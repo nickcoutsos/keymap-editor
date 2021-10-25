@@ -93,7 +93,7 @@ export default {
       github.beginLoginFlow()
     },
     handleCommitChanges() {
-      github.commitChanges(this.layout, this.keymap)
+      github.commitChanges(this.layout, this.editingKeymap)
     },
     handleCompile() {
       fetch('/keymap', {
@@ -101,7 +101,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.keymap)
+        body: JSON.stringify(this.editingKeymap)
       })
     },
     async doReadyCheck() {
@@ -120,6 +120,7 @@ export default {
         v-if="config.enableLocal"
         v-text="`Save Local`"
         id="compile"
+        :disabled="!this.editingKeymap.keyboard"
         @click="handleCompile"
       />
       <button
@@ -133,6 +134,7 @@ export default {
         v-if="config.enableGitHub && githubAuthorized"
         v-text="`Commit Changes`"
         @click="handleCommitChanges"
+        :disabled="!this.editingKeymap.keyboard"
         title="Commit keymap changes to GitHub repository"
       />
     </div>
@@ -150,6 +152,11 @@ button {
   border-radius: 5px;
   padding: 5px;
   margin: 2px;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 </style>
