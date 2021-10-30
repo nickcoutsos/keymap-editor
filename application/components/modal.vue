@@ -8,7 +8,9 @@ export default {
 <template>
   <teleport to="body">
     <div class="wrapper">
-      <slot />
+      <div class="content">
+        <slot />
+      </div>
     </div>
   </teleport>
 </template>
@@ -23,5 +25,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.content {
+  display: block;
 }
 </style>
