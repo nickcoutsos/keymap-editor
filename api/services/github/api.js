@@ -1,7 +1,8 @@
 const axios = require('axios')
 
 const baseUrl = 'https://api.github.com'
-function request (options={}) {
+
+async function request (options={}) {
   if (typeof options === 'string') {
     options = {
       url: options
@@ -20,7 +21,11 @@ function request (options={}) {
     options.headers.Authorization = `Bearer ${options.token}`
   }
 
-  return axios(options)
+  const response = await axios(options)
+
+  console.log(response.headers['x-ratelimit-remaining'])
+
+  return response
 }
 
 module.exports = {

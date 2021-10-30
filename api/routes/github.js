@@ -72,7 +72,7 @@ const getInstallation = async (req, res, next) => {
       return res.json({ installation: null })
     }
 
-    const { data: { repositories } } = await fetchInstallationRepos(user.oauth_access_token, installation.id)
+    const repositories = await fetchInstallationRepos(user.oauth_access_token, installation.id)
 
     res.json({ installation, repositories })
   } catch (err) {
