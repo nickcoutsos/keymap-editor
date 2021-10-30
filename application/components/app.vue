@@ -36,6 +36,7 @@ export default {
       behaviours: [],
       indexedBehaviours: {},
       tooManyRepos: false,
+      loadKeyboardError: null,
       keymap: {},
       layout: [],
       layers: [],
@@ -57,7 +58,13 @@ export default {
       }
       const loadKeyboardData = async () => {
         if (config.enableGitHub && github.isGitHubAuthorized()) {
-          return github.fetchLayoutAndKeymap()
+          const response = await github.fetchLayoutAndKeymap()
+          if (response.error) {
+            this.loadKeyboardError = response.error
+            return { layout: [], keymap: { layers: [] } }
+          }
+
+          return response
         } else if (config.enableLocal) {
           const [layout, keymap] = await Promise.all([
             loadLayout(),
@@ -113,7 +120,6 @@ export default {
       })
     },
     getInstallationUrl() {
-      console.log(github.installation, github.repositories, github)
       return `https://github.com/settings/installations/${github.installation.id}`
     },
     async doReadyCheck() {
@@ -135,6 +141,19 @@ export default {
             I'm still working on things, including the ability to pick a specific
             repo, but in the meantime you should go back to your <a :href="getInstallationUrl()">app configuration</a>
             and select a single repository containing your keyboard's zmk-config.
+          </p>
+        </div>
+      </modal>
+    </div>
+    <div v-else-if="loadKeyboardError === 'InvalidRepoError'">
+      <modal>
+        <div class="dialog">
+          <h2>Hold up a second!</h2>
+          <p>The selected repository does not contain <code>info.json</code> or <code>keymap.json</code>.</p>
+          <p>
+            This app depends on some additional metadata to render the keymap.
+            For an example repository ready to use now or metadata you can apply
+            to your own keyboard repo, have a look at <a href="https://github.com/nickcoutsos/zmk-config-corne-demo/">zmk-config-corne-demo</a>.
           </p>
         </div>
       </modal>
@@ -164,6 +183,9 @@ export default {
         />
       </div>
     </template>
+    <a class="github-link" href="https://github.com/nickcoutsos/keymap-editor">
+      <i class="fab fa-github" />/nickcoutsos/keymap-editor
+    </a>
   </loader>
 </template>
 
@@ -190,6 +212,22 @@ button[disabled] {
   padding: 40px;
   margin: 40px;
   max-width: 500px;
+}
+
+.github-link {
+  display: inline-block;
+  position: absolute;
+  z-index: 100;
+  bottom: 5px;
+  left: 5px;
+  font-size: 110%;
+  font-style: italic;
+  background-color: white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  text-decoration: none;
+
+  color: royalblue;
 }
 
 </style>

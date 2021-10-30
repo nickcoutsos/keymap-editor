@@ -48,10 +48,17 @@ export function isGitHubAuthorized() {
 }
 
 export async function fetchLayoutAndKeymap() {
-  const data = await request(
+  const response = await request(
     `${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repositories[0].full_name)}`,
     { headers: { Authorization: `Bearer ${localStorage.auth_token}`} }
-  ).then(res => res.json())
+  )
+
+  if (response.status === 400) {
+    console.error('Failed to load keymap and layout from github')
+    return response.json()
+  }
+  
+  const data = await response.json()
   const defaultLayout = data.info.layouts.default || data.info.layouts[Object.keys(data.info.layouts)[0]]
   return {
     layout: defaultLayout.layout,
