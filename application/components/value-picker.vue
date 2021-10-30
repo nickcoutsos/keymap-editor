@@ -180,7 +180,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 
 .dialog {
   width: 300px;

@@ -1,8 +1,8 @@
 import * as config from './config'
 
 let token
-let installation
-let repositories
+export let installation
+export let repositories
 
 function request (...args) {
   return fetch(...args).then(res => {
