@@ -29,6 +29,7 @@ export default {
     return {
       config,
       keycodes: [],
+      editingKeymap: {},
       indexedKeycodes: {},
       behaviours: [],
       indexedBehaviours: {},
@@ -87,7 +88,7 @@ export default {
       })
     },
     handleUpdateKeymap(keymap) {
-      Object.assign(this.keymap, keymap)
+      Object.assign(this.editingKeymap, keymap)
     },
     handleGithubAuthorize() {
       github.beginLoginFlow()
@@ -114,7 +115,7 @@ export default {
 
 <template>
   <loader :load="doReadyCheck">
-    <keymap :layout="layout" :keymap="keymap" @update="handleUpdateKeymap" />
+    <keymap :layout="layout" :keymap="editingKeymap.keyboard ? editingKeymap : keymap" @update="handleUpdateKeymap" />
     <div id="actions">
       <button
         v-if="config.enableLocal"
