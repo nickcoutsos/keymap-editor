@@ -2,8 +2,8 @@
 
 import Initialize from './initialize.vue'
 import Keymap from './keymap.vue'
-import Loader from './loader.vue'
-import Modal from './modal.vue'
+import TooManyRepos from './messages/too-many-repos.vue'
+import InvalidRepo from './messages/invalid-repo.vue'
 
 import * as config from '../config'
 import * as github from '../github'
@@ -12,8 +12,8 @@ export default {
   components: {
     keymap: Keymap,
     Initialize,
-    Loader,
-    Modal
+    TooManyRepos,
+    InvalidRepo
   },
   provide() {
     return {
@@ -115,9 +115,6 @@ export default {
         body: JSON.stringify(this.editingKeymap)
       })
     },
-    getInstallationUrl() {
-      return `https://github.com/settings/installations/${github.installation.id}`
-    },
     async doReadyCheck() {
       await healthcheck()
       await this.loadData()
@@ -128,33 +125,9 @@ export default {
 
 <template>
   <initialize v-slot="{ keymap, layout }">
-    <div v-if="tooManyRepos">
-      <modal>
-        <div class="dialog">
-          <h2>Hold up a second!</h2>
-          <p>The Keymap Editor app has been installed for more than one GitHub repository.</p>
-          <p>
-            I'm still working on things, including the ability to pick a specific
-            repo, but in the meantime you should go back to your <a :href="getInstallationUrl()">app configuration</a>
-            and select a single repository containing your keyboard's zmk-config.
-          </p>
-        </div>
-      </modal>
-    </div>
+    <TooManyRepos v-if="tooManyRepos" />
 
-    <div v-else-if="loadKeyboardError === 'InvalidRepoError'">
-      <modal>
-        <div class="dialog">
-          <h2>Hold up a second!</h2>
-          <p>The selected repository does not contain <code>info.json</code> or <code>keymap.json</code>.</p>
-          <p>
-            This app depends on some additional metadata to render the keymap.
-            For an example repository ready to use now or metadata you can apply
-            to your own keyboard repo, have a look at <a href="https://github.com/nickcoutsos/zmk-config-corne-demo/">zmk-config-corne-demo</a>.
-          </p>
-        </div>
-      </modal>
-    </div>
+    <InvalidRepo v-else-if="loadKeyboardError === 'InvalidRepoError'" />
 
     <template v-else>
       <keymap
@@ -211,13 +184,6 @@ button {
 button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
-}
-
-.dialog {
-  background-color: white;
-  padding: 40px;
-  margin: 40px;
-  max-width: 500px;
 }
 
 .github-link {
