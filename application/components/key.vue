@@ -24,9 +24,8 @@
       :values="normalized.params"
       :onSelect="handleSelectCode"
     />
-    <teleport to="body">
+    <modal v-if="editing">
       <value-picker
-        v-if="editing"
         :target="editing.target"
         :value="editing.code"
         :param="editing.param"
@@ -36,7 +35,7 @@
         @select="handleSelectValue"
         @cancel="editing = null"
       />
-    </teleport>
+    </modal>
   </div>
 </template>
 
@@ -51,6 +50,7 @@ import { getKeyStyles } from '../key-units'
 
 import KeyValue from './key-value.vue'
 import KeyParamlist from './key-paramlist.vue'
+import Modal from './modal.vue'
 import ValuePicker from './value-picker.vue'
 
 function makeIndex (tree) {
@@ -77,6 +77,7 @@ export default {
   components: {
     'key-value': KeyValue,
     'key-paramlist': KeyParamlist,
+    Modal,
     ValuePicker
   },
   data () {

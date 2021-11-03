@@ -13,6 +13,7 @@ const {
 } = require('./installations')
 
 const {
+  InvalidRepoError,
   fetchKeyboardFiles,
   commitChanges
 } = require('./files')
@@ -26,6 +27,7 @@ module.exports = {
   verifyUserToken,
   fetchInstallation,
   fetchInstallationRepos,
+  InvalidRepoError,
   fetchKeyboardFiles,
   commitChanges
 }

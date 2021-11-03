@@ -4,12 +4,22 @@ const zmk = require('../zmk')
 
 const MODE_FILE = '100644'
 
+class InvalidRepoError extends Error {}
+
 async function fetchKeyboardFiles (installationId, repository) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
-  const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', true)
-  const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', true)
+  try {
+    const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', true)
+    const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', true)
 
-  return { info, keymap }
+    return { info, keymap }
+  } catch (err) {
+    if (err.response && err.response.status === 404) {
+      throw new InvalidRepoError()
+    }
+
+    throw err
+  }
 }
 
 function fetchFile (installationToken, repository, path, raw = false) {
@@ -76,6 +86,7 @@ async function commitChanges (installationId, repository, layout, keymap) {
 }
 
 module.exports = {
+  InvalidRepoError,
   fetchKeyboardFiles,
   commitChanges
 }

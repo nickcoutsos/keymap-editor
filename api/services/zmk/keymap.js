@@ -108,7 +108,7 @@ function generateKeymapCode (layout, keymap, encoded) {
     })
 
     return `
-        ${name} {
+        ${name.replace(/[^a-zA-Z0-9_]/g, '_')} {
             bindings = <
 ${rendered}
             >;

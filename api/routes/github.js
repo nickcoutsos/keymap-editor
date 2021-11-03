@@ -10,7 +10,8 @@ const {
   fetchKeyboardFiles,
   createOauthFlowUrl,
   createOauthReturnUrl,
-  commitChanges
+  commitChanges,
+  InvalidRepoError,
 } = require('../services/github')
 const { parseKeymap } = require('../services/zmk/keymap')
 
@@ -88,6 +89,12 @@ const getKeyboardFiles = async (req, res, next) => {
     keyboardFiles.keymap = parseKeymap(keyboardFiles.keymap)
     res.json(keyboardFiles)
   } catch (err) {
+    if (err instanceof InvalidRepoError) {
+      return res.status(400).json({
+        error: 'InvalidRepoError'
+      })
+    }
+
     next(err)
   }
 }

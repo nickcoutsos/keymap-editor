@@ -81,7 +81,7 @@ export default {
         case 'mod':
           return filter(this.keycodes, 'isModifier')
         case 'command':
-          get(this.sources, ['behaviours', behaviour, 'commands'], [])
+          return get(this.sources, ['behaviours', behaviour, 'commands'], [])
         case 'kc':
         default:
           return this.keycodes
