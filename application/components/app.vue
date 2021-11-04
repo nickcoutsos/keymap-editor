@@ -15,27 +15,10 @@ export default {
     TooManyRepos,
     InvalidRepo
   },
-  provide() {
-    return {
-      keycodes: this.keycodes,
-      behaviours: this.behaviours,
-      indexedKeycodes: this.indexedKeycodes,
-      indexedBehaviours: this.indexedBehaviours
-    }
-  },
   data() {
     return {
       config,
-      keycodes: [],
       editingKeymap: {},
-      indexedKeycodes: {},
-      behaviours: [],
-      indexedBehaviours: {},
-      tooManyRepos: false,
-      loadKeyboardError: null,
-      keymap: {},
-      layout: [],
-      layers: [],
       terminalOpen: false,
       socket: null
     }
@@ -46,57 +29,6 @@ export default {
     }
   },
   methods: {
-    async loadData() {
-      await github.init()
-      if (config.enableGitHub && github.isGitHubAuthorized() && github.repositories.length > 1) {
-        this.tooManyRepos = true
-        return
-      }
-      const loadKeyboardData = async () => {
-        if (config.enableGitHub && github.isGitHubAuthorized()) {
-          const response = await github.fetchLayoutAndKeymap()
-          if (response.error) {
-            this.loadKeyboardError = response.error
-            return { layout: [], keymap: { layers: [] } }
-          }
-
-          return response
-        } else if (config.enableLocal) {
-          const [layout, keymap] = await Promise.all([
-            loadLayout(),
-            loadKeymap()
-          ])
-          return { layout, keymap }
-        } else {
-          return { layout: [], keymap: { layers: [] } }
-        }
-      }
-
-      const [
-        keycodes,
-        behaviours,
-        { layout, keymap }
-      ] = await Promise.all([
-        loadKeycodes(),
-        loadBehaviours(),
-        loadKeyboardData()
-      ])
-
-      this.keycodes.splice(0, this.keycodes.length, ...keycodes)
-      this.behaviours.splice(0, this.behaviours.length, ...behaviours)
-      Object.assign(this.indexedKeycodes, keyBy(this.keycodes, 'code'))
-      Object.assign(this.indexedBehaviours, keyBy(this.behaviours, 'code'))
-
-      this.layout.splice(0, this.layout.length, ...layout.map(key => (
-        { ...key, u: key.u || key.w || 1, h: key.h || 1 }
-      )))
-
-      const layerNames = keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)
-      Object.assign(this.layers, keymap.layers)
-      Object.assign(this.keymap, keymap, {
-        layer_names: layerNames
-      })
-    },
     handleUpdateKeymap(keymap) {
       Object.assign(this.editingKeymap, keymap)
     },
@@ -114,17 +46,13 @@ export default {
         },
         body: JSON.stringify(this.editingKeymap)
       })
-    },
-    async doReadyCheck() {
-      await healthcheck()
-      await this.loadData()
     }
   }
 }
 </script>
 
 <template>
-  <initialize v-slot="{ keymap, layout }">
+  <initialize v-slot="{ keymap, layout, tooManyRepos, loadKeyboardError }">
     <TooManyRepos v-if="tooManyRepos" />
 
     <InvalidRepo v-else-if="loadKeyboardError === 'InvalidRepoError'" />

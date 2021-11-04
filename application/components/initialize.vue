@@ -24,7 +24,9 @@ export default {
       selectedRepository: null,
       keymap: {},
       layers: [],
-      layout: []
+      layout: [],
+      tooManyRepos: false,
+      loadKeyboardError: null
     }
   },
   provide() {
@@ -56,7 +58,20 @@ export default {
     async loadKeyboardData() {
       const loadKeyboardData = async () => {
         if (config.enableGitHub && github.isGitHubAuthorized()) {
-          return github.fetchLayoutAndKeymap()
+          if (github.repositories.length > 1) {
+            this.tooManyRepos = true
+            console.log('too many')
+            return { layout: [], keymap: { layers: [] } }
+          }
+
+          const response = await github.fetchLayoutAndKeymap()
+          if (response.error) {
+            this.loadKeyboardError = response.error
+            console.log('repo error')
+            return { layout: [], keymap: { layers: [] } }
+          }
+
+          return response
         } else if (config.enableLocal) {
           const [layout, keymap] = await Promise.all([
             loadLayout(),
@@ -90,6 +105,8 @@ export default {
       :keymap="keymap"
       :layers="layers"
       :layout="layout"
+      :tooManyRepos="tooManyRepos"
+      :loadKeyboardError="loadKeyboardError"
     />
   </loader>
 </template>
