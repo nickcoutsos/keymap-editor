@@ -98,9 +98,10 @@ const getBranches = async (req, res, next) => {
 
 const getKeyboardFiles = async (req, res, next) => {
   const { installationId, repository } = req.params
+  const { branch } = req.query
 
   try {
-    const keyboardFiles = await fetchKeyboardFiles(installationId, repository)
+    const keyboardFiles = await fetchKeyboardFiles(installationId, repository, branch)
     keyboardFiles.keymap = parseKeymap(keyboardFiles.keymap)
     res.json(keyboardFiles)
   } catch (err) {

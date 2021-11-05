@@ -6,11 +6,11 @@ const MODE_FILE = '100644'
 
 class InvalidRepoError extends Error {}
 
-async function fetchKeyboardFiles (installationId, repository) {
+async function fetchKeyboardFiles (installationId, repository, branch) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
   try {
-    const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', true)
-    const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', true)
+    const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', { raw: true, branch })
+    const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
 
     return { info, keymap }
   } catch (err) {
@@ -22,10 +22,17 @@ async function fetchKeyboardFiles (installationId, repository) {
   }
 }
 
-function fetchFile (installationToken, repository, path, raw = false) {
+function fetchFile (installationToken, repository, path, options = {}) {
+  const { raw = false, branch = null } = options
   const url = `/repos/${repository}/contents/${path}`
+  const params = {}
+
+  if (branch) {
+    params.ref = branch
+  }
+
   const headers = { Accept: raw ? 'application/vnd.github.v3.raw' : 'application/json' }
-  return api.request({ url, headers, token: installationToken })
+  return api.request({ url, headers, params, token: installationToken })
 }
 
 async function commitChanges (installationId, repository, layout, keymap) {
