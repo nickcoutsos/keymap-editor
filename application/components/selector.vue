@@ -20,7 +20,7 @@
 export default {
   name: 'Selector',
   props: {
-    id: String,
+    id: null,
     label: String,
     choices: Array,
     modelValue: [String, Number, Object]

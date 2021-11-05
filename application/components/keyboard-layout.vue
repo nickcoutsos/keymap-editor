@@ -35,7 +35,7 @@ export default {
       return { x: rx, y: ry, a: r }
     },
     size(key) {
-      const { u, h } = key
+      const { w = 1, u = w, h = 1 } = key
       return { u, h }
     },
     handleUpdateBind(keyIndex, updatedBinding) {

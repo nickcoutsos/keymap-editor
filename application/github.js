@@ -56,11 +56,19 @@ export async function fetchRepoBranches(repository) {
   return response.json()
 }
 
-export async function fetchLayoutAndKeymap() {
-  const response = await request(
-    `${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repositories[0].full_name)}`,
-    { headers: { Authorization: `Bearer ${localStorage.auth_token}`} }
-  )
+export async function fetchLayoutAndKeymap(repo, branch) {
+  const repository = repo
+  const url = new URL(`${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repository)}`)
+
+  if (branch) {
+    url.search = new URLSearchParams({ branch }).toString()
+  }
+
+  const response = await request(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${localStorage.auth_token}`
+    }
+  })
 
   if (response.status === 400) {
     console.error('Failed to load keymap and layout from github')

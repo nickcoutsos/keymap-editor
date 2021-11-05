@@ -90,7 +90,7 @@ export default {
     boundingBox() {
       return this.layout.map(key => getKeyBoundingBox(
         { x: key.x, y: key.y },
-        { u: key.u, h: key.h },
+        { u: key.u || key.w || 1, h: key.h || 1 },
         { x: key.rx, y: key.ry, a: key.r }
       )).reduce(({ x, y }, { max }) => ({
         x: Math.max(x, max.x),
