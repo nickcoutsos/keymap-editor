@@ -47,6 +47,15 @@ export function isGitHubAuthorized() {
   return !!token && installation && repositories && repositories.length
 }
 
+export async function fetchRepoBranches(repository) {
+  const response = await request(
+    `${config.apiBaseUrl}/github/installation/${encodeURIComponent(installation.id)}/${encodeURIComponent(repository.full_name)}/branches`,
+    { headers: { Authorization: `Bearer ${localStorage.auth_token}`} }
+  )
+
+  return response.json()
+}
+
 export async function fetchLayoutAndKeymap() {
   const response = await request(
     `${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repositories[0].full_name)}`,
