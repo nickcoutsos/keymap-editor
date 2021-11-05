@@ -17,7 +17,7 @@ function fetchInstallation (user) {
 async function fetchInstallationRepos (installationToken, installationId) {
   const initialPage = `/user/installations/${installationId}/repositories`
   const repositories = []
-  
+
   let url = initialPage
   while (url) {
     console.log('fetching page', url)
@@ -30,7 +30,23 @@ async function fetchInstallationRepos (installationToken, installationId) {
   return repositories
 }
 
+async function fetchRepoBranches (installationToken, repo) {
+  const initialPage = `/repos/${repo}/branches`
+  const branches = []
+  
+  let url = initialPage
+  while (url) {
+    const { headers, data } = await api.request({ url, token: installationToken })
+    const paging = linkHeader.parse(headers.link || '')
+    branches.push(...data)
+    url = paging.get('rel', 'next')?.[0]?.uri
+  }
+
+  return branches
+}
+
 module.exports = {
   fetchInstallation,
-  fetchInstallationRepos
+  fetchInstallationRepos,
+  fetchRepoBranches
 }

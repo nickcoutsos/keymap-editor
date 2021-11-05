@@ -9,7 +9,8 @@ const {
 
 const {
   fetchInstallation,
-  fetchInstallationRepos
+  fetchInstallationRepos,
+  fetchRepoBranches
 } = require('./installations')
 
 const {
@@ -27,6 +28,7 @@ module.exports = {
   verifyUserToken,
   fetchInstallation,
   fetchInstallationRepos,
+  fetchRepoBranches,
   InvalidRepoError,
   fetchKeyboardFiles,
   commitChanges

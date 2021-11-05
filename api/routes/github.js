@@ -7,12 +7,14 @@ const {
   verifyUserToken,
   fetchInstallation,
   fetchInstallationRepos,
+  fetchRepoBranches,
   fetchKeyboardFiles,
   createOauthFlowUrl,
   createOauthReturnUrl,
   commitChanges,
   InvalidRepoError,
 } = require('../services/github')
+const { createInstallationToken } = require('../services/github/auth')
 const { parseKeymap } = require('../services/zmk/keymap')
 
 const router = Router()
@@ -81,6 +83,19 @@ const getInstallation = async (req, res, next) => {
   }
 }
 
+const getBranches = async (req, res, next) => {
+  const { installationId, repository } = req.params
+
+  try {
+    const { data: { token: installationToken } } = await createInstallationToken(installationId)
+    const branches = await fetchRepoBranches(installationToken, repository)
+
+    res.json(branches)
+  } catch (err) {
+    next(err)
+  }
+}
+
 const getKeyboardFiles = async (req, res, next) => {
   const { installationId, repository } = req.params
 
@@ -117,6 +132,7 @@ const receiveWebhook = (req, res) => {
 }
 
 router.get('/authorize', authorize)
+router.get('/installation/:installationId/:repository/branches', authenticate, getBranches)
 router.get('/installation', authenticate, getInstallation)
 router.get('/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
 router.post('/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
