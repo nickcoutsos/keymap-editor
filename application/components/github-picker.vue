@@ -62,7 +62,7 @@ export default {
     const selectedRepository = JSON.parse(localStorage.getItem('selectedGithubRepository'))
 
     if (github.repositories.length === 1) {
-      this.repo = github.repositories[0].id
+      this.repo = github.repositories[0].full_name
       this.loadBranches()
     } else if (selectedRepository && github.repositories.find(repo => repo.full_name === selectedRepository)) {
       this.repo = selectedRepository
