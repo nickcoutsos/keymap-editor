@@ -3,6 +3,7 @@
 import Initialize from './initialize.vue'
 import Keymap from './keymap.vue'
 import KeyboardPicker from './keyboard-picker.vue'
+import Spinner from './spinner.vue'
 
 import * as config from '../config'
 import * as github from '../github'
@@ -11,7 +12,8 @@ export default {
   components: {
     keymap: Keymap,
     KeyboardPicker,
-    Initialize
+    Initialize,
+    Spinner
   },
   data() {
     return {
@@ -21,6 +23,7 @@ export default {
       layout: [],
       keymap: {},
       editingKeymap: {},
+      saving: false,
       terminalOpen: false,
       socket: null
     }
@@ -43,9 +46,14 @@ export default {
     handleGithubAuthorize() {
       github.beginLoginFlow()
     },
-    handleCommitChanges() {
+    async handleCommitChanges() {
       const { repository, branch } = this.sourceOther.github
-      github.commitChanges(repository, branch, this.layout, this.editingKeymap)
+
+      this.saving = true
+      await github.commitChanges(repository, branch, this.layout, this.editingKeymap)
+      this.saving = false
+      Object.assign(this.keymap, this.editingKeymap)
+      this.editingKeymap = {}
     },
     handleCompile() {
       fetch('/keymap', {
@@ -81,11 +89,14 @@ export default {
 
         <button
           v-if="source === 'github'"
-          v-text="`Commit Changes`"
           @click="handleCommitChanges"
           :disabled="!this.editingKeymap.keyboard"
           title="Commit keymap changes to GitHub repository"
-        />
+        >
+          <template v-if="saving">Saving </template>
+          <template v-else>Commit Changes</template>
+          <spinner v-if="saving" />
+        </button>
       </div>
     </template>
 
