@@ -35,13 +35,13 @@ export default {
     ])
 
     const selectedSource = localStorage.getItem('selectedSource')
-    const onlySource = sourceChoices.length === 1 ? sourceChoices[0] : null
+    const onlySource = sourceChoices.length === 1 ? sourceChoices[0].id : null
 
     return {
       sourceChoices,
       source: onlySource || (
         sourceChoices.find(source => source.id === selectedSource)
-          ? selectedSource
+          ? selectedSource.id
           : null
       )
     }
