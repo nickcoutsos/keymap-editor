@@ -83,10 +83,10 @@ export async function fetchLayoutAndKeymap(repo, branch) {
   }
 }
 
-export function commitChanges(layout, keymap) {
+export function commitChanges(repo, branch, layout, keymap) {
   const installationId = encodeURIComponent(installation.id)
-  const repository = encodeURIComponent(repositories[0].full_name)
-  const url = `${config.apiBaseUrl}/github/keyboard-files/${installationId}/${repository}`
+  const repository = encodeURIComponent(repo)
+  const url = `${config.apiBaseUrl}/github/keyboard-files/${installationId}/${repository}/${encodeURIComponent(branch)}`
 
   return request(url, {
     method: 'POST',

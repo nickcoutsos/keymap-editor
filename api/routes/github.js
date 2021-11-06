@@ -116,11 +116,11 @@ const getKeyboardFiles = async (req, res, next) => {
 }
 
 const updateKeyboardFiles = async (req, res, next) => {
-  const { installationId, repository } = req.params
+  const { installationId, repository, branch } = req.params
   const { keymap, layout } = req.body
 
   try {
-    await commitChanges(installationId, repository, layout, keymap)
+    await commitChanges(installationId, repository, branch, layout, keymap)
   } catch (err) {
     return next(err)
   }
@@ -136,7 +136,7 @@ router.get('/authorize', authorize)
 router.get('/installation/:installationId/:repository/branches', authenticate, getBranches)
 router.get('/installation', authenticate, getInstallation)
 router.get('/keyboard-files/:installationId/:repository', authenticate, getKeyboardFiles)
-router.post('/keyboard-files/:installationId/:repository', authenticate, updateKeyboardFiles)
+router.post('/keyboard-files/:installationId/:repository/:branch', authenticate, updateKeyboardFiles)
 router.post('/webhook', receiveWebhook)
 router.use(handleError)
 

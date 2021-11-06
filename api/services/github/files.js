@@ -35,7 +35,7 @@ function fetchFile (installationToken, repository, path, options = {}) {
   return api.request({ url, headers, params, token: installationToken })
 }
 
-async function commitChanges (installationId, repository, layout, keymap) {
+async function commitChanges (installationId, repository, branch, layout, keymap) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
   const generatedKeymap = zmk.generateKeymap(layout, keymap)
 
@@ -45,8 +45,7 @@ async function commitChanges (installationId, repository, layout, keymap) {
   const { data: directory } = await fetchFile(installationToken, repository, 'config/')
   const originalCodeKeymap = directory.find(file => file.name.toLowerCase().endsWith('.keymap'))
 
-  const { data: repo } = await api.request({ url: `/repos/${repository}`, token: installationToken })
-  const { data: [{sha, commit}] } = await api.request({ url: `/repos/${repository}/commits?per_page=1`, token: installationToken })
+  const { data: {sha, commit} } = await api.request({ url: `/repos/${repository}/commits/${branch}`, token: installationToken })
 
   const { data: { sha: newTreeSha } } = await api.request({
     url: `/repos/${repository}/git/trees`,
@@ -83,7 +82,7 @@ async function commitChanges (installationId, repository, layout, keymap) {
   })
 
   await api.request({
-    url: `/repos/${repository}/git/refs/heads/${repo.default_branch}`,
+    url: `/repos/${repository}/git/refs/heads/${branch}`,
     method: 'PATCH',
     token: installationToken,
     data: {

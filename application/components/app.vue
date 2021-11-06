@@ -2,8 +2,7 @@
 
 import Initialize from './initialize.vue'
 import Keymap from './keymap.vue'
-import TooManyRepos from './messages/too-many-repos.vue'
-import InvalidRepo from './messages/invalid-repo.vue'
+import KeyboardPicker from './keyboard-picker.vue'
 
 import * as config from '../config'
 import * as github from '../github'
@@ -11,13 +10,16 @@ import * as github from '../github'
 export default {
   components: {
     keymap: Keymap,
-    Initialize,
-    TooManyRepos,
-    InvalidRepo
+    KeyboardPicker,
+    Initialize
   },
   data() {
     return {
       config,
+      source: null,
+      sourceOther: null,
+      layout: [],
+      keymap: {},
       editingKeymap: {},
       terminalOpen: false,
       socket: null
@@ -29,6 +31,12 @@ export default {
     }
   },
   methods: {
+    handleKeyboardSelected({ source, layout, keymap, ...other }) {
+      this.source = source
+      this.sourceOther = other
+      this.layout.splice(0, this.layout.length, ...layout)
+      Object.assign(this.keymap, keymap)
+    },
     handleUpdateKeymap(keymap) {
       Object.assign(this.editingKeymap, keymap)
     },
@@ -36,7 +44,8 @@ export default {
       github.beginLoginFlow()
     },
     handleCommitChanges() {
-      github.commitChanges(this.layout, this.editingKeymap)
+      const { repository, branch } = this.sourceOther.github
+      github.commitChanges(repository, branch, this.layout, this.editingKeymap)
     },
     handleCompile() {
       fetch('/keymap', {
@@ -52,12 +61,10 @@ export default {
 </script>
 
 <template>
-  <initialize v-slot="{ keymap, layout, tooManyRepos, loadKeyboardError }">
-    <TooManyRepos v-if="tooManyRepos" />
+  <initialize>
+    <keyboard-picker @select="handleKeyboardSelected" />
 
-    <InvalidRepo v-else-if="loadKeyboardError === 'InvalidRepoError'" />
-
-    <template v-else>
+    <template v-if="keymap.keyboard">
       <keymap
         :layout="layout"
         :keymap="editingKeymap.keyboard ? editingKeymap : keymap"
@@ -65,7 +72,7 @@ export default {
       />
       <div id="actions">
         <button
-          v-if="config.enableLocal"
+          v-if="source === 'local'"
           v-text="`Save Local`"
           id="compile"
           :disabled="!this.editingKeymap.keyboard"
@@ -73,15 +80,7 @@ export default {
         />
 
         <button
-          v-if="config.enableGitHub && !githubAuthorized"
-          v-text="`Authorize GitHub`"
-          @click="handleGithubAuthorize"
-          title="Install as a GitHub app to edit a zmk-config repository."
-
-        />
-
-        <button
-          v-if="config.enableGitHub && githubAuthorized"
+          v-if="source === 'github'"
           v-text="`Commit Changes`"
           @click="handleCommitChanges"
           :disabled="!this.editingKeymap.keyboard"

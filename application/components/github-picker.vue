@@ -132,7 +132,7 @@ export default {
         return
       }
 
-      this.$emit('select', response)
+      this.$emit('select', { github: { repository, branch }, ...response })
     },
     clearSelection() {
       this.branch = null

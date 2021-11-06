@@ -71,14 +71,14 @@ export default {
     },
     handleKeyboardSelected(event) {
       const { source } = this
-      const { layout, keymap } = event
+      const { layout, keymap, ...rest } = event
 
       const layerNames = keymap.layer_names || keymap.layers.map((_, i) => `Layer ${i}`)
       Object.assign(keymap, {
         layer_names: layerNames
       })
 
-      this.$emit('select', { source, layout, keymap })
+      this.$emit('select', { source, layout, keymap, ...rest })
     }
   }
 }
