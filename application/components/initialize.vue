@@ -16,14 +16,7 @@ export default {
       keycodes: [],
       behaviours: [],
       indexedKeycodes: {},
-      indexedBehaviours: {},
-      repositories: [],
-      selectedRepository: null,
-      keymap: {},
-      layers: [],
-      layout: [],
-      tooManyRepos: false,
-      loadKeyboardError: null
+      indexedBehaviours: {}
     }
   },
   provide() {
@@ -57,9 +50,6 @@ export default {
 
 <template>
   <loader :load="doReadyCheck">
-    <slot
-      :tooManyRepos="tooManyRepos"
-      :loadKeyboardError="loadKeyboardError"
-    />
+    <slot />
   </loader>
 </template>
