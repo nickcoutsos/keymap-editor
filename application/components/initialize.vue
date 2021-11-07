@@ -1,7 +1,7 @@
 <script>
 import keyBy from 'lodash/keyBy'
 
-import * as github from '../github'
+import * as github from './github/api'
 
 import { healthcheck, loadBehaviours } from '../api'
 import { loadKeycodes } from '../keycodes'

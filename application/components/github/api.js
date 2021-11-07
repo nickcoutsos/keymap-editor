@@ -1,4 +1,4 @@
-import * as config from './config'
+import * as config from '../../config'
 
 let token
 export let installation

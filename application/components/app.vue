@@ -6,7 +6,7 @@ import KeyboardPicker from './keyboard-picker.vue'
 import Spinner from './spinner.vue'
 
 import * as config from '../config'
-import * as github from '../github'
+import * as github from './github/api'
 
 export default {
   components: {

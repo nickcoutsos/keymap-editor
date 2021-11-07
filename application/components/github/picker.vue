@@ -35,10 +35,11 @@
 import find from 'lodash/find'
 import map from 'lodash/map'
 
-import * as github from '../github'
-import InvalidRepo from './messages/invalid-repo.vue'
-import Selector from './selector.vue'
-import Spinner from './spinner.vue'
+import * as github from './api'
+import * as storage from './storage'
+import InvalidRepo from './invalid-repo.vue'
+import Selector from '../selector.vue'
+import Spinner from '../spinner.vue'
 
 export default {
   name: 'GithubPicker',
@@ -59,7 +60,7 @@ export default {
       return
     }
 
-    const selectedRepository = JSON.parse(localStorage.getItem('selectedGithubRepository'))
+    const selectedRepository = storage.getPersistedRepository()
 
     if (github.repositories.length === 1) {
       this.repo = github.repositories[0].full_name
@@ -70,15 +71,15 @@ export default {
     }
   },
   watch: {
-    repo(current, previous) {
-      if (previous !== current) {
-        localStorage.setItem('selectedGithubRepository', JSON.stringify(current))
+    repo(value) {
+      storage.setPersistedRepository(value)
+      if (value) {
         this.loadBranches()
       }
     },
-    branch(current, previous) {
-      if (current && previous !== current) {
-        localStorage.setItem('selectedGithubBranch', JSON.stringify(current))
+    branch(value) {
+      storage.setPersistedBranch(value)
+      if (value) {
         this.loadKeyboard()
       }
     }
@@ -106,7 +107,7 @@ export default {
       const available = map(branches, 'name')
       const defaultBranch = repository.default_branch
       const currentBranch = this.branch
-      const previousBranch = JSON.parse(localStorage.getItem('selectedGithubBranch'))
+      const previousBranch = storage.getPersistedBranch()
       const onlyBranch = branches.length === 1 ? branches[0].name : null
 
       for (let branch of [onlyBranch, currentBranch, previousBranch, defaultBranch]) {

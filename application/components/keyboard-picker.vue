@@ -21,7 +21,7 @@ import * as config from '../config'
 import { loadLayout } from '../layout.js'
 import { loadKeymap } from '../keymap.js'
 
-import GithubPicker from './github-picker.vue'
+import GithubPicker from './github/picker.vue'
 import Selector from './selector.vue'
 
 export default {
