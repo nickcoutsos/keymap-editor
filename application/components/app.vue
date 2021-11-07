@@ -6,7 +6,7 @@ import KeyboardPicker from './keyboard-picker.vue'
 import Spinner from './spinner.vue'
 
 import * as config from '../config'
-import * as github from './github/api'
+import github from './github/api'
 
 export default {
   components: {
@@ -28,11 +28,6 @@ export default {
       socket: null
     }
   },
-  computed: {
-    githubAuthorized() {
-      return !!github.isGitHubAuthorized()
-    }
-  },
   methods: {
     handleKeyboardSelected({ source, layout, keymap, ...other }) {
       this.source = source
@@ -42,9 +37,6 @@ export default {
     },
     handleUpdateKeymap(keymap) {
       Object.assign(this.editingKeymap, keymap)
-    },
-    handleGithubAuthorize() {
-      github.beginLoginFlow()
     },
     async handleCommitChanges() {
       const { repository, branch } = this.sourceOther.github

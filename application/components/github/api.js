@@ -1,99 +1,130 @@
+import EventEmitter from 'eventemitter3'
+const axios = require('axios')
+
 import * as config from '../../config'
 
-let token
-export let installation
-export let repositories
+export class API extends EventEmitter {
+  token = null
+  initialized = false
+  installation = null
+  repositories = null
 
-function request (...args) {
-  return fetch(...args).then(res => {
-    return res.status !== 401 ? res : (
-      console.error('Authentication failure. Retrying login'),
-      beginLoginFlow()
-    )
-  })
-}
-
-export async function init () {
-  const param = new URLSearchParams(location.search).get('token')
-  if (!localStorage.auth_token && param) {
-    history.replaceState({}, null, location.pathname)
-    localStorage.auth_token = param
-  }
-
-  if (localStorage.auth_token) {
-    token = localStorage.auth_token
-    const data = await request(`${config.apiBaseUrl}/github/installation`, {
-      headers: {
-        Authorization: `Bearer ${token}`
+  async _request (options) {
+    if (typeof options === 'string') {
+      options = {
+        url: options
       }
-    }).then(res => res.json())
-
-    if (!data.installation) {
-      console.log('no installation found for authenticated user')
-      location.href = `https://github.com/apps/${config.githubAppName}/installations/new`
     }
 
-    installation = data.installation
-    repositories = data.repositories
-  }
-}
-
-export function beginLoginFlow () {
-  localStorage.removeItem('auth_token')
-  location.href = `${config.apiBaseUrl}/github/authorize`
-}
-
-export function isGitHubAuthorized() {
-  return !!token && installation && repositories && repositories.length
-}
-
-export async function fetchRepoBranches(repository) {
-  const response = await request(
-    `${config.apiBaseUrl}/github/installation/${encodeURIComponent(installation.id)}/${encodeURIComponent(repository.full_name)}/branches`,
-    { headers: { Authorization: `Bearer ${localStorage.auth_token}`} }
-  )
-
-  return response.json()
-}
-
-export async function fetchLayoutAndKeymap(repo, branch) {
-  const repository = repo
-  const url = new URL(`${config.apiBaseUrl}/github/keyboard-files/${encodeURIComponent(installation.id)}/${encodeURIComponent(repository)}`)
-
-  if (branch) {
-    url.search = new URLSearchParams({ branch }).toString()
-  }
-
-  const response = await request(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${localStorage.auth_token}`
+    if (options.url.startsWith('/')) {
+      options.url = `${config.apiBaseUrl}${options.url}`
     }
-  })
+  
+    options.headers = Object.assign({}, options.headers)
+    if (this.token && !options.headers.Authorization) {
+      options.headers.Authorization = `Bearer ${this.token}`
+    }
+    
+    try {
+      return await axios(options)
+    } catch (err) {
+      if (err.response?.status === 401) {
+        console.error('Authentication failed.')
+        this.emit('authentication-failed', err.response)
+      }
 
-  if (response.status === 400) {
-    console.error('Failed to load keymap and layout from github')
-    return response.json()
+      throw err
+    }
+  }
+
+  async init() {
+    if (this.initialized) {
+      return
+    }
+
+    const installationUrl = `${config.apiBaseUrl}/github/installation`
+    const param = new URLSearchParams(location.search).get('token')
+    if (!localStorage.auth_token && param) {
+      history.replaceState({}, null, location.pathname)
+      localStorage.auth_token = param
+    }
+
+    if (localStorage.auth_token) {
+      this.token = localStorage.auth_token
+      const { data } = await this._request(installationUrl)
+      this.emit('authenticated')
+
+      if (!data.installation) {
+        console.warn('No GitHub app installation found for authenticated user.')
+        this.emit('app-not-installed')
+      }
+
+      this.installation = data.installation
+      this.repositories = data.repositories
+    }
+  }
+
+  beginLoginFlow() {
+    localStorage.removeItem('auth_token')
+    location.href = `${config.apiBaseUrl}/github/authorize`
+  }
+
+  beginInstallAppFlow() {
+    location.href = `https://github.com/apps/${config.githubAppName}/installations/new`
   }
   
-  const data = await response.json()
-  const defaultLayout = data.info.layouts.default || data.info.layouts[Object.keys(data.info.layouts)[0]]
-  return {
-    layout: defaultLayout.layout,
-    keymap: data.keymap
+  isGitHubAuthorized() {
+    return !!this.token
+  }
+
+  isAppInstalled() {
+    return this.installation && this.repositories?.length
+  }
+
+  async fetchRepoBranches(repo) {
+    const installation = encodeURIComponent(this.installation.id)
+    const repository = encodeURIComponent(repo.full_name)
+    const { data } = await this._request(
+      `/github/installation/${installation}/${repository}/branches`
+    )
+
+    return data
+  }
+
+  async fetchLayoutAndKeymap(repo, branch) {
+    const installation = encodeURIComponent(this.installation.id)
+    const repository = encodeURIComponent(repo)
+    const url = new URL(`${config.apiBaseUrl}/github/keyboard-files/${installation}/${repository}`)
+
+    if (branch) {
+      url.search = new URLSearchParams({ branch }).toString()
+    }
+
+    const { status, data } = await this._request(url.toString())
+
+    if (status === 400) {
+      console.error('Failed to load keymap and layout from github')
+      return data
+    }
+
+    const defaultLayout = data.info.layouts.default || data.info.layouts[Object.keys(data.info.layouts)[0]]
+    return {
+      layout: defaultLayout.layout,
+      keymap: data.keymap
+    }
+  }
+
+  commitChanges(repo, branch, layout, keymap) {
+    const installation = encodeURIComponent(this.installation.id)
+    const repository = encodeURIComponent(repo)
+
+    return this._request({
+      url: `/github/keyboard-files/${installation}/${repository}/${encodeURIComponent(branch)}`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: { layout, keymap }
+    })
   }
 }
 
-export function commitChanges(repo, branch, layout, keymap) {
-  const installationId = encodeURIComponent(installation.id)
-  const repository = encodeURIComponent(repo)
-  const url = `${config.apiBaseUrl}/github/keyboard-files/${installationId}/${repository}/${encodeURIComponent(branch)}`
-
-  return request(url, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ layout, keymap })
-  })
-}
+export default new API()

@@ -5,7 +5,21 @@ import Spinner from './spinner.vue'
 export default {
   name: 'Loader',
   components: { Modal, Spinner },
-  props: ['load', 'delay'],
+  emits: ['loaded'],
+  props: {
+    load: {
+      type: Function,
+      required: true
+    },
+    delay: {
+      type: Number,
+      default: 200
+    },
+    inline: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       loaded: false,
@@ -17,9 +31,10 @@ export default {
       if (!this.loaded) {
         this.delayed = true
       }
-    }, this.delay || 200)
+    }, this.delay)
 
     this.load().then(() => {
+      this.$emit('loaded')
       this.loaded = true
     })
   }
@@ -27,14 +42,14 @@ export default {
 </script>
 
 <template>
-  <div v-if="loaded">
-    <slot />
-  </div>
-  <div v-else-if="delayed">
-    <modal>
-      <spinner style="color: white">
-        <p>Waiting for API...</p>
-      </spinner>
-    </modal>
+  <div :style="{ display: inline ? 'inline' : 'block' }">
+    <slot v-if="loaded" />
+    <slot name="loading" v-else-if="delayed">
+      <modal>
+        <spinner style="color: white">
+          <p>Waiting for API...</p>
+        </spinner>
+      </modal>
+    </slot>
   </div>
 </template>

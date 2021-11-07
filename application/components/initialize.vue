@@ -1,8 +1,6 @@
 <script>
 import keyBy from 'lodash/keyBy'
 
-import * as github from './github/api'
-
 import { healthcheck, loadBehaviours } from '../api'
 import { loadKeycodes } from '../keycodes'
 
@@ -33,7 +31,6 @@ export default {
       await this.loadAppData()
     },
     async loadAppData () {
-      await github.init()
       const [ keycodes, behaviours ] = await Promise.all([
         loadKeycodes(),
         loadBehaviours()
