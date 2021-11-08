@@ -70,6 +70,67 @@
     "params": []
   },
   {
+    "code": "&bootloader",
+    "name": "Bootloader",
+    "params": []
+  },
+  {
+    "code": "&rgb_ug",
+    "name": "RGB underglow control",
+    "params": ["command"],
+    "includes": ["#include <dt-bindings/zmk/rgb.h>"],
+    "commands": [{
+      "code": "RGB_TOG",
+      "description": "Toggles the RGB feature on and off"
+    }, {
+      "code": "RGB_HUI",
+      "description": "Increases the hue of the RGB feature"
+    }, {
+      "code": "RGB_HUD",
+      "description": "Decreases the hue of the RGB feature"
+    }, {
+      "code": "RGB_SAI",
+      "description": "Increases the saturation of the RGB feature"
+    }, {
+      "code": "RGB_SAD",
+      "description": "Decreases the saturation of the RGB feature"
+    }, {
+      "code": "RGB_BRI",
+      "description": "Increases the brightness of the RGB feature"
+    }, {
+      "code": "RGB_BRD",
+      "description": "Decreases the brightness of the RGB feature"
+    }, {
+      "code": "RGB_SPI",
+      "description": "Increases the speed of the RGB feature effect's animation"
+    }, {
+      "code": "RGB_SPD",
+      "description": "Decreases the speed of the RGB feature effect's animation"
+    }, {
+      "code": "RGB_EFF",
+      "description": "Cycles the RGB feature's effect forwards"
+    }, {
+      "code": "RGB_EFR",
+      "description": "Cycles the RGB feature's effect reverse"
+    }]
+  },
+  {
+    "code": "&ext_power",
+    "name": "External power management",
+    "params": ["command"],
+    "includes": ["#include <dt-bindings/zmk/ext_power.h>"],
+    "commands": [{
+      "code": "EP_ON",
+      "description": "Enable the external power"
+    }, {
+      "code": "EP_OFF",
+      "description": "Disable the external power"
+    }, {
+      "code": "EP_TOG",
+      "description": "Toggle the external power"
+    }]
+  },
+  {
     "code": "&trans",
     "name": "Transparent",
     "params": []
