@@ -30,8 +30,10 @@
       />
 
       <spinner v-if="loadingKeyboard" />
-      <invalid-repo
-        v-if="loadKeyboardError === 'InvalidRepoError'"
+      <validation-errors
+        v-if="loadKeyboardError"
+        :title="loadKeyboardError.name"
+        :errors="loadKeyboardError.errors"
         :otherRepoOrBranchAvailable="repositoryChoices.length > 0 || branchChoices.length > 0"
         @dismiss="clearSelection"
       />
@@ -46,13 +48,14 @@ import map from 'lodash/map'
 import github from './api'
 import * as storage from './storage'
 import InvalidRepo from './invalid-repo.vue'
+import ValidationErrors from './validation-errors.vue'
 import Loader from '../loader.vue'
 import Selector from '../selector.vue'
 import Spinner from '../spinner.vue'
 
 export default {
   name: 'GithubPicker',
-  components: { InvalidRepo, Loader, Selector, Spinner },
+  components: { InvalidRepo, Loader, Selector, Spinner, ValidationErrors },
   emits: ['select'],
   data() {
     return {
@@ -67,6 +70,10 @@ export default {
   created() {
     github.on('authentication-failed', () => {
       github.beginLoginFlow()
+    })
+    github.on('repo-validation-error', err => {
+      this.loadKeyboardError = err
+      this.loadingKeyboard = false
     })
   },
   watch: {
@@ -150,10 +157,6 @@ export default {
       const response = await github.fetchLayoutAndKeymap(repository, branch)
 
       this.loadingKeyboard = false
-      if (response.error) {
-        this.loadKeyboardError = response.error
-        return
-      }
 
       this.$emit('select', { github: { repository, branch }, ...response })
     },

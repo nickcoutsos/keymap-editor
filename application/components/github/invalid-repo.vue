@@ -1,6 +1,6 @@
 <template>
   <modal>
-    <div class="dialog">
+    <dialog-box @dismiss="$emit('dismiss')">
       <h2>Hold up a second!</h2>
       <p>The selected repository does not contain <code>info.json</code> or <code>keymap.json</code>.</p>
       <p>
@@ -12,29 +12,19 @@
         If you have another branch or repository the the required metadata files
         you may switch to them instead.
       </p>
-      <p>
-        <button
-          class="dismiss"
-          @click="$emit('dismiss')"
-          v-text="dismissText"
-        />
-      </p>
-    </div>
+    </dialog-box>
   </modal>
 </template>
 
 <script>
+import DialogBox from '../dialog-box.vue'
 import Modal from '../modal.vue'
 
 export default {
   name: 'InvalidRepo',
   emits: ['dismiss'],
-  components: { Modal },
+  components: { DialogBox, Modal },
   props: {
-    dismissText: {
-      type: String,
-      default: 'Ok'
-    },
     otherRepoOrBranchAvailable: {
       type: Boolean,
       default: false
@@ -44,16 +34,6 @@ export default {
 </script>
 
 <style scoped>
-.dialog {
-  background-color: white;
-  padding: 20px 40px;
-  margin: 40px;
-  max-width: 500px;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4);
-}
 
-.dismiss {
-  display: block;
-  margin: 0 auto;
-}
+
 </style>

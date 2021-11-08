@@ -100,17 +100,20 @@ export class API extends EventEmitter {
       url.search = new URLSearchParams({ branch }).toString()
     }
 
-    const { status, data } = await this._request(url.toString())
+    try {
+      const { data } = await this._request(url.toString())
+      const defaultLayout = data.info.layouts.default || data.info.layouts[Object.keys(data.info.layouts)[0]]
+      return {
+        layout: defaultLayout.layout,
+        keymap: data.keymap
+      }
+    } catch (err) {
+      if (err.response?.status === 400) {
+        console.error('Failed to load keymap and layout from github', err.response.data)
+        this.emit('repo-validation-error', err.response.data)
+      }
 
-    if (status === 400) {
-      console.error('Failed to load keymap and layout from github')
-      return data
-    }
-
-    const defaultLayout = data.info.layouts.default || data.info.layouts[Object.keys(data.info.layouts)[0]]
-    return {
-      layout: defaultLayout.layout,
-      keymap: data.keymap
+      throw err
     }
   }
 
