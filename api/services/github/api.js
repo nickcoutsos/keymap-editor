@@ -22,8 +22,11 @@ async function request (options={}) {
   }
 
   const response = await axios(options)
+  const limitRemaining = response.headers['x-ratelimit-remaining']
 
-  console.log(response.headers['x-ratelimit-remaining'])
+  if (limitRemaining) {
+    console.log('GitHub API ratelimit remaining requests:', limitRemaining)
+  }
 
   return response
 }

@@ -3,15 +3,25 @@ const linkHeader = require('http-link-header')
 const api = require('./api')
 const { createAppToken } = require('./auth')
 
-function fetchInstallation (user) {
+async function fetchInstallation (user) {
   const token = createAppToken()
-  return api.request({ url: `/users/${user}/installation`, token }).catch(err => {
+  try {
+    const response = await api.request({ url: `/users/${user}/installation`, token })
+    const { data } = response
+    if (data.suspended_at) {
+      console.log(`User ${user} has suspended app installation.`)
+      return { data: null }
+    }
+
+    return response
+  } catch(err) {
     if (err.response && err.response.status === 404) {
+      console.log(`User ${user} does not have app installation.`)
       return { data: null }
     }
 
     throw err
-  })
+  }
 }
 
 async function fetchInstallationRepos (installationToken, installationId) {
@@ -20,7 +30,6 @@ async function fetchInstallationRepos (installationToken, installationId) {
 
   let url = initialPage
   while (url) {
-    console.log('fetching page', url)
     const { headers, data } = await api.request({ url, token: installationToken })
     const paging = linkHeader.parse(headers.link || '')
     repositories.push(...data.repositories)

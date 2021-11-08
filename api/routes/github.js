@@ -15,7 +15,9 @@ const {
   InvalidRepoError,
 } = require('../services/github')
 const { createInstallationToken } = require('../services/github/auth')
-const { parseKeymap } = require('../services/zmk/keymap')
+const { MissingRepoFile } = require('../services/github/files')
+const { parseKeymap, validateKeymapJson, KeymapValidationError } = require('../services/zmk/keymap')
+const { validateInfoJson, InfoValidationError } = require('../services/zmk/layout')
 
 const router = Router()
 
@@ -102,12 +104,21 @@ const getKeyboardFiles = async (req, res, next) => {
 
   try {
     const keyboardFiles = await fetchKeyboardFiles(installationId, repository, branch)
+    validateInfoJson(keyboardFiles.info)
+    validateKeymapJson(keyboardFiles.keymap)
     keyboardFiles.keymap = parseKeymap(keyboardFiles.keymap)
     res.json(keyboardFiles)
   } catch (err) {
-    if (err instanceof InvalidRepoError) {
+    if (err instanceof MissingRepoFile) {
       return res.status(400).json({
-        error: 'InvalidRepoError'
+        name: err.constructor.name,
+        path: err.path,
+        errors: err.errors
+      })
+    } else if (err instanceof InfoValidationError || err instanceof KeymapValidationError) {
+      return res.status(400).json({
+        name: err.name,
+        errors: err.errors
       })
     }
 

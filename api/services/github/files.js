@@ -4,25 +4,24 @@ const zmk = require('../zmk')
 
 const MODE_FILE = '100644'
 
-class InvalidRepoError extends Error {}
-
-async function fetchKeyboardFiles (installationId, repository, branch) {
-  const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
-  try {
-    const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', { raw: true, branch })
-    const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
-
-    return { info, keymap }
-  } catch (err) {
-    if (err.response && err.response.status === 404) {
-      throw new InvalidRepoError()
-    }
-
-    throw err
+class MissingRepoFile extends Error {
+  constructor(path) {
+    super()
+    this.name = 'MissingRepoFile'
+    this.path = path
+    this.errors = [`Missing file ${path}`]
   }
 }
 
-function fetchFile (installationToken, repository, path, options = {}) {
+async function fetchKeyboardFiles (installationId, repository, branch) {
+  const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
+  const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', { raw: true, branch })
+  const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
+
+  return { info, keymap }
+}
+
+async function fetchFile (installationToken, repository, path, options = {}) {
   const { raw = false, branch = null } = options
   const url = `/repos/${repository}/contents/${path}`
   const params = {}
@@ -32,7 +31,13 @@ function fetchFile (installationToken, repository, path, options = {}) {
   }
 
   const headers = { Accept: raw ? 'application/vnd.github.v3.raw' : 'application/json' }
-  return api.request({ url, headers, params, token: installationToken })
+  try {
+    return await api.request({ url, headers, params, token: installationToken })
+  } catch (err) {
+    if (err.response?.status === 404) {
+      throw new MissingRepoFile(path)
+    }
+  }
 }
 
 async function commitChanges (installationId, repository, branch, layout, keymap) {
@@ -92,7 +97,7 @@ async function commitChanges (installationId, repository, branch, layout, keymap
 }
 
 module.exports = {
-  InvalidRepoError,
+  MissingRepoFile,
   fetchKeyboardFiles,
   commitChanges
 }
