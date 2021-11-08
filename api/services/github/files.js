@@ -47,7 +47,7 @@ async function commitChanges (installationId, repository, branch, layout, keymap
   // Assume that the relevant files are under `config/` and not a complicated
   // directory structure, and that there are fewer than 1000 files in this path
   // (a limitation of GitHub's repo contents API).
-  const { data: directory } = await fetchFile(installationToken, repository, 'config/')
+  const { data: directory } = await fetchFile(installationToken, repository, 'config', { branch })
   const originalCodeKeymap = directory.find(file => file.name.toLowerCase().endsWith('.keymap'))
 
   const { data: {sha, commit} } = await api.request({ url: `/repos/${repository}/commits/${branch}`, token: installationToken })
