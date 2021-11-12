@@ -15,7 +15,7 @@ const {
   InvalidRepoError,
 } = require('../services/github')
 const { createInstallationToken } = require('../services/github/auth')
-const { MissingRepoFile } = require('../services/github/files')
+const { MissingRepoFile, findCodeKeymap } = require('../services/github/files')
 const { parseKeymap, validateKeymapJson, KeymapValidationError } = require('../services/zmk/keymap')
 const { validateInfoJson, InfoValidationError } = require('../services/zmk/layout')
 
@@ -103,11 +103,14 @@ const getKeyboardFiles = async (req, res, next) => {
   const { branch } = req.query
 
   try {
-    const keyboardFiles = await fetchKeyboardFiles(installationId, repository, branch)
-    validateInfoJson(keyboardFiles.info)
-    validateKeymapJson(keyboardFiles.keymap)
-    keyboardFiles.keymap = parseKeymap(keyboardFiles.keymap)
-    res.json(keyboardFiles)
+    const { info, keymap } = await fetchKeyboardFiles(installationId, repository, branch)
+    validateInfoJson(info)
+    validateKeymapJson(keymap)
+
+    res.json({
+      info,
+      keymap: parseKeymap(keymap)
+    })
   } catch (err) {
     if (err instanceof MissingRepoFile) {
       return res.status(400).json({

@@ -17,8 +17,8 @@ async function fetchKeyboardFiles (installationId, repository, branch) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
   const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', { raw: true, branch })
   const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
-
-  return { info, keymap }
+  const originalCodeKeymap = await findCodeKeymap(installationToken, repository, branch)
+  return { info, keymap, originalCodeKeymap }
 }
 
 async function fetchFile (installationToken, repository, path, options = {}) {
@@ -40,16 +40,25 @@ async function fetchFile (installationToken, repository, path, options = {}) {
   }
 }
 
-async function commitChanges (installationId, repository, branch, layout, keymap) {
-  const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
-  const generatedKeymap = zmk.generateKeymap(layout, keymap)
-
+async function findCodeKeymap (installationToken, repository, branch) {
   // Assume that the relevant files are under `config/` and not a complicated
   // directory structure, and that there are fewer than 1000 files in this path
   // (a limitation of GitHub's repo contents API).
   const { data: directory } = await fetchFile(installationToken, repository, 'config', { branch })
   const originalCodeKeymap = directory.find(file => file.name.toLowerCase().endsWith('.keymap'))
 
+  if (!originalCodeKeymap) {
+    throw new MissingRepoFile('config/*.keymap')
+  }
+
+  return originalCodeKeymap
+}
+
+async function commitChanges (installationId, repository, branch, layout, keymap) {
+  const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
+  const generatedKeymap = zmk.generateKeymap(layout, keymap)
+
+  const originalCodeKeymap = await findCodeKeymap(installationToken, repository, branch)
   const { data: {sha, commit} } = await api.request({ url: `/repos/${repository}/commits/${branch}`, token: installationToken })
 
   const { data: { sha: newTreeSha } } = await api.request({
@@ -99,5 +108,6 @@ async function commitChanges (installationId, repository, branch, layout, keymap
 module.exports = {
   MissingRepoFile,
   fetchKeyboardFiles,
+  findCodeKeymap,
   commitChanges
 }
