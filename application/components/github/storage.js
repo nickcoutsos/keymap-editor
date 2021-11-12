@@ -2,17 +2,25 @@ const REPOSITORY = 'selectedGithubRepository'
 const BRANCH = 'selectedGithubBranch'
 
 export function getPersistedRepository() {
-  return JSON.parse(localStorage.getItem(REPOSITORY))
+  try {
+    return JSON.parse(localStorage.getItem(REPOSITORY))
+  } catch {
+    return null
+  }
 }
 
 export function setPersistedRepository(repository) {
   localStorage.setItem(REPOSITORY, JSON.stringify(repository))
 }
 
-export function getPersistedBranch() {
-  return JSON.parse(localStorage.getItem(BRANCH))
+export function getPersistedBranch(repoId) {
+  try {
+    return JSON.parse(localStorage.getItem(`${BRANCH}:${repoId}`))
+  } catch {
+    return null
+  }
 }
 
-export function setPersistedBranch(branch) {
-  localStorage.setItem(BRANCH, JSON.stringify(branch))
+export function setPersistedBranch(repoId, branch) {
+  localStorage.setItem(`${BRANCH}:${repoId}`, JSON.stringify(branch))
 }

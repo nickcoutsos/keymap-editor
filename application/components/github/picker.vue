@@ -17,13 +17,13 @@
         id="repo"
         label="Repository"
         :choices="repositoryChoices"
-        v-model="repo"
+        v-model.number="repoId"
       />
 
       <spinner v-if="loadingBranches" />
       <selector
         v-else
-        v-model="branch"
+        v-model="branchName"
         id="branch"
         label="Branch"
         :choices="branchChoices"
@@ -59,8 +59,8 @@ export default {
   emits: ['select'],
   data() {
     return {
-      repo: null,
-      branch: null,
+      repoId: null,
+      branchName: null,
       branches: [],
       loadingBranches: false,
       loadingKeyboard: false,
@@ -77,15 +77,16 @@ export default {
     })
   },
   watch: {
-    repo(value) {
-      storage.setPersistedRepository(value)
+    repoId(value) {
+      this.branchName = null
       if (value) {
+        storage.setPersistedRepository(value)
         this.loadBranches()
       }
     },
-    branch(value) {
-      storage.setPersistedBranch(value)
+    branchName(value) {
       if (value) {
+        storage.setPersistedBranch(this.repoId, value)
         this.loadKeyboard()
       }
     }
@@ -101,10 +102,10 @@ export default {
       const repositories = github.repositories || []
 
       if (repositories.length === 1) {
-        this.repo = repositories[0].full_name
+        this.repoId = repositories[0].id
         this.loadBranches()
-      } else if (selectedRepository && repositories.find(repo => repo.full_name === selectedRepository)) {
-        this.repo = selectedRepository
+      } else if (find(repositories, { id: selectedRepository })) {
+        this.repoId = selectedRepository
         this.loadBranches()
       }
     },
@@ -127,7 +128,7 @@ export default {
       this.loadingBranches = true
       this.branches = []
 
-      const repository = github.repositories.find(repo => repo.full_name === this.repo)
+      const repository = find(github.repositories, { id: this.repoId })
       const branches = await github.fetchRepoBranches(repository)
 
       this.loadingBranches = false
@@ -135,21 +136,21 @@ export default {
 
       const available = map(branches, 'name')
       const defaultBranch = repository.default_branch
-      const currentBranch = this.branch
-      const previousBranch = storage.getPersistedBranch()
+      const currentBranch = this.branchName
+      const previousBranch = storage.getPersistedBranch(this.repoId)
       const onlyBranch = branches.length === 1 ? branches[0].name : null
 
       for (let branch of [onlyBranch, currentBranch, previousBranch, defaultBranch]) {
         if (available.includes(branch)) {
-          this.branch = branch
+          this.branchName = branch
           break
         }
       }
     },
     async loadKeyboard() {
       const available = this.getRepositories()
-      const repository = find(available, { full_name: this.repo })?.full_name
-      const branch = this.branch
+      const repository = find(available, { id: this.repoId })?.full_name
+      const branch = this.branchName
 
       this.loadingKeyboard = true
       this.loadKeyboardError = null
@@ -161,14 +162,14 @@ export default {
       this.$emit('select', { github: { repository, branch }, ...response })
     },
     clearSelection() {
-      this.branch = null
+      this.branchName = null
       this.loadKeyboardError = null
     }
   },
   computed: {
     repositoryChoices() {
       return this.getRepositories().map(repo => ({
-        id: repo.full_name,
+        id: repo.id,
         name: repo.full_name
       }))
     },
