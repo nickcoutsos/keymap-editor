@@ -37,6 +37,12 @@
         :otherRepoOrBranchAvailable="repositoryChoices.length > 0 || branchChoices.length > 0"
         @dismiss="clearSelection"
       />
+      <validation-errors
+        v-if="loadKeyboardWarnings"
+        title="Warning"
+        :errors="loadKeyboardWarnings"
+        @dismiss="loadKeyboardWarnings = null"
+      />
     </span>
   </loader>
 </template>
@@ -64,7 +70,8 @@ export default {
       branches: [],
       loadingBranches: false,
       loadingKeyboard: false,
-      loadKeyboardError: null
+      loadKeyboardError: null,
+      loadKeyboardWarnings: null
     }
   },
   created() {
@@ -158,12 +165,26 @@ export default {
       const response = await github.fetchLayoutAndKeymap(repository, branch)
 
       this.loadingKeyboard = false
+      this.lintKeyboard(response)
 
       this.$emit('select', { github: { repository, branch }, ...response })
+    },
+    lintKeyboard({ layout }) {
+      const noKeyHasPosition = layout.every(key => (
+        key.row === undefined &&
+        key.col === undefined
+      ))
+
+      if (noKeyHasPosition) {
+        this.loadKeyboardWarnings = [
+          'Layout in info.json has no row/col definitions. Generated keymap files will not be nicely formatted.'
+        ]
+      }
     },
     clearSelection() {
       this.branchName = null
       this.loadKeyboardError = null
+      this.loadKeyboardWarnings = null
     }
   },
   computed: {
