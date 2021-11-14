@@ -16,9 +16,9 @@ function renderTable (layout, layer, opts={}) {
   } = opts
   const minWidth = useQuotes ? 9 : 7
   const table = layer.reduce((map, code, i) => {
-    const { row, col } = layout[i]
+    const { row = 0, col } = layout[i]
     map[row] = map[row] || []
-    map[row][col] = code
+    map[row][col || map[row].length] = code
     return map
   }, [])
 
@@ -68,6 +68,11 @@ function validateInfoJson(info) {
       } else if (!Array.isArray(layout.layout)) {
         errors.push(`layout ${name} must define "layout" array`)
       } else {
+        const anyKeyHasPosition = layout.layout.some(key => (
+          key?.row !== undefined ||
+          key?.col !== undefined
+        ))
+
         for (let i in layout.layout) {
           const key = layout.layout[i]
           const keyPath = `layouts[${name}].layout[${i}]`
@@ -85,6 +90,13 @@ function validateInfoJson(info) {
             for (let prop of optionalNumberProps) {
               if (prop in key && !isNumber(key[prop])) {
                 errors.push(`Key definition at ${keyPath} optional "${prop}" must be number`)
+              }
+            }
+            for (let prop of ['row', 'col']) {
+              if (anyKeyHasPosition && !(prop in key)) {
+                errors.push(`Key definition at ${keyPath} is missing "${prop}"`)
+              } else if (prop in key && (!Number.isInteger(key[prop]) || key[prop] < 0)) {
+                errors.push(`Key definition at ${keyPath} "${prop}" must be a non-negative integer`)
               }
             }
           }
