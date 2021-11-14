@@ -43,6 +43,12 @@
         :errors="loadKeyboardWarnings"
         @dismiss="loadKeyboardWarnings = null"
       />
+
+      <button
+        v-if="branchName && !loadingKeyboard"
+        @click="loadKeyboard"
+        class="fa fa-sync"
+      />
     </span>
   </loader>
 </template>

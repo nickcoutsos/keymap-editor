@@ -34,6 +34,7 @@ export default {
       this.sourceOther = other
       this.layout.splice(0, this.layout.length, ...layout)
       Object.assign(this.keymap, keymap)
+      this.editingKeymap = {}
     },
     handleUpdateKeymap(keymap) {
       Object.assign(this.editingKeymap, keymap)
