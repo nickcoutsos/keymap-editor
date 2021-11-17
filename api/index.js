@@ -10,7 +10,9 @@ const keyboards = require('./routes/keyboards')
 const app = express()
 
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+  origin: 'https://nickcoutsos.github.io'
+}))
 
 if (process.env.ENABLE_DEV_SERVER) {
   applicationInit(app)
