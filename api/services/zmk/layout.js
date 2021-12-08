@@ -16,9 +16,16 @@ function renderTable (layout, layer, opts={}) {
   } = opts
   const minWidth = useQuotes ? 9 : 7
   const table = layer.reduce((map, code, i) => {
-    const { row = 0, col } = layout[i]
-    map[row] = map[row] || []
-    map[row][col || map[row].length] = code
+    // TODO: this would be better as a loop over `layout`, checking for a
+    // matching element in the `layer` array. Or, alternatively, an earlier
+    // validation that asserts each layer is equal in length to the number of
+    // keys in the layout.
+    if (layout[i]) {
+      const { row = 0, col } = layout[i]
+      map[row] = map[row] || []
+      map[row][col || map[row].length] = code
+    }
+
     return map
   }, [])
 
