@@ -134,5 +134,10 @@
     "code": "&trans",
     "name": "Transparent",
     "params": []
+  },
+  {
+    "code": "&none",
+    "name": "None",
+    "params": []
   }
 ]
