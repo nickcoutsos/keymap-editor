@@ -6,6 +6,14 @@ const { parseKeymap } = require('./keymap')
 const ZMK_PATH = path.join(__dirname, '..', '..', '..', 'zmk-config')
 const KEYBOARD = 'dactyl'
 
+const EMPTY_KEYMAP = {
+  keyboard: 'unknown',
+  keymap: 'unknown',
+  layout: 'unknown',
+  layer_names: ['default'],
+  layers: [[]]
+}
+
 function loadBehaviors() {
   return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'zmk-behaviors.json')))
 }
@@ -21,7 +29,11 @@ function loadLayout (layout = 'LAYOUT') {
 
 function loadKeymap () {
   const keymapPath = path.join(ZMK_PATH, 'config', 'keymap.json')
-  return parseKeymap(JSON.parse(fs.readFileSync(keymapPath)))
+  const keymapContent = fs.existsSync(keymapPath)
+    ? JSON.parse(fs.readFileSync(keymapPath))
+    : EMPTY_KEYMAP
+
+  return parseKeymap(keymapContent)
 }
 
 function findKeymapFile () {

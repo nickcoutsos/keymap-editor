@@ -16,9 +16,28 @@ class MissingRepoFile extends Error {
 async function fetchKeyboardFiles (installationId, repository, branch) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
   const { data: info } = await fetchFile(installationToken, repository, 'config/info.json', { raw: true, branch })
-  const { data: keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
+  const keymap = await fetchKeymap(installationToken, repository, branch)
   const originalCodeKeymap = await findCodeKeymap(installationToken, repository, branch)
   return { info, keymap, originalCodeKeymap }
+}
+
+async function fetchKeymap (installationToken, repository, branch) {
+  try {
+    const { data : keymap } = await fetchFile(installationToken, repository, 'config/keymap.json', { raw: true, branch })
+    return keymap
+  } catch (err) {
+    if (err instanceof MissingRepoFile) {
+      return {
+        keyboard: 'unknown',
+        keymap: 'unknown',
+        layout: 'unknown',
+        layer_names: ['default'],
+        layers: [[]]
+      }
+    } else {
+      throw err
+    }
+  }
 }
 
 async function fetchFile (installationToken, repository, path, options = {}) {
