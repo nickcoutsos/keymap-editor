@@ -8,9 +8,8 @@
       :rotation="rotation(key)"
       :size="size(key)"
       :label="key.label"
-      :parsed="keys[i]"
-      :value="keys[i].value"
-      :params="keys[i].params"
+      :value="normalized[i].value"
+      :params="normalized[i].params"
       @update="handleUpdateBind(i, $event)"
     />
   </div>
@@ -24,6 +23,16 @@ export default {
   emits: ['update'],
   components: {
     'key-thing': Key,
+  },
+  computed: {
+    normalized() {
+      return this.layout.map((_, i) => (
+        this.keys[i] || {
+          value: '&none',
+          params: []
+        }
+      ))
+    }
   },
   methods: {
     position(key) {
@@ -40,9 +49,9 @@ export default {
     },
     handleUpdateBind(keyIndex, updatedBinding) {
       this.$emit('update', [
-        ...this.keys.slice(0, keyIndex),
+        ...this.normalized.slice(0, keyIndex),
         updatedBinding,
-        ...this.keys.slice(keyIndex + 1)
+        ...this.normalized.slice(keyIndex + 1)
       ])
     }
   }
