@@ -26,7 +26,8 @@
   {
     "code": "&kp",
     "name": "Key Press",
-    "params": ["code"]
+    "params": ["code"],
+    "includes": ["#include <dt-bindings/zmk/keys.h>"]
   },
   {
     "code": "&lt",
@@ -58,6 +59,16 @@
       "code": "OUT_TOG",
       "description": "Toggle between USB and BLE"
     }]
+  },
+  {
+    "code": "&sk",
+    "name": "Sticky Key",
+    "params": ["code"]
+  },
+  {
+    "code": "&sl",
+    "name": "Sticky Layer",
+    "params": ["layer"]
   },
   {
     "code": "&tog",
