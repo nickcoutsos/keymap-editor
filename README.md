@@ -1,8 +1,8 @@
 # Keymap Editor
 
-A browser app (plus NodeJS server) to edit QMK and ZMK keymaps. This was hastily
-thrown together and then even more hastily converted to a Vue app with support
-for ZMK tossed in.
+A browser app (plus NodeJS server) to edit ZMK keymaps. This is still in its
+infancy and doesn't yet support parsing existing ZMK keymaps which limits some
+kinds of functionality (mainly those involving custom/configured behaviours).
 
 ![Screenshot](editor-screenshot.png)
 
@@ -68,14 +68,19 @@ I know that QMK moves quickly and now  supports a lot of configuration in
 I haven't defined, and would benefit from a schema definition agreed on by the
 dev team.
 
-In a previous version I had started working on supporting combos but gave up
-because I couldn't be bothered to experiment with `TAPPING_TERM` settings that
-felt comfortable.
+Some ZMK behaviours can be configured and some nodes of the device tree can be
+aliased, but I don't understand it well enough to make these first-class
+editable resources in this tool. As a short term solution I've added simplistic
+"templating" of an existing keymap file. If your repository includes a file
+called `config/*.keymap.template` the editor will replace the following tags
+with the appropriate generated code
 
-More recently I've ripped out QMK-related code. Some interfaces haven't been
-updated, so there's still some vestigial support for both. It's less important
-to make this a 100% fit for the ZMK codebase and more important to provide a
-proof of concept for how apps can be built to support users of the firmware.
+* `{{behaviour_includes}}`
+* `{{rendered_layers}}`
+
+Note that "simplistic" means "find-and-replace" and doesn't support templating
+other content of each layer section. So you may be able to define encoders in
+your keymap template but you can't make per-layer bindings for them.
 
 ### What else?
 

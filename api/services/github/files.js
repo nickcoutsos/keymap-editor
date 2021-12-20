@@ -73,9 +73,24 @@ async function findCodeKeymap (installationToken, repository, branch) {
   return originalCodeKeymap
 }
 
+async function findCodeKeymapTemplate (installationToken, repository, branch) {
+  // Assume that the relevant files are under `config/` and not a complicated
+  // directory structure, and that there are fewer than 1000 files in this path
+  // (a limitation of GitHub's repo contents API).
+  const { data: directory } = await fetchFile(installationToken, repository, 'config', { branch })
+  const template = directory.find(file => file.name.toLowerCase().endsWith('.keymap.template'))
+
+  if (template) {
+    const { data: content } = await fetchFile(installationToken, repository, template.path, { branch, raw: true })
+    return content
+  }
+}
+
 async function commitChanges (installationId, repository, branch, layout, keymap) {
   const { data: { token: installationToken } } = await auth.createInstallationToken(installationId)
-  const generatedKeymap = zmk.generateKeymap(layout, keymap)
+  const template = await findCodeKeymapTemplate(installationToken, repository, branch)
+
+  const generatedKeymap = zmk.generateKeymap(layout, keymap, template)
 
   const originalCodeKeymap = await findCodeKeymap(installationToken, repository, branch)
   const { data: {sha, commit} } = await api.request({ url: `/repos/${repository}/commits/${branch}`, token: installationToken })
