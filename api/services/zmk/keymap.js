@@ -8,6 +8,7 @@ const map = require('lodash/map')
 const uniq = require('lodash/uniq')
 
 const { renderTable } = require('./layout')
+const defaults = require('./defaults')
 
 class KeymapValidationError extends Error {
   constructor (errors) {
@@ -77,40 +78,21 @@ function parseKeymap (keymap) {
   })
 }
 
-const header = `
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
-
-/* THIS FILE WAS GENERATED!
- *
- * This file was generated automatically. You may or may not want to
- * edit it directly.
- */
-
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
-`
-
-function generateKeymap (layout, keymap) {
+function generateKeymap (layout, keymap, template) {
   const encoded = encodeKeymap(keymap)
   return {
-    code: generateKeymapCode(layout, keymap, encoded),
+    code: generateKeymapCode(layout, keymap, encoded, template || defaults.keymapTemplate),
     json: generateKeymapJSON(layout, keymap, encoded)
   }
 }
 
-function generateKeymapCode (layout, keymap, encoded) {
-  const { layer_names: names = [] } = keymap
-  const behaviourHeaders = flatten(getBehavioursUsed(keymap).map(
-    bind => get(behavioursByBind, [bind, 'includes'], [])
-  ))
-  const layers = encoded.layers.map((layer, i) => {
-    const name = i === 0 ? 'default_layer' : `layer_${names[i] || i}`
-    const rendered = renderTable(layout, layer, {
+function renderTemplate(template, params) {
+  const includesPattern = /\{\{\s*behaviour_includes\s*\}\}/
+  const layersPattern = /\{\{\s*rendered_layers\s*\}\}/
+
+  const renderedLayers = params.layers.map((layer, i) => {
+    const name = i === 0 ? 'default_layer' : `layer_${params.layerNames[i] || i}`
+    const rendered = renderTable(params.layout, layer, {
       linePrefix: '',
       columnSeparator: ' '
     })
@@ -124,19 +106,23 @@ ${rendered}
 `
   })
 
-  const keymapOut = `${header}
-${behaviourHeaders.join('\n')}
+  return template
+    .replace(includesPattern, params.behaviourHeaders.join('\n'))
+    .replace(layersPattern, renderedLayers.join(''))
+}
 
-/ {
-    keymap {
-        compatible = "zmk,keymap";
+function generateKeymapCode (layout, keymap, encoded, template) {
+  const { layer_names: names = [] } = keymap
+  const behaviourHeaders = flatten(getBehavioursUsed(keymap).map(
+    bind => get(behavioursByBind, [bind, 'includes'], [])
+  ))
 
-${layers.join('')}
-    };
-};
-`
-
-  return keymapOut
+  return renderTemplate(template, {
+    layout,
+    behaviourHeaders,
+    layers: encoded.layers,
+    layerNames: names
+  })
 }
 
 function generateKeymapJSON (layout, keymap, encoded) {
