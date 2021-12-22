@@ -39,12 +39,12 @@ const authorize = async (req, res) => {
 }
 
 const handleError = (err, req, res, next) => {
-  const message = err.response ? `[${err.response.status}] ${err.response.data}` : err
-  console.error(message, err)
-
   if (err.response && err.response.status === 401) {
-    console.error('Received upstream authentication error', err.re)
+    console.error('Received upstream authentication error', err.response.data)
     return res.sendStatus(401)
+  } else {
+    const message = err.response ? `[${err.response.status}] ${err.response.data}` : err
+    console.error(message, err)
   }
 
   res.sendStatus(500)
