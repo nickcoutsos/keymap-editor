@@ -113,12 +113,14 @@ const getKeyboardFiles = async (req, res, next) => {
     })
   } catch (err) {
     if (err instanceof MissingRepoFile) {
+      console.error(`Validation error in ${repository} (${branch}):`, err.constructor.name, err.errors)
       return res.status(400).json({
         name: err.constructor.name,
         path: err.path,
         errors: err.errors
       })
     } else if (err instanceof InfoValidationError || err instanceof KeymapValidationError) {
+      console.error(`Validation error in ${repository} (${branch}):`, err.constructor.name, err.errors)
       return res.status(400).json({
         name: err.name,
         errors: err.errors
