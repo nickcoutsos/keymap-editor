@@ -22,6 +22,7 @@
     "http-link-header": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "web-tree-sitter": "^0.19.4"
   }
 }
