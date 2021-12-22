@@ -1,42 +1,43 @@
 const linkHeader = require('http-link-header')
 
 const api = require('./api')
-const { createAppToken } = require('./auth')
+const { createInstallationToken } = require('./auth')
 
-async function fetchInstallation (user) {
-  const token = createAppToken()
-  try {
-    const response = await api.request({ url: `/users/${user}/installation`, token })
-    const { data } = response
-    if (data.suspended_at) {
-      console.log(`User ${user} has suspended app installation.`)
-      return { data: null }
-    }
+async function fetchInstallations (userToken) {
+  const url = '/user/installations'
+  const { data: { installations } } = await api.request({ url, token: userToken })
+  const active = installations.filter(installation => !installation.suspended_at)
 
-    return response
-  } catch(err) {
-    if (err.response && err.response.status === 404) {
-      console.log(`User ${user} does not have app installation.`)
-      return { data: null }
-    }
-
-    throw err
-  }
+  return active
 }
 
-async function fetchInstallationRepos (installationToken, installationId) {
-  const initialPage = `/user/installations/${installationId}/repositories`
+async function fetchInstallationRepos (userToken) {
   const repositories = []
+  const installations = await fetchInstallations(userToken)
+  const repoInstallationMap = {}
 
-  let url = initialPage
-  while (url) {
-    const { headers, data } = await api.request({ url, token: installationToken })
-    const paging = linkHeader.parse(headers.link || '')
-    repositories.push(...data.repositories)
-    url = paging.get('rel', 'next')?.[0]?.uri
+  for (let installation of installations) {
+    const { data: { token } } = await createInstallationToken(installation.id)
+
+    let url = `/installation/repositories`
+    while (url) {
+      const { headers, data } = await api.request({ url, token })
+      const paging = linkHeader.parse(headers.link || '')
+
+      repositories.push(...data.repositories)
+      for (let repo of data.repositories) {
+        repoInstallationMap[repo.full_name] = installation.id
+      }
+
+      url = paging.get('rel', 'next')?.[0]?.uri
+    }
   }
 
-  return repositories
+  return {
+    installations,
+    repositories,
+    repoInstallationMap
+  }
 }
 
 async function fetchRepoBranches (installationToken, repo) {
@@ -55,7 +56,7 @@ async function fetchRepoBranches (installationToken, repo) {
 }
 
 module.exports = {
-  fetchInstallation,
+  fetchInstallations,
   fetchInstallationRepos,
   fetchRepoBranches
 }

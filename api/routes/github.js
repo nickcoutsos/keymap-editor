@@ -5,14 +5,12 @@ const {
   getOauthUser,
   getUserToken,
   verifyUserToken,
-  fetchInstallation,
   fetchInstallationRepos,
   fetchRepoBranches,
   fetchKeyboardFiles,
   createOauthFlowUrl,
   createOauthReturnUrl,
-  commitChanges,
-  InvalidRepoError,
+  commitChanges
 } = require('../services/github')
 const { createInstallationToken } = require('../services/github/auth')
 const { MissingRepoFile, findCodeKeymap } = require('../services/github/files')
@@ -69,17 +67,15 @@ const authenticate = (req, res, next) => {
 
 const getInstallation = async (req, res, next) => {
   const { user } = req
-  
-  try {
-    const { data: installation } = await fetchInstallation(user.sub)
+  const { sub: username, oauth_access_token: userToken } = user
 
-    if (!installation) {
-      return res.json({ installation: null })
+  try {
+    const installationRepos = await fetchInstallationRepos(userToken)
+    if (installationRepos.installations.length === 0) {
+      console.log(`User ${username} does not have an active app installation.`)
     }
 
-    const repositories = await fetchInstallationRepos(user.oauth_access_token, installation.id)
-
-    res.json({ installation, repositories })
+    res.json(installationRepos)
   } catch (err) {
     next(err)
   }

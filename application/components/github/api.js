@@ -6,8 +6,9 @@ import * as config from '../../config'
 export class API extends EventEmitter {
   token = null
   initialized = false
-  installation = null
+  installations = null
   repositories = null
+  repoInstallationMap = null
 
   async _request (options) {
     if (typeof options === 'string') {
@@ -59,8 +60,9 @@ export class API extends EventEmitter {
         this.emit('app-not-installed')
       }
 
-      this.installation = data.installation
+      this.installations = data.installations
       this.repositories = data.repositories
+      this.repoInstallationMap = data.repoInstallationMap
     }
   }
 
@@ -78,11 +80,11 @@ export class API extends EventEmitter {
   }
 
   isAppInstalled() {
-    return this.installation && this.repositories?.length
+    return this.installations?.length && this.repositories?.length
   }
 
   async fetchRepoBranches(repo) {
-    const installation = encodeURIComponent(this.installation.id)
+    const installation = encodeURIComponent(this.repoInstallationMap[repo.full_name])
     const repository = encodeURIComponent(repo.full_name)
     const { data } = await this._request(
       `/github/installation/${installation}/${repository}/branches`
@@ -92,7 +94,7 @@ export class API extends EventEmitter {
   }
 
   async fetchLayoutAndKeymap(repo, branch) {
-    const installation = encodeURIComponent(this.installation.id)
+    const installation = encodeURIComponent(this.repoInstallationMap[repo])
     const repository = encodeURIComponent(repo)
     const url = new URL(`${config.apiBaseUrl}/github/keyboard-files/${installation}/${repository}`)
 
@@ -118,7 +120,7 @@ export class API extends EventEmitter {
   }
 
   commitChanges(repo, branch, layout, keymap) {
-    const installation = encodeURIComponent(this.installation.id)
+    const installation = encodeURIComponent(this.repoInstallationMap[repo])
     const repository = encodeURIComponent(repo)
 
     return this._request({
