@@ -2,7 +2,7 @@
 <script>
 export default {
   props: ['layers', 'activeLayer', 'onSelect'],
-  emits: ['select', 'new-layer'],
+  emits: ['select', 'new-layer', 'delete-layer'],
   data() {
     return {
       renaming: false
@@ -27,8 +27,9 @@ export default {
     handleAdd() {
       this.$emit('new-layer')
     },
-    handleDelete() {
-      alert('really delete?')
+    handleDelete(layerIndex, layerName) {
+      const confirmation = confirm(`really delete layer: ${layerName}?`);
+      confirmation && this.$emit("delete-layer", layerIndex);
     },
     handleClickOutside({ target }) {
       const input = this.$el.querySelector('.active input.name')
@@ -62,7 +63,7 @@ export default {
           {{name}}
           <span
             class="delete fa fa-times-circle"
-            @click.stop="handleDelete"
+            @click.stop="handleDelete(i, name)"
           />
         </span>
       </li>
