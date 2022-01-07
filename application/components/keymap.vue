@@ -126,7 +126,16 @@ export default {
       ]
 
       this.$emit('update', { ...this.keymap, layers })
-    }
+    },
+    handleDeleteLayer(layerIndex) {
+      const layer_names = [...this.keymap.layer_names];
+      layer_names.splice(layerIndex, 1);
+
+      const layers = [...this.keymap.layers];
+      layers.splice(layerIndex, 1);
+
+      this.$emit("update", { ...this.keymap, layers, layer_names });
+    },
   }
 }
 </script>
@@ -138,6 +147,7 @@ export default {
     :activeLayer="activeLayer"
     @select="activeLayer = $event"
     @new-layer="handleCreateLayer"
+    @delete-layer="handleDeleteLayer($event)"
   />
   <div :style="getWrapperStyle()" v-bind="$attrs">
     <keyboard-layout
