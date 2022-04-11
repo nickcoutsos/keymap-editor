@@ -1,5 +1,38 @@
 [
   {
+    "code": "&bl",
+    "name": "Backlight",
+    "includes": ["#include <dt-bindings/zmk/backlight.h>"],
+    "params": ["command"],
+    "commands": [{
+      "code": "BL_ON",
+      "description": "Turn on backlight"
+    }, {
+      "code": "BL_OFF",
+      "description": "Turn off backlight"
+    }, {
+      "code": "BL_TOG",
+      "description": "Toggle backlight on and off"
+    }, {
+      "code": "BL_INC",
+      "description": "Increase brightness"
+    }, {
+      "code": "BL_DEC",
+      "description": "Decrease brightness"
+    }, {
+      "code": "BL_CYCLE",
+      "description": "Cycle brightness"
+    }, {
+      "code": "BL_SET",
+      "description": "Set a specific brightness",
+      "additionalParams": [{
+        "name": "brightness",
+        "type": "integer",
+        "enum": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+      }]
+    }]
+  },
+  {
     "code": "&bt",
     "name": "Bluetooth",
     "params": ["command"],
@@ -24,10 +57,20 @@
     }]
   },
   {
+    "code": "&caps_word",
+    "name": "Caps Word",
+    "params": []
+  },
+  {
     "code": "&kp",
     "name": "Key Press",
     "params": ["code"],
     "includes": ["#include <dt-bindings/zmk/keys.h>"]
+  },
+  {
+    "code": "&key_repeat",
+    "name": "Key Repeat",
+    "params": []
   },
   {
     "code": "&lt",
@@ -68,6 +111,11 @@
   {
     "code": "&sl",
     "name": "Sticky Layer",
+    "params": ["layer"]
+  },
+  {
+    "code": "&to",
+    "name": "To Layer",
     "params": ["layer"]
   },
   {
