@@ -134,6 +134,7 @@ export default {
       const layers = [...this.keymap.layers];
       layers.splice(layerIndex, 1);
 
+      this.activeLayer = layers.length - 1
       this.$emit("update", { ...this.keymap, layers, layer_names });
     },
   }
