@@ -6,6 +6,45 @@ kinds of functionality (mainly those involving custom/configured behaviours).
 
 ![Screenshot](editor-screenshot.png)
 
+## Features
+
+### Current
+
+* WYSIWYG keycode and layer editing.
+* Keymap (JSON and `.keymap`) generation
+  * If the (non-standard) `row` and `col` attributes are specified in
+    `info.json` they will be used to render the generated files in a more human-
+    readable format that matches the physical layout of the keyboard. Note that
+    these values are now the row and column of the wiring matrix which may be
+    different to use GPIO pins more efficiently.
+
+### In Progress
+
+Currently working on moving towards parsing the devicetree syntax in `.keymap`
+files. A lot of ZMK features are going to be a challenge to implement, but just
+by being able to reliably read and write devicetree code it will be possible to
+use the editor to modify layer bindings without overwriting sections it doesn't
+recognize (for example, combos and custom configured behaviours).
+
+So far there's experimental support for this in the deployed app. Click on the
+gear icon in the top right and check the box to enable devicetree parsing.
+
+### Planned features
+
+* **Combo editing** -- this is the highest priority for me
+* **Rotary encoders**, but I don't have a plan for a clean UI design
+* **Behaviour configuration** to make things like homerow mods possible
+
+#### What else?
+
+If you have thoughts on what needs to be fixed to support _your_ keyboard or to
+make this a useful tool for users of either firmware, let me know.
+
+I'm not committing to taking this on myself, and I'll probably never do much
+testing on any other keyboards, but I'm happy to have discussions on where this
+(or another tool) can go.
+
+
 ## Setup
 
 You've got a couple of options:
@@ -31,65 +70,6 @@ Try it now:
 2. Go to [keymap-editor] and authorize it to access your forked repo.
 
 Read more about the [GitHub integration](api/services/github/README.md)
-
-
-## Features
-
-* WYSIWYG keycode and layer editing.
-* Keymap (JSON and `.keymap`) generation
-  * If the (non-standard) `row` and `col` attributes are specified in
-    `info.json` they will be used to render the generated files in a more human-
-    readable format that matches the physical layout of the keyboard. Note that
-    these values are now the rol and column of the wiring matrix which may be
-    different to use GPIO pins more efficiently.
-
-#### ZMK Behaviours
-
-The app tries to treat both firmware libraries the same way, parsing a key
-binding into a `behaviour` and a list of `parameters` -- QMK doesn't share this
-concept so a placeholder behaviour of `&kp` is used, and later ignored.
-
-I haven't studied all of ZMK's behaviours closely but this tool supports the
-unusual `&bt BT_SEL` behaviour/command which requires one additional parameter
-which needs to be added/parsed dynamically.
-
-Side note: I'm Canadian and default to writing behavio*ur*. To match ZMK I will
-try to standardize on its spelling but mistakes are likely.
-
-
-## What's broken/missing
-
-Probably a lot. Like I said, I've mostly built this for myself. I wanted a
-graphical way to edit my keymap and I didn't want to have to get yet another
-handwired keyboard merged into the QMK repo to rely on their configurator.
-
-I know that QMK moves quickly and now  supports a lot of configuration in
-`info.json` that I don't provide a way to edit. ZMK has a lot of behaviours that
-I haven't defined, and would benefit from a schema definition agreed on by the
-dev team.
-
-Some ZMK behaviours can be configured and some nodes of the device tree can be
-aliased, but I don't understand it well enough to make these first-class
-editable resources in this tool. As a short term solution I've added simplistic
-"templating" of an existing keymap file. If your repository includes a file
-called `config/*.keymap.template` the editor will replace the following tags
-with the appropriate generated code
-
-* `{{behaviour_includes}}`
-* `{{rendered_layers}}`
-
-Note that "simplistic" means "find-and-replace" and doesn't support templating
-other content of each layer section. So you may be able to define encoders in
-your keymap template but you can't make per-layer bindings for them.
-
-### What else?
-
-If you have thoughts on what needs to be fixed to support _your_ keyboard or to
-make this a useful tool for users of either firmware, let me know.
-
-I'm not committing to taking this on myself, and I'll probably never do much
-testing on any other keyboards, but I'm happy to have discussions on where this
-(or another tool) can go.
 
 
 ## License
