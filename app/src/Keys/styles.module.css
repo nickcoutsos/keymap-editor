@@ -1,0 +1,62 @@
+.key {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: #999;
+	background-color: whitesmoke;
+	font-size: 110%;
+	border-radius: 5px;
+}
+.key:hover {
+	background-color: var(--hover-selection);
+	transition: 200ms;
+	z-index: 1;
+}
+.key:hover .code, .key:hover .behaviour-binding {
+	color: white;
+}
+.key > .code {
+	padding: 5px;
+}
+
+.key[data-simple="true"] { font-size: 140%; }
+.key[data-long="true"] { font-size: 60%; }
+
+.params:not([data-is-root="true"])::before { content: '('; opacity: 0.4; font-weight: bold; margin: 2px; }
+.params:not([data-is-root="true"])::after { content: ')'; opacity: 0.4; font-weight: bold; margin: 2px; }
+.params:not([data-is-root="true"]) .param:not(:last-child)::after { content: ','; }
+
+.code { padding: 0px 4px; margin-left: -2px; margin-right: -2px; }
+
+.code {
+	cursor: pointer;
+	display: inline-block;
+	box-sizing: content-box;
+	min-width: 0.5em;
+	text-align: center;
+	border-radius: 4px;
+}
+.code.highlight {
+	background-color: white !important;
+	color: var(--hover-selection) !important;
+}
+
+.behaviour-binding {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  font-variant: smallcaps;
+  padding: 2px;
+  opacity: 0.5;
+}
+
+.behaviour-binding:hover {
+  cursor: pointer;
+  color: var(--hover-selection) !important;
+  background-color: white;
+  border-radius: 5px 0;
+  opacity: 1;
+}
