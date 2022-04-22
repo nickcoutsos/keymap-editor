@@ -1,6 +1,7 @@
 import find from 'lodash/find'
 import map from 'lodash/map'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import github from './api'
 import * as storage from './storage'
@@ -32,7 +33,7 @@ function Install() {
   )
 }
 
-export default function GithubPicker() {
+function GithubPicker(props) {
   const [initialized, setInitialized] = useState(false)
   const [repoId, setRepoId] = useState(null)
   const [branchName, setBranchName] = useState(null)
@@ -41,6 +42,57 @@ export default function GithubPicker() {
   const [loadingKeyboard, setLoadingKeyboard] = useState(false)
   const [loadKeyboardError, setLoadKeyboardError] = useState(null)
   const [loadKeyboardWarnings, setLoadKeyboardWarnings] = useState(null)
+
+  const { onSelect } = props
+
+  const clearSelection = useMemo(() => function () {
+    setBranchName(null)
+    setLoadKeyboardError(null)
+    setLoadKeyboardWarnings(null)
+  }, [
+    setBranchName,
+    setLoadKeyboardError,
+    setLoadKeyboardWarnings
+  ])
+
+  const lintKeyboard = useMemo(() => function ({ layout }) {
+    const noKeyHasPosition = layout.every(key => (
+      key.row === undefined &&
+      key.col === undefined
+    ))
+
+    if (noKeyHasPosition) {
+      setLoadKeyboardWarnings([
+        'Layout in info.json has no row/col definitions. Generated keymap files will not be nicely formatted.'
+      ])
+    }
+  }, [setLoadKeyboardWarnings])
+
+  const loadKeyboard = useMemo(() => async function () {
+    const available = github.repositories
+    const repository = find(available, { id: repoId })?.full_name
+    const branch = branchName
+
+    setLoadingKeyboard(true)
+    setLoadKeyboardError(null)
+
+    const response = await github.fetchLayoutAndKeymap(repository, branch)
+
+    setLoadingKeyboard(false)
+    lintKeyboard(response)
+
+    onSelect({
+      github: { repository, branch },
+      ...response
+    })
+  }, [
+    repoId,
+    branchName,
+    setLoadingKeyboard,
+    setLoadKeyboardError,
+    lintKeyboard,
+    onSelect
+  ])
 
   useEffect(() => {
     github.init().then(() => {
@@ -85,11 +137,11 @@ export default function GithubPicker() {
 
       const available = map(branches, 'name')
       const defaultBranch = repository.default_branch
-      const currentBranch = branchName
+      // const currentBranch = branchName
       const previousBranch = storage.getPersistedBranch(repoId)
       const onlyBranch = branches.length === 1 ? branches[0].name : null
 
-      for (let branch of [onlyBranch, currentBranch, previousBranch, defaultBranch]) {
+      for (let branch of [onlyBranch, /*currentBranch,*/ previousBranch, defaultBranch]) {
         if (available.includes(branch)) {
           setBranchName(branch)
           break
@@ -99,13 +151,20 @@ export default function GithubPicker() {
   }, [repoId])
 
   useEffect(() => {
+    repoId && storage.setPersistedRepository(repoId)
+  }, [repoId])
+
+  useEffect(() => {
+    branchName && storage.setPersistedBranch(repoId, branchName)
+  }, [repoId, branchName])
+
+  useEffect(() => {
     if (!repoId || !branchName) {
       return
     }
 
     loadKeyboard()
-  }, [repoId, branchName])
-
+  }, [repoId, branchName, loadKeyboard])
 
   if (!initialized) {
     return null
@@ -124,39 +183,6 @@ export default function GithubPicker() {
     name: branch.name
   }))
 
-  function clearSelection() {
-    setBranchName(null)
-    setLoadKeyboardError(null)
-    setLoadKeyboardWarnings(null)
-  }
-
-  async function loadKeyboard() {
-    const available = github.repositories
-    const repository = find(available, { id: repoId })?.full_name
-    const branch = branchName
-
-    setLoadingKeyboard(true)
-    setLoadKeyboardError(null)
-
-    const response = await github.fetchLayoutAndKeymap(repository, branch)
-
-    setLoadingKeyboard(false)
-    lintKeyboard(response)
-  }
-
-  function lintKeyboard({ layout }) {
-    const noKeyHasPosition = layout.every(key => (
-      key.row === undefined &&
-      key.col === undefined
-    ))
-
-    if (noKeyHasPosition) {
-      setLoadKeyboardWarnings([
-        'Layout in info.json has no row/col definitions. Generated keymap files will not be nicely formatted.'
-      ])
-    }
-  }
-
   return (
     <>
       <Selector
@@ -167,8 +193,9 @@ export default function GithubPicker() {
         onUpdate={setRepoId}
       />
 
-      {loadingBranches && <Spinner />}
-      {branches.length && (
+      {loadingBranches ? (
+        <Spinner />
+      ) : branches.length && (
         <Selector
           id="branch"
           label="Branch"
@@ -205,3 +232,9 @@ export default function GithubPicker() {
     </>
   )
 }
+
+GithubPicker.propTypes = {
+  onSelect: PropTypes.func.isRequired
+}
+
+export default GithubPicker
