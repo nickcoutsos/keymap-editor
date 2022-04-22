@@ -63,7 +63,7 @@ export default function Key(props) {
   function getSourceValue(value, as) {
     if (as === 'command') return commands[value]
     if (as === 'raw' || as.enum) return { code: value }
-    return sources[as][value]
+    return sources?.[as]?.[value]
   }
 
   function normalize(node, as) {
