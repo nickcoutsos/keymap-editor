@@ -4,9 +4,9 @@ import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
 import { useContext, useState } from 'react'
 
-import { DefinitionsContext } from '../providers'
-import { getBehaviourParams } from '../keymap'
-import { getKeyStyles } from '../key-units'
+import { DefinitionsContext } from '../../providers'
+import { getBehaviourParams } from '../../keymap'
+import { getKeyStyles } from '../../key-units'
 
 import KeyParamlist from './KeyParamlist'
 

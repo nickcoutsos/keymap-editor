@@ -1,14 +1,14 @@
 import '@fortawesome/fontawesome-free/css/all.css'
 import keyBy from 'lodash/keyBy'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react'
+
 import './App.css';
-import Key from './Keys/Key'
-import KeyParamlist from './Keys/KeyParamlist'
-import KeyValue from './Keys/KeyValue'
 import { DefinitionsContext } from './providers'
 import { loadKeycodes } from './keycodes'
 import { loadBehaviours } from './api'
 import KeyboardPicker from './Pickers/KeyboardPicker';
+import Spinner from './Common/Spinner';
+import Keyboard from './Keyboard/Keyboard'
 
 function App() {
   const position = { x: 1, y: 1 }
@@ -20,7 +20,34 @@ function App() {
   ]
 
   const [definitions, setDefinitions] = useState(null)
-  
+  // const [config, setConfig] = useState(null)
+  const [source, setSource] = useState(null)
+  const [sourceOther, setSourceOther] = useState(null)
+  const [layout, setLayout] = useState(null)
+  const [keymap, setKeymap] = useState(null)
+  const [editingKeymap, setEditingKeymap] = useState({})
+  const [saving, setSaving] = useState(false)
+
+  const handleCompile = useMemo(() => {}, [])
+  const handleCommitChanges = useMemo(() => {}, [])
+
+  const handleKeyboardSelected = useMemo(() => function(event) {
+    const { source, layout, keymap, ...other } = event
+
+    console.log('keyboard selected', event)
+    setSource(source)
+    setSourceOther(other)
+    setLayout(layout)
+    setKeymap(keymap)
+    setEditingKeymap(null)
+  }, [
+    setSource,
+    setSourceOther,
+    setLayout,
+    setKeymap,
+    setEditingKeymap
+  ])
+
   useEffect(() => {
     Promise.all([
       loadKeycodes(),
@@ -35,39 +62,39 @@ function App() {
 
   return (
     <div className="App">
-      <KeyboardPicker />
+      <KeyboardPicker onSelect={handleKeyboardSelected} />
+      <div id="actions">
+        {source === 'local' && (
+          <button
+            disabled={!editingKeymap}
+            onClick={handleCompile}
+          >
+            Save Local
+          </button>
+        )}
+        {source === 'github' && (
+          <button
+            title="Commit keymap changes to GitHub repository"
+            disabled={!editingKeymap}
+            onClick={handleCommitChanges}
+          >
+            {saving ? 'Saving' : 'Commit Changes'}
+            {saving && <Spinner />}
+          </button>
+        )}
+      </div>
       <header className="App-header">
-        {definitions && <DefinitionsContext.Provider value={definitions}>
-          <KeyValue source={{ code: 'foo' }} />
-          <KeyParamlist
-            index={[]}
-            params={['code']}
-            values={[
-              {
-                value: 'N1',
-                source: { code: 'N1', symbol: '1' },
-                params: []
-              }
-            ]}
-          />
-          <Key
-            position={position}
-            rotation={rotation}
-            size={size}
-            value={value}
-            params={params}
-          />
-          <Key
-            position={{ x: 2, y: 1 }}
-            rotation={rotation}
-            size={size}
-            value={'&kp'}
-            params={[{
-              value: 'C_VOL_UP',
-              source: definitions.keycodes.indexed.C_VOL_UP
-            }]}
-          />
-        </DefinitionsContext.Provider>}
+        {definitions && (
+          <DefinitionsContext.Provider value={definitions}>
+            {layout && keymap && (
+              <Keyboard
+                layout={layout}
+                keymap={keymap}
+                onUpdate={() => {}}
+              />
+            )}
+          </DefinitionsContext.Provider>
+        )}
       </header>
     </div>
   );

@@ -4,11 +4,11 @@ import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import times from 'lodash/times'
 import PropTypes from 'prop-types'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 
 import KeyboardLayout from './KeyboardLayout'
-import { getKeyBoundingBox } from './key-units'
-import { DefinitionsContext } from './providers'
+import { getKeyBoundingBox } from '../key-units'
+import { DefinitionsContext } from '../providers'
 
 function Keyboard(props) {
   const { layout, keymap, onUpdate } = props

@@ -1,5 +1,5 @@
 import get from 'lodash/get'
-import KeyValue from "./KeyValue";
+import KeyValue from './KeyValue'
 import styles from './styles.module.css'
 
 export default function KeyParamlist(props) {
