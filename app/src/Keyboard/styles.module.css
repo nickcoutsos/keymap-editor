@@ -1,0 +1,84 @@
+.layer-selector {
+  position: absolute;
+  z-index: 2;
+}
+
+.layer-selector ul {
+  display: inline-block;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.layer-selector li {
+	cursor: pointer;
+	background-color: rgba(201, 201, 201, 0.85);
+	color: darkgray;
+	border-radius: 15px;
+  height: 30px;
+	padding: 0px;
+	margin: 4px 2px;
+
+}
+.layer-selector li:hover {
+  background-color: rgba(60, 179, 113, 0.85);
+  color: white;
+}
+.layer-selector li.active {
+	background-color: rgb(60, 179, 113);
+	color: white;
+}
+
+.layer-selector li * {
+  display: inline-block;
+}
+.layer-selector li .index {
+  overflow: auto;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+.layer-selector li .name {
+  overflow: hidden;
+  width: 0;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  font-variant: small-caps;
+}
+
+.layer-selector:hover li .name,
+.layer-selector[data-renaming="true"] li .name {
+  transition: .15s ease-in;
+  width: 120px;
+  padding: 0 0 0 10px;
+}
+
+.layer-selector button {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.layer-selector input.name {
+  vertical-align: top;
+  width: 100px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.layer-selector .delete {
+  float: right;
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
+}
+
+.layer-selector li.active .name {
+  cursor: text;
+}

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { useContext, useMemo, useState } from 'react'
 
 import KeyboardLayout from './KeyboardLayout'
+import LayerSelector from './LayerSelector'
 import { getKeyBoundingBox } from '../key-units'
 import { DefinitionsContext } from '../providers'
 
@@ -119,16 +120,25 @@ function Keyboard(props) {
   }, [keymap, setActiveLayer, onUpdate])
 
   return (
-    <div style={getWrapperStyle()}>
-      {isReady() && (
-        <KeyboardLayout
-          data-layer={activeLayer}
-          layout={layout}
-          bindings={keymap.layers[activeLayer]}
-          onUpdate={event => handleUpdateLayer(activeLayer, event)}
-        />
-      )}
-    </div>
+    <>
+      <LayerSelector
+        layers={keymap.layer_names}
+        activeLayer={activeLayer}
+        onSelect={setActiveLayer}
+        onNewLayer={handleCreateLayer}
+        onDeleteLayer={handleDeleteLayer}
+      />
+      <div style={getWrapperStyle()}>
+        {isReady() && (
+          <KeyboardLayout
+            data-layer={activeLayer}
+            layout={layout}
+            bindings={keymap.layers[activeLayer]}
+            onUpdate={event => handleUpdateLayer(activeLayer, event)}
+          />
+        )}
+      </div>
+    </>
   )
 }
 
