@@ -41,7 +41,7 @@ export default {
       sourceChoices,
       source: onlySource || (
         sourceChoices.find(source => source.id === selectedSource)
-          ? selectedSource.id
+          ? selectedSource
           : null
       )
     }

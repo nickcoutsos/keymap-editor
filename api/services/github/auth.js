@@ -3,12 +3,13 @@ const path = require('path')
 const jwt = require('jsonwebtoken')
 
 const api = require('./api')
+const config = require('../../config')
 
 const pemPath = path.join(__dirname, '..', '..', '..', 'private-key.pem')
-const privateKey = process.env.GITHUB_APP_PRIVATE_KEY || fs.readFileSync(pemPath)
+const privateKey = config.GITHUB_APP_PRIVATE_KEY || fs.readFileSync(pemPath)
 
 function createAppToken () {
-  return  jwt.sign({ iss: process.env.GITHUB_APP_ID }, privateKey, {
+  return  jwt.sign({ iss: config.GITHUB_APP_ID }, privateKey, {
     algorithm: 'RS256',
     expiresIn: '10m'
   })
@@ -24,8 +25,8 @@ function createOauthFlowUrl () {
   const redirectUrl = new URL('https://github.com/login/oauth/authorize')
 
   redirectUrl.search = new URLSearchParams({
-    client_id: process.env.GITHUB_CLIENT_ID,
-    redirect_uri: process.env.GITHUB_OAUTH_CALLBACK_URL,
+    client_id: config.GITHUB_CLIENT_ID,
+    redirect_uri: config.GITHUB_OAUTH_CALLBACK_URL,
     state: 'foo'
   }).toString()
 
@@ -33,7 +34,7 @@ function createOauthFlowUrl () {
 }
 
 function createOauthReturnUrl (token) {
-  const url = new URL(process.env.APP_BASE_URL)
+  const url = new URL(config.APP_BASE_URL)
   url.search = new URLSearchParams({ token }).toString()
   return url.toString()
 }
@@ -46,8 +47,8 @@ function getOauthToken (code) {
       Accept: 'application/json'
     },
     data: {
-      client_id: process.env.GITHUB_CLIENT_ID,
-      client_secret: process.env.GITHUB_CLIENT_SECRET,
+      client_id: config.GITHUB_CLIENT_ID,
+      client_secret: config.GITHUB_CLIENT_SECRET,
       code
     }
   })
