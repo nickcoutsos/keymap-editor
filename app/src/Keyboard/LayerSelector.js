@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import styles from './styles.module.css'
 
 function LayerSelector(props) {
-  const { activeLayer, layers, onSelect, onNewLayer, onDeleteLayer } = props
+  const ref = useRef(null)
+  const { activeLayer, layers } = props
+  const { onSelect, onNewLayer, onRenameLayer, onDeleteLayer } = props
   const [renaming, setRenaming] = useState(false)
+  const [editing, setEditing] = useState('')
 
   const handleSelect = useMemo(() => function(layer) {
     if (layer === activeLayer) {
@@ -27,12 +30,15 @@ function LayerSelector(props) {
   }, [onDeleteLayer])
 
   const handleClickOutside = useMemo(() => function(event) {
-    // // TODO: ref?
-    // const input = this.$el.querySelector('.active input.name')
-    // if (renaming && input !== target) {
-    //   setRenaming(false)
-    // }
-  }, [renaming, setRenaming])
+    const clickedOutside = ref.current && ref.current.contains(event.target)
+    if (clickedOutside || !renaming) {
+      return
+    }
+
+    setEditing('')
+    setRenaming(false)
+    onRenameLayer(editing)
+  }, [ref, editing, onRenameLayer, setEditing, setRenaming])
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
@@ -40,7 +46,11 @@ function LayerSelector(props) {
   }, [handleClickOutside])
 
   return (
-    <div className={styles['layer-selector']} data-renaming={renaming}>
+    <div
+      className={styles['layer-selector']}
+      data-renaming={renaming}
+      ref={ref}
+    >
       <p>Layers:</p>
       <ul>
         {layers.map((name, i) => (
@@ -51,12 +61,15 @@ function LayerSelector(props) {
             onClick={() => handleSelect(i)}
           >
             <span className={styles.index}>{i}</span>
-            {(activeLayer == i && renaming) ? (
+            {(activeLayer === i && renaming) ? (
               <input
-                // v-model="layers[i]"
-                // :ref="input => input && input.focus()"
                 className={styles.name}
-                value={layers[i]}
+                onChange={e => setEditing(e.target.value)}
+                value={
+                  (activeLayer === i && renaming)
+                    ? editing
+                    : layers[i]
+                }
               />
             ) : (
               <span className={styles.name}>
@@ -83,6 +96,7 @@ LayerSelector.propTypes = {
   activeLayer: PropTypes.number.isRequired,
   onSelect: PropTypes.func.isRequired,
   onNewLayer: PropTypes.func.isRequired,
+  onRenameLayer: PropTypes.func.isRequired,
   onDeleteLayer: PropTypes.func.isRequired
 }
 

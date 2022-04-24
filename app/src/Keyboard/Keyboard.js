@@ -108,6 +108,16 @@ function Keyboard(props) {
     onUpdate({ ...keymap, layers })
   }, [keymap])
 
+  const handleRenameLayer = useMemo(() => function (layerName) {
+    const layer_names = [
+      ...keymap.layer_names.slice(0, activeLayer),
+      layerName,
+      ...keymap.layer_names.slice(activeLayer + 1)
+    ]
+
+    onUpdate({ ...keymap, layer_names })
+  }, [keymap, activeLayer, onUpdate])
+
   const handleDeleteLayer = useMemo(() => function (layerIndex) {
     const layer_names = [...keymap.layer_names]
     layer_names.splice(layerIndex, 1)
@@ -126,6 +136,7 @@ function Keyboard(props) {
         activeLayer={activeLayer}
         onSelect={setActiveLayer}
         onNewLayer={handleCreateLayer}
+        onRenameLayer={handleRenameLayer}
         onDeleteLayer={handleDeleteLayer}
       />
       <div style={getWrapperStyle()}>
