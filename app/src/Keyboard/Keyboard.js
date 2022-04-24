@@ -17,20 +17,20 @@ function Keyboard(props) {
   const [editing, setEditing] = useState(null)
   const {keycodes, behaviours} = useContext(DefinitionsContext)
 
-  const availableLayers = isEmpty(keymap) ? [] : (
+  const availableLayers = useMemo(() => isEmpty(keymap) ? [] : (
     keymap.layers.map((_, i) => ({
       code: i,
       description: keymap.layer_names[i] || `Layer ${i}`
     }))
-  )
+  ), [keymap])
 
-  const sources = {
+  const sources = useMemo(() => ({
     kc: keycodes.indexed,
     code: keycodes.indexed,
     mod: keyBy(filter(keycodes, 'isModifier'), 'code'),
     behaviours: behaviours.indexed,
     layer: keyBy(availableLayers, 'code')
-  }
+  }), [keycodes, behaviours, availableLayers])
 
   // TODO: this may be unnecessary
   const isReady = useMemo(() => function() {
@@ -95,7 +95,7 @@ function Keyboard(props) {
     const layers = [ ...keymap.layers, newLayer ]
 
     onUpdate({ ...keymap, layer_names: updatedLayerNames, layers })
-  }, [keymap, layout])
+  }, [keymap, layout, onUpdate])
 
   const handleUpdateLayer = useMemo(() => function(layerIndex, updatedLayer) {
     const original = keymap.layers
@@ -106,7 +106,7 @@ function Keyboard(props) {
     ]
 
     onUpdate({ ...keymap, layers })
-  }, [keymap])
+  }, [keymap, onUpdate])
 
   const handleRenameLayer = useMemo(() => function (layerName) {
     const layer_names = [
