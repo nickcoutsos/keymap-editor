@@ -64,14 +64,10 @@ function createPromptMessage(param) {
 }
 
 export default function Key(props) {
-  const { keycodes, behaviours } = useContext(DefinitionsContext)
-  const { getSearchTargets } = useContext(SearchContext)
+  const { behaviours } = useContext(DefinitionsContext)
+  const { getSearchTargets, sources } = useContext(SearchContext)
   const  { position, rotation, size } = props
   const { label, value, params, onUpdate } = props
-  const sources = {
-    behaviours: behaviours.indexed,
-    code: keycodes.indexed
-  }
   const [editing, setEditing] = useState(null)
 
   const bind = value

@@ -138,7 +138,7 @@ function Keyboard(props) {
         onRenameLayer={handleRenameLayer}
         onDeleteLayer={handleDeleteLayer}
       />
-      <SearchContext.Provider value={{ getSearchTargets }}>
+      <SearchContext.Provider value={{ getSearchTargets, sources }}>
         <div style={getWrapperStyle()}>
           {isReady() && (
             <KeyboardLayout
