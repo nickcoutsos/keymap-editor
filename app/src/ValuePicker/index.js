@@ -31,7 +31,6 @@ function ValuePicker (props) {
   const [highlighted, setHighlighted] = useState(null)
   const [showAll, setShowAll] = useState(false)
 
-
   const results = useMemo(() => {
     const options = { key: searchKey, limit: 30 }
     const filtered = fuzzysort.go(query, choices, options)
@@ -61,7 +60,7 @@ function ValuePicker (props) {
   }, [onSelect])
 
   const handleClickOutside = useMemo(() => function(event) {
-    if (listRef.current?.contains(event.target)) {
+    if (!listRef.current.contains(event.target)) {
       onCancel()
     }
   }, [listRef, onCancel])

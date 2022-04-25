@@ -119,6 +119,7 @@ export default function Key(props) {
     setEditing(editing)
   }
   function handleSelectBehaviour(event) {
+    event.stopPropagation()
     setEditing({
       target: event.target,
       targets: getSearchTargets('behaviour', value),
@@ -156,7 +157,10 @@ export default function Key(props) {
       // @mouseleave="onMouseLeave"
     >
     {behaviour ? (
-      <span className={styles['behaviour-binding']} onClick={handleSelectBehaviour}>
+      <span
+        className={styles['behaviour-binding']}
+        onClick={handleSelectBehaviour}
+      >
         {behaviour.code}
       </span>
     ) : null}
