@@ -11,14 +11,6 @@ import Spinner from './Common/Spinner';
 import Keyboard from './Keyboard/Keyboard'
 
 function App() {
-  const position = { x: 1, y: 1 }
-  const rotation = { r: 0, rx: 0, ry: 0 }
-  const size = { u: 1, h: 1 }
-  const value = '&kp'
-  const params = [
-    { value: 'N1' }
-  ]
-
   const [definitions, setDefinitions] = useState(null)
   // const [config, setConfig] = useState(null)
   const [source, setSource] = useState(null)
@@ -34,7 +26,6 @@ function App() {
   const handleKeyboardSelected = useMemo(() => function(event) {
     const { source, layout, keymap, ...other } = event
 
-    console.log('keyboard selected', event)
     setSource(source)
     setSourceOther(other)
     setLayout(layout)
@@ -47,6 +38,10 @@ function App() {
     setKeymap,
     setEditingKeymap
   ])
+
+  const handleUpdateKeymap = useMemo(() => function(keymap) {
+    setEditingKeymap(keymap)
+  }, [setEditingKeymap])
 
   useEffect(() => {
     Promise.all([
@@ -83,19 +78,17 @@ function App() {
           </button>
         )}
       </div>
-      <header className="App-header">
-        {definitions && (
-          <DefinitionsContext.Provider value={definitions}>
-            {layout && keymap && (
-              <Keyboard
-                layout={layout}
-                keymap={keymap}
-                onUpdate={() => {}}
-              />
-            )}
-          </DefinitionsContext.Provider>
-        )}
-      </header>
+      {definitions && (
+        <DefinitionsContext.Provider value={definitions}>
+          {layout && keymap && (
+            <Keyboard
+              layout={layout}
+              keymap={editingKeymap || keymap}
+              onUpdate={handleUpdateKeymap}
+            />
+          )}
+        </DefinitionsContext.Provider>
+      )}
     </div>
   );
 }
