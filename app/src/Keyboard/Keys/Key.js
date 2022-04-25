@@ -4,11 +4,13 @@ import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
 import { useContext, useState } from 'react'
 
-import { DefinitionsContext } from '../../providers'
+import { DefinitionsContext, SearchContext } from '../../providers'
 import { getBehaviourParams } from '../../keymap'
 import { getKeyStyles } from '../../key-units'
 
 import KeyParamlist from './KeyParamlist'
+import Modal from '../../Common/Modal'
+import ValuePicker from '../../ValuePicker'
 
 import styles from './styles.module.css'
 
@@ -23,8 +25,6 @@ function makeIndex (tree) {
 
   return index
 }
-
-function getSearchTargets() {}
 
 function isSimple(normalized) {
   const [first] = normalized.params
@@ -44,8 +44,28 @@ function isComplex(normalized, behaviourParams) {
   return isLongSymbol || isMultiParam || isNestedParam
 }
 
+function createPromptMessage(param) {
+  const promptMapping = {
+    layer: 'Select layer',
+    mod: 'Select modifier',
+    behaviour: 'Select behaviour',
+    command: 'Select command',
+    keycode: 'Select key code'
+  }
+
+  if (param.name) {
+    return `Select ${param.name}`
+  }
+
+  return (
+    promptMapping[param] ||
+    promptMapping.keycode
+  )
+}
+
 export default function Key(props) {
   const { keycodes, behaviours } = useContext(DefinitionsContext)
+  const { getSearchTargets } = useContext(SearchContext)
   const  { position, rotation, size } = props
   const { label, value, params, onUpdate } = props
   const sources = {
@@ -147,6 +167,20 @@ export default function Key(props) {
       values={normalized.params}
       onSelect={handleSelectCode}
     />
+    {editing && (
+      <Modal>
+        <ValuePicker
+          target={editing.target}
+          value={editing.code}
+          param={editing.param}
+          choices={editing.targets}
+          prompt={createPromptMessage(editing.param)}
+          searchKey="code"
+          onSelect={handleSelectValue}
+          onCancel={() => setEditing(null)}
+        />
+      </Modal>
+    )}
   </div>
   )
 }

@@ -15,7 +15,7 @@ const size = key => {
 }
 
 function KeyboardLayout(props) {
-  const { layout, bindings } = props
+  const { layout, bindings, onUpdate } = props
   const normalized = layout.map((_, i) => (
     bindings[i] || {
       value: '&none',
@@ -24,12 +24,12 @@ function KeyboardLayout(props) {
   ))
 
   const handleUpdateBind = useMemo(() => function(keyIndex, updateBinding) {
-    const bindings = [
+    onUpdate([
       ...normalized.slice(0, keyIndex),
       updateBinding,
       ...normalized.slice(keyIndex + 1)
-    ]
-  }, [normalized])
+    ])
+  }, [normalized, onUpdate])
 
   return (
     <div style={{ position: 'relative' }}>
@@ -42,7 +42,7 @@ function KeyboardLayout(props) {
           label={key.label}
           value={normalized[i].value}
           params={normalized[i].params}
-          onUpdate={handleUpdateBind}
+          onUpdate={bind => handleUpdateBind(i, bind)}
         />
       ))}
     </div>

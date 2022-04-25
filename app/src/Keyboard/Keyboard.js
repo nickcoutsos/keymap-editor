@@ -9,12 +9,11 @@ import { useContext, useMemo, useState } from 'react'
 import KeyboardLayout from './KeyboardLayout'
 import LayerSelector from './LayerSelector'
 import { getKeyBoundingBox } from '../key-units'
-import { DefinitionsContext } from '../providers'
+import { DefinitionsContext, SearchContext } from '../providers'
 
 function Keyboard(props) {
   const { layout, keymap, onUpdate } = props
   const [activeLayer, setActiveLayer] = useState(0)
-  const [editing, setEditing] = useState(null)
   const {keycodes, behaviours} = useContext(DefinitionsContext)
 
   const availableLayers = useMemo(() => isEmpty(keymap) ? [] : (
@@ -139,16 +138,18 @@ function Keyboard(props) {
         onRenameLayer={handleRenameLayer}
         onDeleteLayer={handleDeleteLayer}
       />
-      <div style={getWrapperStyle()}>
-        {isReady() && (
-          <KeyboardLayout
-            data-layer={activeLayer}
-            layout={layout}
-            bindings={keymap.layers[activeLayer]}
-            onUpdate={event => handleUpdateLayer(activeLayer, event)}
-          />
-        )}
-      </div>
+      <SearchContext.Provider value={{ getSearchTargets }}>
+        <div style={getWrapperStyle()}>
+          {isReady() && (
+            <KeyboardLayout
+              data-layer={activeLayer}
+              layout={layout}
+              bindings={keymap.layers[activeLayer]}
+              onUpdate={event => handleUpdateLayer(activeLayer, event)}
+            />
+          )}
+        </div>
+      </SearchContext.Provider>
     </>
   )
 }
