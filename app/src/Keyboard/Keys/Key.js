@@ -1,110 +1,38 @@
 import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
-import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
+import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
 
-import { DefinitionsContext, SearchContext } from '../../providers'
+import { SearchContext } from '../../providers'
 import { getBehaviourParams } from '../../keymap'
 import { getKeyStyles } from '../../key-units'
 
 import KeyParamlist from './KeyParamlist'
+import * as keyPropTypes from './keyPropTypes'
+import {
+  createPromptMessage,
+  hydrateTree,
+  isSimple,
+  isComplex,
+  makeIndex
+} from './util'
+import styles from './styles.module.css'
+
 import Modal from '../../Common/Modal'
 import ValuePicker from '../../ValuePicker'
 
-import styles from './styles.module.css'
-
-
-function makeIndex (tree) {
-  const index = []
-  ;(function traverse(tree) {
-    const params = tree.params || []
-    index.push(tree)
-    params.forEach(traverse)
-  })(tree)
-
-  return index
-}
-
-function isSimple(normalized) {
-  const [first] = normalized.params
-  const symbol = get(first, 'source.symbol', get(first, 'source.code', ''))
-  const shortSymbol = symbol.length === 1
-  const singleParam = normalized.params.length === 1
-  return singleParam && shortSymbol
-}
-
-function isComplex(normalized, behaviourParams) {
-  const [first] = normalized.params
-  const symbol = get(first, 'source.symbol', get(first, 'value', ''))
-  const isLongSymbol = symbol.length > 4
-  const isMultiParam = behaviourParams.length > 1
-  const isNestedParam = get(first, 'params', []).length > 0
-
-  return isLongSymbol || isMultiParam || isNestedParam
-}
-
-function createPromptMessage(param) {
-  const promptMapping = {
-    layer: 'Select layer',
-    mod: 'Select modifier',
-    behaviour: 'Select behaviour',
-    command: 'Select command',
-    keycode: 'Select key code'
-  }
-
-  if (param.name) {
-    return `Select ${param.name}`
-  }
-
-  return (
-    promptMapping[param] ||
-    promptMapping.keycode
-  )
-}
-
-export default function Key(props) {
-  const { behaviours } = useContext(DefinitionsContext)
+function Key(props) {
   const { getSearchTargets, sources } = useContext(SearchContext)
-  const  { position, rotation, size } = props
+  const { position, rotation, size } = props
   const { label, value, params, onUpdate } = props
   const [editing, setEditing] = useState(null)
 
   const bind = value
-  const behaviour = get(behaviours.indexed, bind)
+  const behaviour = get(sources.behaviours, bind)
   const behaviourParams = getBehaviourParams(params, behaviour)
 
-  const commands = keyBy(behaviour.commands, 'code')
-
-  function getSourceValue(value, as) {
-    if (as === 'command') return commands[value]
-    if (as === 'raw' || as.enum) return { code: value }
-    return sources?.[as]?.[value]
-  }
-
-  function normalize(node, as) {
-    if (!node) {
-      return { value: undefined, params: [] }
-    }
-    const { value, params } = node
-    const source = getSourceValue(value, as)
-
-    return {
-      value,
-      source,
-      params: get(source, 'params', []).map((as, i) => (
-        normalize(params[i], as)
-      ))
-    }
-  }
-
-  const normalized = {
-    value,
-    source: behaviour,
-    params: behaviourParams.map((as, i) => (
-      normalize(params[i], as)
-    ))
-  }
+  const normalized = hydrateTree(value, params, sources)
 
   const index = makeIndex(normalized)
   const positioningStyle = getKeyStyles(position, size, rotation)
@@ -185,3 +113,24 @@ export default function Key(props) {
   )
 }
 
+Key.propTypes = {
+  position: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }),
+  rotation: PropTypes.shape({
+    a: PropTypes.number,
+    rx: PropTypes.number,
+    ry: PropTypes.number
+  }),
+  size: PropTypes.shape({
+    u: PropTypes.number.isRequired,
+    h: PropTypes.number.isRequired
+  }),
+  label: PropTypes.string,
+  value: keyPropTypes.value.isRequired,
+  params: PropTypes.arrayOf(keyPropTypes.node),
+  onUpdate: PropTypes.func.isRequired
+}
+
+export default Key

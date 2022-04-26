@@ -1,8 +1,11 @@
 import get from 'lodash/get'
+import PropTypes from 'prop-types'
+
+import * as keyPropTypes from './keyPropTypes'
 import KeyValue from './KeyValue'
 import styles from './styles.module.css'
 
-export default function KeyParamlist(props) {
+function KeyParamlist(props) {
   const { index, params, values, onSelect, root } = props
   return (
     <span
@@ -32,3 +35,13 @@ export default function KeyParamlist(props) {
     </span>
   )
 }
+
+KeyParamlist.propTypes = {
+  index: keyPropTypes.index.isRequired,
+  params: PropTypes.arrayOf(keyPropTypes.param).isRequired,
+  values: PropTypes.arrayOf(keyPropTypes.node).isRequired,
+  source: keyPropTypes.source,
+  onSelect: PropTypes.func.isRequired
+}
+
+export default KeyParamlist

@@ -1,13 +1,15 @@
 import { useMemo } from 'react'
+import PropTypes from 'prop-types'
 
-import Icon from '../../Common/Icon'
+import * as keyPropTypes from './keyPropTypes'
 import styles from './styles.module.css'
+import Icon from '../../Common/Icon'
 
 function NullKey() {
   return <span>⦸</span>
 }
 
-export default function KeyValue(props) {
+function KeyValue(props) {
   const { param, index, value, source, onSelect } = props
   const title = source && `(${source.code}) ${source.description}`
   const text = source && <span>{source?.symbol || source?.code}</span>
@@ -33,3 +35,13 @@ export default function KeyValue(props) {
     </span>
   )
 }
+
+KeyValue.propTypes = {
+  index: PropTypes.number.isRequired,
+  param: keyPropTypes.param.isRequired,
+  value: keyPropTypes.value.isRequired,
+  source: keyPropTypes.source,
+  onSelect: PropTypes.func.isRequired
+}
+
+export default KeyValue
