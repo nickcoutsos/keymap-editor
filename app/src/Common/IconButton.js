@@ -1,9 +1,9 @@
 import Icon from './Icon'
 
-export default function IconButton({ brand, icon, text, children, onClick }) {
+export default function IconButton({ collection, icon, text, children, onClick }) {
   return (
     <button onClick={onClick}>
-      <Icon brand={brand} name={icon} /> {text || children}
+      <Icon collection={collection} name={icon} /> {text || children}
     </button>
   )
 }

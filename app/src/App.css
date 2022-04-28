@@ -21,7 +21,7 @@ html, body {
 	right: 20px;
 }
 
-button {
+#actions button {
   cursor: pointer;
   background-color: var(--hover-selection);
   color: white;

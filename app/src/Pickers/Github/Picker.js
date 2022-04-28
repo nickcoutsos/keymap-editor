@@ -14,7 +14,7 @@ import Spinner from '../../Common/Spinner'
 function Login() {
   return (
     <IconButton
-      brand
+      collection="brands"
       icon="github"
       text="Login with GitHub"
       onClick={() => github.beginLoginFlow()}
@@ -25,7 +25,7 @@ function Login() {
 function Install() {
   return (
     <IconButton
-      brand
+      collection="brands"
       icon="github"
       text="Add Repository"
       onClick={() => github.beginInstallAppFlow()}
