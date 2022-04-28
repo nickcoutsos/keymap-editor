@@ -1,6 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.css'
 import keyBy from 'lodash/keyBy'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import './App.css';
 import { DefinitionsContext } from './providers'
@@ -9,6 +9,8 @@ import { loadBehaviours } from './api'
 import KeyboardPicker from './Pickers/KeyboardPicker';
 import Spinner from './Common/Spinner';
 import Keyboard from './Keyboard/Keyboard'
+import GitHubLink from './GitHubLink'
+import Loader from './Common/Loader'
 
 function App() {
   const [definitions, setDefinitions] = useState(null)
@@ -39,56 +41,58 @@ function App() {
     setEditingKeymap
   ])
 
-  const handleUpdateKeymap = useMemo(() => function(keymap) {
-    setEditingKeymap(keymap)
-  }, [setEditingKeymap])
+  const initialize = useMemo(() => {
+    return async function () {
+      const [keycodes, behaviours] = await Promise.all([
+        loadKeycodes(),
+        loadBehaviours()
+      ])
 
-  useEffect(() => {
-    Promise.all([
-      loadKeycodes(),
-      loadBehaviours()
-    ]).then(([keycodes, behaviours]) => {
       keycodes.indexed = keyBy(keycodes, 'code')
       behaviours.indexed = keyBy(behaviours, 'code')
 
       setDefinitions({ keycodes, behaviours })
-    })
-  }, [])
+    }
+  }, [setDefinitions])
+
+  const handleUpdateKeymap = useMemo(() => function(keymap) {
+    setEditingKeymap(keymap)
+  }, [setEditingKeymap])
 
   return (
     <div className="App">
-      <KeyboardPicker onSelect={handleKeyboardSelected} />
-      <div id="actions">
-        {source === 'local' && (
-          <button
-            disabled={!editingKeymap}
-            onClick={handleCompile}
-          >
-            Save Local
-          </button>
-        )}
-        {source === 'github' && (
-          <button
-            title="Commit keymap changes to GitHub repository"
-            disabled={!editingKeymap}
-            onClick={handleCommitChanges}
-          >
-            {saving ? 'Saving' : 'Commit Changes'}
-            {saving && <Spinner />}
-          </button>
-        )}
-      </div>
-      {definitions && (
-        <DefinitionsContext.Provider value={definitions}>
-          {layout && keymap && (
-            <Keyboard
-              layout={layout}
-              keymap={editingKeymap || keymap}
-              onUpdate={handleUpdateKeymap}
-            />
+      <Loader load={initialize}>
+        <KeyboardPicker onSelect={handleKeyboardSelected} />
+        <div id="actions">
+          {source === 'local' && (
+            <button disabled={!editingKeymap} onClick={handleCompile}>
+              Save Local
+            </button>
           )}
-        </DefinitionsContext.Provider>
-      )}
+          {source === 'github' && (
+            <button
+              title="Commit keymap changes to GitHub repository"
+              disabled={!editingKeymap}
+              onClick={handleCommitChanges}
+            >
+              {saving ? 'Saving' : 'Commit Changes'}
+              {saving && <Spinner />}
+            </button>
+          )}
+        </div>
+        {definitions && (
+          <DefinitionsContext.Provider value={definitions}>
+            {layout && keymap && (
+              <Keyboard
+                layout={layout}
+                keymap={editingKeymap || keymap}
+                onUpdate={handleUpdateKeymap}
+              />
+            )}
+          </DefinitionsContext.Provider>
+        )}
+      </Loader>
+      <GitHubLink className="github-link" />
     </div>
   );
 }
