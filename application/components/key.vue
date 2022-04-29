@@ -140,15 +140,17 @@ export default {
     },
     isSimple() {
       const [first] = this.normalized.params
+      const icon = get(first, 'source.faIcon')
       const symbol = get(first, 'source.symbol', get(first, 'source.code', ''))
-      const shortSymbol = symbol.length === 1
+      const shortSymbol = !!icon || symbol.length === 1
       const singleParam = this.normalized.params.length === 1
       return singleParam && shortSymbol
     },
     isComplex() {
       const [first] = this.normalized.params
+      const icon = get(first, 'source.faIcon')
       const symbol = get(first, 'source.symbol', get(first, 'value', ''))
-      const isLongSymbol = symbol.length > 4
+      const isLongSymbol = !icon && symbol.length > 4
       const isMultiParam = this.behaviourParams.length > 1
       const isNestedParam = get(first, 'params', []).length > 0
 

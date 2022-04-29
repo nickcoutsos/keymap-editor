@@ -5,7 +5,7 @@
     @click.stop="onSelect({ target: $event.target, codeIndex: index, code: value, param })"
   >
     <template v-if="source">
-      <span v-if="source.faIcon" class="['fa', `fa-${source.faIcon}" />
+      <span v-if="source.faIcon" :class="['fa', `fa-${source.faIcon}`]" />
       <template v-else>{{source.symbol || source.code}}</template>
     </template>
     <template v-else>⦸</template>

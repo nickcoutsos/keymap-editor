@@ -36,7 +36,6 @@ function renderTable (layout, layer, opts={}) {
       (row[i] || []).length
       + columnSeparator.length
       + (useQuotes ? 2 : 0) // wrapping with quotes adds 2 characters
-      + (i === 6 ? 10 : 0) // sloppily add a little space between halves (right half starts at column 6)
     ))
   ))
 

@@ -1,6 +1,5 @@
-const process = require('process')
 const api = require('./api')
+const config = require('./api/config')
 
-const PORT = process.env.PORT || 8080
-api.listen(PORT)
-console.log('listening on', PORT)
+api.listen(config.PORT)
+console.log('listening on', config.PORT)

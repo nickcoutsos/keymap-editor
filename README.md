@@ -4,6 +4,9 @@ A browser app (plus NodeJS server) to edit ZMK keymaps. This is still in its
 infancy and doesn't yet support parsing existing ZMK keymaps which limits some
 kinds of functionality (mainly those involving custom/configured behaviours).
 
+**Try it live!** Go to the [keymap-editor] and try it out with the built-in
+[zmk-config-corne-demo] before setting up your own repo.
+
 ![Screenshot](editor-screenshot.png)
 
 ## Features

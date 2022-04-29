@@ -3,6 +3,8 @@ const path = require('path')
 const express = require('express')
 const expressWs = require('express-ws')
 
+const config = require('../config')
+
 const appDir = path.join(__dirname, '..', '..', 'application')
 
 function init (app) {
@@ -12,8 +14,8 @@ function init (app) {
     cwd: appDir,
     env: Object.assign({}, process.env, {
       ENABLE_LOCAL: true,
-      ENABLE_GITHUB: true,
-      GITHUB_APP_NAME: process.env.GITHUB_APP_NAME,
+      ENABLE_GITHUB: config.ENABLE_GITHUB,
+      GITHUB_APP_NAME: config.GITHUB_APP_NAME,
       API_BASE_URL: 'http://localhost:8080',
       APP_BASE_URL: 'http://localhost:8080/application'
     })
