@@ -15,7 +15,6 @@ import github from './Pickers/Github/api'
 
 function App() {
   const [definitions, setDefinitions] = useState(null)
-  // const [config, setConfig] = useState(null)
   const [source, setSource] = useState(null)
   const [sourceOther, setSourceOther] = useState(null)
   const [layout, setLayout] = useState(null)
