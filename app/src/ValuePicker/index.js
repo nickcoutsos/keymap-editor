@@ -1,6 +1,6 @@
 import fuzzysort from 'fuzzysort'
 import PropTypes from 'prop-types'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import style from './style.module.css'
 
@@ -25,7 +25,6 @@ function ValuePicker (props) {
   const { onCancel, onSelect } = props
 
   const listRef = useRef(null)
-  const searchRef = useRef(null)
 
   const [query, setQuery] = useState(null)
   const [highlighted, setHighlighted] = useState(null)
@@ -109,7 +108,7 @@ function ValuePicker (props) {
       ArrowDown: handleHighlightNext,
       ArrowUp: handleHightightPrev,
       Enter: handleSelectActive,
-      Esc: onCancel
+      Escape: onCancel
     }
 
     const action = mapping[event.key]
@@ -124,7 +123,13 @@ function ValuePicker (props) {
     onCancel
   ])
 
-  useEffect(() => searchRef.current?.focus() , [searchRef])
+  const focusSearch = useCallback(node => {
+    if (node) {
+      node.focus()
+      node.select()
+    }
+  }, [])
+
   useEffect(() => {
     document.body.addEventListener('click', handleClickOutside)
 
@@ -138,7 +143,7 @@ function ValuePicker (props) {
       <p>{prompt}</p>
       {choices.length > searchThreshold && (
         <input
-          ref={searchRef}
+          ref={focusSearch}
           type="text"
           value={query !== null ? query : value}
           onChange={handleKeyPress}
