@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types'
 
-export const param = PropTypes.oneOf(
-  ['code', 'layer', 'mod']
-)
+export const param = PropTypes.oneOfType([
+  PropTypes.oneOf(
+    ['code', 'layer', 'mod', 'command']
+  ),
+  PropTypes.shape({
+    enum: PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
+  })
+])
 export const params = PropTypes.arrayOf(param)
 export const value = PropTypes.oneOfType([
   PropTypes.string,
