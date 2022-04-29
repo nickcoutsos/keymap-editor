@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import Icon from '../Common/Icon'
 import styles from './styles.module.css'
 
 function LayerSelector(props) {
@@ -38,7 +39,14 @@ function LayerSelector(props) {
     setEditing('')
     setRenaming(false)
     onRenameLayer(editing)
-  }, [ref, editing, onRenameLayer, setEditing, setRenaming])
+  }, [
+    ref,
+    editing,
+    renaming,
+    onRenameLayer,
+    setEditing,
+    setRenaming
+  ])
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
@@ -56,7 +64,7 @@ function LayerSelector(props) {
         {layers.map((name, i) => (
           <li
             key={`layer-${i}`}
-            className={activeLayer == i && 'active' || ''}
+            className={activeLayer === i ? 'active' : ''}
             data-layer={i}
             onClick={() => handleSelect(i)}
           >
@@ -74,8 +82,9 @@ function LayerSelector(props) {
             ) : (
               <span className={styles.name}>
                 {name}
-                <span
-                  className={`${styles.delete} fa fa-times-circle`}
+                <Icon
+                  name="times-circle"
+                  className={styles.delete}
                   onClick={() => handleDelete(i, name)}
                 />
               </span>
@@ -83,7 +92,7 @@ function LayerSelector(props) {
           </li>
         ))}
         <li onClick={handleAdd}>
-          <span className={`${styles.index} fa fa-plus`} />
+          <Icon className={styles.index} name="plus" />
           <span className={styles.name}>Add Layer</span>
         </li>
       </ul>

@@ -23,5 +23,9 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0"
   }
 }

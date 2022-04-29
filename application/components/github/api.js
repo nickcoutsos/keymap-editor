@@ -1,5 +1,5 @@
+import axios from 'axios'
 import EventEmitter from 'eventemitter3'
-const axios = require('axios')
 
 import * as config from '../../config'
 
@@ -44,9 +44,9 @@ export class API extends EventEmitter {
     }
 
     const installationUrl = `${config.apiBaseUrl}/github/installation`
-    const param = new URLSearchParams(location.search).get('token')
+    const param = new URLSearchParams(window.location.search).get('token')
     if (!localStorage.auth_token && param) {
-      history.replaceState({}, null, location.pathname)
+      window.history.replaceState({}, null, window.location.pathname)
       localStorage.auth_token = param
     }
 
@@ -68,11 +68,11 @@ export class API extends EventEmitter {
 
   beginLoginFlow() {
     localStorage.removeItem('auth_token')
-    location.href = `${config.apiBaseUrl}/github/authorize`
+    window.location.href = `${config.apiBaseUrl}/github/authorize`
   }
 
   beginInstallAppFlow() {
-    location.href = `https://github.com/apps/${config.githubAppName}/installations/new`
+    window.location.href = `https://github.com/apps/${config.githubAppName}/installations/new`
   }
   
   isGitHubAuthorized() {
