@@ -1,8 +1,23 @@
 import PropTypes from 'prop-types'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import Icon from '../Common/Icon'
 import styles from './styles.module.css'
+
+function stop(fn) {
+  return function(event) {
+    event.stopPropagation()
+    fn()
+  }
+}
+
+function onKey(mapping) {
+  return function(event) {
+    if (mapping[event.key]) {
+      mapping[event.key]()
+    }
+  }
+}
 
 function LayerSelector(props) {
   const ref = useRef(null)
@@ -13,13 +28,14 @@ function LayerSelector(props) {
 
   const handleSelect = useMemo(() => function(layer) {
     if (layer === activeLayer) {
+      setEditing(layers[activeLayer])
       setRenaming(true)
       return
     }
 
     setRenaming(false)
     onSelect(layer)
-  }, [activeLayer, setRenaming, onSelect])
+  }, [layers, activeLayer, setEditing, setRenaming, onSelect])
 
   const handleAdd = useMemo(() => function() {
     onNewLayer()
@@ -30,28 +46,45 @@ function LayerSelector(props) {
     window.confirm(confirmation) && onDeleteLayer(layerIndex)
   }, [onDeleteLayer])
 
-  const handleClickOutside = useMemo(() => function(event) {
-    const clickedOutside = ref.current && ref.current.contains(event.target)
-    if (clickedOutside || !renaming) {
+  const finishEditing = useCallback(() => {
+    if (!renaming) {
       return
     }
 
     setEditing('')
     setRenaming(false)
     onRenameLayer(editing)
-  }, [
-    ref,
-    editing,
-    renaming,
-    onRenameLayer,
-    setEditing,
-    setRenaming
-  ])
+  }, [editing, renaming, setEditing, setRenaming, onRenameLayer])
+
+  const cancelEditing = useCallback(() => {
+    if (!renaming) {
+      return
+    }
+
+    setEditing('')
+    setRenaming(false)
+  }, [renaming, setEditing, setRenaming])
+
+  const handleClickOutside = useMemo(() => function(event) {
+    const clickedOutside = ref.current && !ref.current.contains(event.target)
+    if (!clickedOutside) {
+      return
+    }
+
+    cancelEditing()
+  }, [ref, cancelEditing])
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
     return () => document.removeEventListener('click', handleClickOutside)
   }, [handleClickOutside])
+
+  const focusInput = useCallback(node => {
+    if (node) {
+      node.focus()
+      node.select()
+    }
+  }, [])
 
   return (
     <div
@@ -64,15 +97,20 @@ function LayerSelector(props) {
         {layers.map((name, i) => (
           <li
             key={`layer-${i}`}
-            className={activeLayer === i ? 'active' : ''}
+            className={activeLayer === i ? styles.active : ''}
             data-layer={i}
-            onClick={() => handleSelect(i)}
+            onClick={stop(() => handleSelect(i))}
           >
             <span className={styles.index}>{i}</span>
             {(activeLayer === i && renaming) ? (
               <input
+                ref={focusInput}
                 className={styles.name}
                 onChange={e => setEditing(e.target.value)}
+                onKeyDown={onKey({
+                  Enter: finishEditing,
+                  Escape: cancelEditing
+                })}
                 value={
                   (activeLayer === i && renaming)
                     ? editing
@@ -85,7 +123,7 @@ function LayerSelector(props) {
                 <Icon
                   name="times-circle"
                   className={styles.delete}
-                  onClick={() => handleDelete(i, name)}
+                  onClick={stop(() => handleDelete(i, name))}
                 />
               </span>
             )}
