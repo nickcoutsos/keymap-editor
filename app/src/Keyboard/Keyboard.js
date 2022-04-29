@@ -124,9 +124,12 @@ function Keyboard(props) {
     const layers = [...keymap.layers]
     layers.splice(layerIndex, 1)
 
-    setActiveLayer(Math.max(0, layers.length - 1))
+    if (activeLayer > layers.length - 1) {
+      setActiveLayer(Math.max(0, layers.length - 1))
+    }
+
     onUpdate({ ...keymap, layers, layer_names })
-  }, [keymap, setActiveLayer, onUpdate])
+  }, [keymap, activeLayer, setActiveLayer, onUpdate])
 
   return (
     <>
