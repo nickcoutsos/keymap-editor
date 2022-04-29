@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Modal from './Modal'
 import Spinner from './Spinner'
@@ -37,7 +37,7 @@ function Loader(props) {
   }, [load])
 
   if (state.loaded) {
-    return <>{children}</>
+    return children
   } else if (!state.delayed) {
     return null
   }

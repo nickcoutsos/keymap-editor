@@ -11,6 +11,7 @@ import Spinner from './Common/Spinner';
 import Keyboard from './Keyboard/Keyboard'
 import GitHubLink from './GitHubLink'
 import Loader from './Common/Loader'
+import github from './Pickers/Github/api'
 
 function App() {
   const [definitions, setDefinitions] = useState(null)
@@ -19,11 +20,38 @@ function App() {
   const [sourceOther, setSourceOther] = useState(null)
   const [layout, setLayout] = useState(null)
   const [keymap, setKeymap] = useState(null)
-  const [editingKeymap, setEditingKeymap] = useState({})
+  const [editingKeymap, setEditingKeymap] = useState(null)
   const [saving, setSaving] = useState(false)
 
-  const handleCompile = useMemo(() => {}, [])
-  const handleCommitChanges = useMemo(() => {}, [])
+  function handleCompile() {
+    fetch('/keymap', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editingKeymap || keymap)
+    })
+  }
+
+  const handleCommitChanges = useMemo(() => function() {
+    const { repository, branch } = sourceOther.github
+
+    ;(async function () {
+      setSaving(true)
+      await github.commitChanges(repository, branch, layout, editingKeymap)
+      setSaving(false)
+
+      setKeymap(editingKeymap)
+      setEditingKeymap(null)
+    })()
+  }, [
+    layout,
+    editingKeymap,
+    sourceOther,
+    setSaving,
+    setKeymap,
+    setEditingKeymap
+  ])
 
   const handleKeyboardSelected = useMemo(() => function(event) {
     const { source, layout, keymap, ...other } = event
@@ -60,7 +88,7 @@ function App() {
   }, [setEditingKeymap])
 
   return (
-    <div className="App">
+    <>
       <Loader load={initialize}>
         <KeyboardPicker onSelect={handleKeyboardSelected} />
         <div id="actions">
@@ -80,20 +108,18 @@ function App() {
             </button>
           )}
         </div>
-        {definitions && (
-          <DefinitionsContext.Provider value={definitions}>
-            {layout && keymap && (
-              <Keyboard
-                layout={layout}
-                keymap={editingKeymap || keymap}
-                onUpdate={handleUpdateKeymap}
-              />
-            )}
-          </DefinitionsContext.Provider>
-        )}
+        <DefinitionsContext.Provider value={definitions}>
+          {layout && keymap && (
+            <Keyboard
+              layout={layout}
+              keymap={editingKeymap || keymap}
+              onUpdate={handleUpdateKeymap}
+            />
+          )}
+        </DefinitionsContext.Provider>
       </Loader>
       <GitHubLink className="github-link" />
-    </div>
+    </>
   );
 }
 

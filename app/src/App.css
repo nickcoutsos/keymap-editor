@@ -33,7 +33,7 @@ html, body {
   margin: 2px;
 }
 
-button[disabled] {
+#actions button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
 }
