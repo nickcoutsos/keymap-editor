@@ -40,6 +40,15 @@ function Keyboard(props) {
     )
   }, [keycodes, behaviours, keymap])
 
+  const searchTargets = useMemo(() => {
+    return {
+      behaviour: behaviours,
+      layer: availableLayers,
+      mod: filter(keycodes, 'isModifier'),
+      code: keycodes
+    }
+  }, [behaviours, keycodes, availableLayers])
+
   const getSearchTargets = useMemo(() => function (param, behaviour) {
     // Special case for behaviour commands which can dynamically add another
     // parameter that isn't defined at the root level of the behaviour.
@@ -48,20 +57,16 @@ function Keyboard(props) {
       return param.enum.map(v => ({ code: v }))
     }
 
-    switch (param) {
-      case 'behaviour':
-        return behaviours
-      case 'layer':
-        return availableLayers
-      case 'mod':
-        return filter(keycodes, 'isModifier')
-      case 'command':
-        return get(sources, ['behaviours', behaviour, 'commands'], [])
-      case 'kc':
-      default:
-        return keycodes
+    if (param === 'command') {
+      return get(sources, ['behaviours', behaviour, 'commands'], [])
     }
-  }, [keycodes, behaviours, sources, availableLayers])
+
+    if (!searchTargets[param]) {
+      console.log('cannot find target for', param)
+    }
+
+    return searchTargets[param]
+  }, [searchTargets, sources])
 
   const boundingBox = useMemo(() => function () {
     return layout.map(key => getKeyBoundingBox(
