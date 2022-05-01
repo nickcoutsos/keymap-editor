@@ -34,26 +34,30 @@ function Install() {
 }
 
 function GithubPicker(props) {
-  const [initialized, setInitialized] = useState(false)
-  const [repoId, setRepoId] = useState(null)
-  const [branchName, setBranchName] = useState(null)
-  const [branches, setBranches] = useState([])
-  const [loadingBranches, setLoadingBranches] = useState(false)
-  const [loadingKeyboard, setLoadingKeyboard] = useState(false)
-  const [loadKeyboardError, setLoadKeyboardError] = useState(null)
-  const [loadKeyboardWarnings, setLoadKeyboardWarnings] = useState(null)
+  const [state, setState] = useState({
+    initialized: false,
+    selectedRepoId: null,
+    selectedBranchName: null,
+    branches: [],
+    loadingBranches: false,
+    loadingKeyboard: false,
+    loadError: null,
+    loadWarnings: null
+  })
+
+  const { initialized, branches, selectedRepoId, selectedBranchName } = state
+  const { loadingBranches, loadingKeyboard, loadError, loadWarnings } = state
 
   const { onSelect } = props
 
   const clearSelection = useMemo(() => function () {
-    setBranchName(null)
-    setLoadKeyboardError(null)
-    setLoadKeyboardWarnings(null)
-  }, [
-    setBranchName,
-    setLoadKeyboardError,
-    setLoadKeyboardWarnings
-  ])
+    setState(state => ({
+      ...state,
+      selectedBranchName: null,
+      loadError: null,
+      loadWarnings: null
+    }))
+  }, [setState])
 
   const lintKeyboard = useMemo(() => function ({ layout }) {
     const noKeyHasPosition = layout.every(key => (
@@ -62,23 +66,22 @@ function GithubPicker(props) {
     ))
 
     if (noKeyHasPosition) {
-      setLoadKeyboardWarnings([
+      setState(state => ({ ...state, loadWarnings: [
         'Layout in info.json has no row/col definitions. Generated keymap files will not be nicely formatted.'
-      ])
+      ]}))
     }
-  }, [setLoadKeyboardWarnings])
+  }, [setState])
 
   const loadKeyboard = useMemo(() => async function () {
     const available = github.repositories
-    const repository = find(available, { id: repoId })?.full_name
-    const branch = branchName
+    const repository = find(available, { id: selectedRepoId })?.full_name
+    const branch = selectedBranchName
 
-    setLoadingKeyboard(true)
-    setLoadKeyboardError(null)
+    setState(state => ({ ...state, loadingKeyboard: true, loadError: null }))
 
     const response = await github.fetchLayoutAndKeymap(repository, branch)
 
-    setLoadingKeyboard(false)
+    setState(state => ({ ...state, loadingKeyboard: false }))
     lintKeyboard(response)
 
     onSelect({
@@ -86,10 +89,9 @@ function GithubPicker(props) {
       ...response
     })
   }, [
-    repoId,
-    branchName,
-    setLoadingKeyboard,
-    setLoadKeyboardError,
+    selectedRepoId,
+    selectedBranchName,
+    setState,
     lintKeyboard,
     onSelect
   ])
@@ -98,14 +100,19 @@ function GithubPicker(props) {
     github.init().then(() => {
       const persistedRepoId = storage.getPersistedRepository()
       const repositories = github.repositories || []
+      let selectedRepoId
 
       if (find(repositories, { id: persistedRepoId })) {
-        setRepoId(persistedRepoId)
+        selectedRepoId = persistedRepoId
       } else if (repositories.length > 0) {
-        setRepoId(repositories[0].id)
+        selectedRepoId = repositories[0].id
       }
 
-      setInitialized(true)
+      setState(state => ({
+        ...state,
+        initialized: true,
+        selectedRepoId
+      }))
     })
   }, [])
 
@@ -117,54 +124,51 @@ function GithubPicker(props) {
 
   useEffect(() => {
     github.on('repo-validation-error', err => {
-      setLoadKeyboardError(err)
-      setLoadingKeyboard(false)
+      setState(state => ({
+        ...state,
+        loadError: err,
+        loadingKeyboard: false
+      }))
     })
   }, [])
 
   useEffect(() => {
-    if (!repoId) {
+    if (!selectedRepoId) {
       return
     }
 
+    storage.setPersistedRepository(selectedRepoId)
+
     ;(async function() {
-      setLoadingBranches(true)
-      const repository = find(github.repositories, { id: repoId })
+      setState(state => ({ ...state, loadingBranches: true }))
+
+      const repository = find(github.repositories, { id: selectedRepoId })
       const branches = await github.fetchRepoBranches(repository)
 
-      setBranches(branches)
-      setLoadingBranches(false)
+      setState(state => ({ ...state, branches, loadingBranches: false }))
 
       const available = map(branches, 'name')
       const defaultBranch = repository.default_branch
-      // const currentBranch = branchName
-      const previousBranch = storage.getPersistedBranch(repoId)
+      const previousBranch = storage.getPersistedBranch(selectedRepoId)
       const onlyBranch = branches.length === 1 ? branches[0].name : null
 
-      for (let branch of [onlyBranch, /*currentBranch,*/ previousBranch, defaultBranch]) {
+      for (let branch of [onlyBranch, previousBranch, defaultBranch]) {
         if (available.includes(branch)) {
-          setBranchName(branch)
+          setState(state => ({ ...state, selectedBranchName: branch }))
           break
         }
       }
     })()
-  }, [repoId])
+  }, [selectedRepoId])
 
   useEffect(() => {
-    repoId && storage.setPersistedRepository(repoId)
-  }, [repoId])
-
-  useEffect(() => {
-    branchName && storage.setPersistedBranch(repoId, branchName)
-  }, [repoId, branchName])
-
-  useEffect(() => {
-    if (!repoId || !branchName) {
+    if (!selectedRepoId || !selectedBranchName) {
       return
     }
 
+    storage.setPersistedBranch(selectedRepoId, selectedBranchName)
     loadKeyboard()
-  }, [repoId, branchName, loadKeyboard])
+  }, [selectedRepoId, selectedBranchName, loadKeyboard])
 
   if (!initialized) {
     return null
@@ -188,9 +192,12 @@ function GithubPicker(props) {
       <Selector
         id="repo"
         label="Repository"
-        value={repoId}
+        value={selectedRepoId}
         choices={repositoryChoices}
-        onUpdate={setRepoId}
+        onUpdate={id => setState(state => ({
+          ...state,
+          selectedRepoId: id
+        }))}
       />
 
       {loadingBranches ? (
@@ -199,18 +206,21 @@ function GithubPicker(props) {
         <Selector
           id="branch"
           label="Branch"
-          value={branchName}
+          value={selectedBranchName}
           choices={branchChoices}
-          onUpdate={setBranchName}
+          onUpdate={name => setState(state => ({
+            ...state,
+            selectedBranchName: name
+          }))}
         />
       )}
 
       {loadingKeyboard && <Spinner />}
 
-      {loadKeyboardError && (
+      {loadError && (
         <ValidationErrors
-          title={loadKeyboardError.name}
-          errors={loadKeyboardError.errors}
+          title={loadError.name}
+          errors={loadError.errors}
           otherRepoOrBranchAvailable={
             repositoryChoices.length > 1
             || branchChoices.length > 0
@@ -218,16 +228,16 @@ function GithubPicker(props) {
           onDismiss={clearSelection}
         />
       )}
-      {loadKeyboardWarnings && (
+      {loadWarnings && (
         <ValidationErrors
           title="Warning"
-          errors={loadKeyboardWarnings}
-          onDismiss={() => setLoadKeyboardWarnings(null)}
+          errors={loadWarnings}
+          onDismiss={() => setState(state => ({ ...state, loadWarnings: null }))}
         />
       )}
 
-      {branchName && !loadingKeyboard && (
-        <button className="fa fa-sync" onClick={loadKeyboard} />
+      {selectedBranchName && !loadingKeyboard && (
+        <IconButton icon="sync" onClick={loadKeyboard} />
       )}
     </>
   )
