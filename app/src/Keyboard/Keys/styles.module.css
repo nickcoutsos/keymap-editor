@@ -43,6 +43,10 @@
 	color: var(--hover-selection) !important;
 }
 
+.code * {
+	pointer-events: none;
+}
+
 .behaviour-binding {
   position: absolute;
   top: 0;

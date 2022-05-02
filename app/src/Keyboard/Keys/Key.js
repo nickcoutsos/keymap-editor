@@ -37,6 +37,15 @@ function Key(props) {
   const index = makeIndex(normalized)
   const positioningStyle = getKeyStyles(position, size, rotation)
 
+  function onMouseOver(event) {
+    const old = document.querySelector(`.${styles.highlight}`)
+    old && old.classList.remove(styles.highlight)
+    event.target.classList.add(styles.highlight)
+  }
+  function onMouseLeave(event) {
+    event.target.classList.remove(styles.highlight)
+  }
+
   function handleSelectCode(event) {
     const editing = pick(event, ['target', 'codeIndex', 'code', 'param'])
     editing.targets = getSearchTargets(editing.param, value)
@@ -77,8 +86,8 @@ function Key(props) {
       data-simple={isSimple(normalized)}
       data-long={isComplex(normalized, behaviourParams)}
       style={positioningStyle}
-      // @mouseover="onMouseOver"
-      // @mouseleave="onMouseLeave"
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
     {behaviour ? (
       <span
