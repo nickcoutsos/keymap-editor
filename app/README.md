@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# Keymap Editor - Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a single page application currently written in React to integrate with
+the Keymap Editor API.
 
-## Available Scripts
+It handles keyboard selection and rendering of parsed keymap data into a visual
+editor. This application is _aware_ of some of the particulars of ZMK, but it
+receives key bindings already parsed into a tree of values and parameters.
 
-In the project directory, you can run:
+## Building
 
-### `npm start`
+The easiest way to use this is the [hosted version](https://nickcoutsos.github.io/keymap-editor).
+The second easiest is locally, served up via the API itself (in the repo root,
+run `npm run dev` and open `http://localhost:8080` in your browser).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+If you must deploy this app to the web then you'll need to take care of building
+it. This requires some configuration, as seen in the [config module](./config.js).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+All configuration is provided via environment variables.
 
-### `npm test`
+Variable                    | Description
+----------------------------|-------------
+`REACT_APP_API_BASE_URL`    | Fully qualified publicly accessible URL of the backend API.
+`REACT_APP_APP_BASE_URL`    | Fully qualified publicly accessible URL of _this_ app.
+`REACT_APP_GITHUB_APP_NAME` | The app name (slug?) of the GitHub app integration (only required if using with GitHub).
+`REACT_APP_ENABLE_GITHUB`   | Whether to enable fetching keyboard data from GitHub. Default is false, values `"1"`, `"on"`, `"yes"`, `"true"` are interpreted as `true`.
+`REACT_APP_ENABLE_LOCAL`    | Whether to enable fetching keyboard data from locally. Default is false, values `"1"`, `"on"`, `"yes"`, `"true"` are interpreted as `true`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+_Note: choosing to use the GitHub integration in your own environment isn't a
+matter of flipping a switch, you will need to set up your own app in GitHub and
+configure your API accordingly._
 
-### `npm run build`
+With these set you can run the npm build script, e.g.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+export REACT_APP_API_BASE_URL=...
+export REACT_APP_APP_BASE_URL=...
+export REACT_APP_GITHUB_APP_NAME=...
+export REACT_APP_ENABLE_GITHUB=...
+export REACT_APP_ENABLE_LOCAL=...
+npm run build
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+_(make sure you're in this directory, not the repository root!)_
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This will have webpack produce bundles in the `build/` directory which you can
+deploy however you like.
 
-### `npm run eject`
+### Deploying to GitHub Pages
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+On your GitHub repository's settings page, select _Pages_ in the sidebar. Pick a
+branch you want to serve the app from (I use `pages`) and choose the `/ (root)`
+directory. Check out that branch (I have another working repository locally for
+this) locally, or make a new orphaned branch if such a branch doesn't exist, and
+copy the contents of `build/` to it. Commit and push to the GitHub remote.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you're not familiar with this it's worth reading up on the [GitHub Pages docs](https://docs.github.com/en/pages).
