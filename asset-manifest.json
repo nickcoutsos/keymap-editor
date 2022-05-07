@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "https://nickcoutsos.github.io/keymap-editor/static/css/main.e2c4a006.css",
-    "main.js": "https://nickcoutsos.github.io/keymap-editor/static/js/main.74152d7a.js",
+    "main.js": "https://nickcoutsos.github.io/keymap-editor/static/js/main.f57b9896.js",
     "static/js/431.7a14b68c.chunk.js": "https://nickcoutsos.github.io/keymap-editor/static/js/431.7a14b68c.chunk.js",
     "static/media/fa-solid-900.ttf": "https://nickcoutsos.github.io/keymap-editor/static/media/fa-solid-900.e615bbcb258550973c16.ttf",
     "static/media/fa-brands-400.ttf": "https://nickcoutsos.github.io/keymap-editor/static/media/fa-brands-400.b823fc0dbb5a5f0c21bb.ttf",
@@ -13,10 +13,10 @@
     "static/media/fa-v4compatibility.woff2": "https://nickcoutsos.github.io/keymap-editor/static/media/fa-v4compatibility.afac89562a5301459069.woff2",
     "index.html": "https://nickcoutsos.github.io/keymap-editor/index.html",
     "main.e2c4a006.css.map": "https://nickcoutsos.github.io/keymap-editor/static/css/main.e2c4a006.css.map",
-    "main.74152d7a.js.map": "https://nickcoutsos.github.io/keymap-editor/static/js/main.74152d7a.js.map"
+    "main.f57b9896.js.map": "https://nickcoutsos.github.io/keymap-editor/static/js/main.f57b9896.js.map"
   },
   "entrypoints": [
     "static/css/main.e2c4a006.css",
-    "static/js/main.74152d7a.js"
+    "static/js/main.f57b9896.js"
   ]
 }
