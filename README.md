@@ -20,6 +20,14 @@ kinds of functionality (mainly those involving custom/configured behaviours).
     readable format that matches the physical layout of the keyboard. Note that
     these values are now the row and column of the wiring matrix which may be
     different to use GPIO pins more efficiently.
+* Build status/link: for those relying on GitHub actions to build their keyboard
+  firmware, the editor will now display the most recent build result and provide
+  a link to the results in GitHub. It also gets `workflow_run` events in real-
+  time so you can get live progress from within the editor.
+    * It's worth noting that at the time of this writing I had just finished the
+      work on this feature a few hours ago. It gets the latest workflow run for
+      the selected branch assuming that you only have one workflow defined for
+      your zmk-config repo.
 
 ### In Progress
 
@@ -41,11 +49,16 @@ gear icon in the top right and check the box to enable devicetree parsing.
 #### What else?
 
 If you have thoughts on what needs to be fixed to support _your_ keyboard or to
-make this a useful tool for users of either firmware, let me know.
+make this a useful tool for users, let me know.
 
-I'm not committing to taking this on myself, and I'll probably never do much
-testing on any other keyboards, but I'm happy to have discussions on where this
-(or another tool) can go.
+I'm not committing to taking this on myself, and as a hobbyist I don't have any
+commercially available keyboards to test out and provide specific support, but
+I'm happy to have discussions on where this (or another tool) can go.
+
+Do you have an idea you'd like to see implemented that might not work for this
+specific use case? _Talk to me_. I went to a lot of trouble building this and I
+can share a lot of that experience. Even if we don't have the same needs a lot
+of things can be supported modularly.
 
 
 ## Setup
@@ -62,10 +75,9 @@ Read more about [local setup](running-locally.md)
 
 ### Web
 
-This editor has a (very) rudimentary GitHub integration. You can load the web
-app and grant it access to your zmk-config repo. Changes to your keymap are
-committed right back to the repository so you only ever need to leave the app to
-download your firmware.
+This editor has a GitHub integration. You can load the web app and grant it
+access to your zmk-config repo. Changes to your keymap are committed right back
+to the repository so you only ever need to leave the app to download firmware.
 
 Try it now:
 
