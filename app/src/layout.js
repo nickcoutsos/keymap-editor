@@ -1,1 +1,1 @@
-../../application/layout.js
+export { loadLayout } from './api'

@@ -10,9 +10,7 @@ const keyboards = require('./routes/keyboards')
 const app = express()
 
 app.use(bodyParser.json())
-app.use(cors({
-  origin: 'https://nickcoutsos.github.io'
-}))
+app.use(cors({ origin: config.APP_BASE_URL }))
 
 if (config.ENABLE_DEV_SERVER) {
   applicationInit(app)
@@ -25,4 +23,3 @@ app.use(keyboards)
 config.ENABLE_GITHUB && app.use('/github', require('./routes/github'))
 
 module.exports = app
-
