@@ -9,8 +9,10 @@ const keyboards = require('./routes/keyboards')
 
 const app = express()
 
+const { origin } = new URL(config.APP_BASE_URL)
+
 app.use(bodyParser.json())
-app.use(cors({ origin: config.APP_BASE_URL }))
+app.use(cors({ origin }))
 
 if (config.ENABLE_DEV_SERVER) {
   applicationInit(app)
