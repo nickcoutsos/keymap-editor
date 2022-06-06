@@ -1,8 +1,8 @@
 # Keymap Editor
 
-A browser app (plus NodeJS server) to edit ZMK keymaps. This is still in its
-infancy and doesn't yet support parsing existing ZMK keymaps which limits some
-kinds of functionality (mainly those involving custom/configured behaviours).
+A browser app (plus NodeJS server) to edit ZMK keymaps. This has been a solo
+project but in a workable state for quite a while now, and new features are in
+development all the time.
 
 **Try it live!** Go to the [keymap-editor] and try it out with the built-in
 [zmk-config-corne-demo] before setting up your own repo.
@@ -24,10 +24,19 @@ kinds of functionality (mainly those involving custom/configured behaviours).
   firmware, the editor will now display the most recent build result and provide
   a link to the results in GitHub. It also gets `workflow_run` events in real-
   time so you can get live progress from within the editor.
-    * It's worth noting that at the time of this writing I had just finished the
-      work on this feature a few hours ago. It gets the latest workflow run for
-      the selected branch assuming that you only have one workflow defined for
-      your zmk-config repo.
+* **\[NEW\]**  [Combo editing](./editor-screenshot-combos.png)
+  * Fairly recent development. This allows you to assign a key bind and select
+    input keys visually using a scaled down mapping of the keymap layout.
+  * Supports further configuration of the `timeout`, `slow-release`, and
+    `layers` properties.
+* **\[NEW\]** [Macro editing](./editor-screenshot-macros.png)
+  * Still in beta, but this feature enables editing macros defined in your
+    `.keymap` file (as well as creating new ones of course) and assigning them
+    as custom behaviours in your keymap.
+  * Will eventually support reading macros from included `.dtsi` files.
+* **\[NEW\]** [Dark mode!](./editor-screenshot-darkmode.png)
+    * Not really my thing but it seems important to people.
+    * Set the theme manually or let your OS/browser set the default.
 
 ### In Progress
 
@@ -42,7 +51,11 @@ gear icon in the top right and check the box to enable devicetree parsing.
 
 ### Planned features
 
-* **Combo editing** -- this is the highest priority for me
+* **Devicetree parsing** -- this is kind of the default but it needs refinement
+* **Upstream repos** -- this will make it possible to edit keymaps for keyboards
+  defined in remote repositories (such as the core ZMK repo). Once this is in
+  place the automatic layout generation will Just Work for most people... or at
+  least enough to get started with the editor.
 * **Rotary encoders**, but I don't have a plan for a clean UI design
 * **Behaviour configuration** to make things like homerow mods possible
 
