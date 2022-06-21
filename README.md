@@ -7,7 +7,7 @@ development all the time.
 **Try it live!** Go to the [keymap-editor] and try it out with the built-in
 [zmk-config-corne-demo] before setting up your own repo.
 
-![Screenshot](editor-screenshot.png)
+![Screenshot](./screenshots/editor-screenshot.png)
 
 ## Features
 
