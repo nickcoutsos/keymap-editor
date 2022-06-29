@@ -11,42 +11,15 @@ development all the time.
 
 ## Features
 
-### Current
+* WYSIWYG keymap editing
+* GitHub integration
+* [Combo editing](./screenshots/editor-screenshot-combos.png)
+* [Macro editing](./screenshots/editor-screenshot-macros.png)
+* [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
+* Support for custom behaviour definitions
+* Rotary encoders
 
-* WYSIWYG keycode and layer editing.
-* Keymap bindings formatting
-  * If the (non-standard) `row` and `col` attributes are specified in
-    `info.json` they will be used to render the generated files in a more human-
-    readable format that matches the physical layout of the keyboard. Note that
-    these values are not the row and column of the wiring matrix which may be
-    different to use GPIO pins more efficiently.
-  * **\[NEW\]** Automatic formatting of `.keymap` file
-* Build status/link: for those relying on GitHub actions to build their keyboard
-  firmware, the editor will now display the most recent build result and provide
-  a link to the results in GitHub. It also gets `workflow_run` events in real-
-  time so you can get live progress from within the editor.
-* **\[NEW\]**  [Combo editing](./screenshots/editor-screenshot-combos.png)
-  * Fairly recent development. This allows you to assign a key bind and select
-    input keys visually using a scaled down mapping of the keymap layout.
-  * Supports further configuration of the `timeout`, `slow-release`, and
-    `layers` properties.
-* **\[NEW\]** [Macro editing](./screenshots/editor-screenshot-macros.png)
-  * Still in beta, but this feature enables editing macros defined in your
-    `.keymap` file (as well as creating new ones of course) and assigning them
-    as custom behaviours in your keymap.
-  * Will eventually support reading macros from included `.dtsi` files.
-* **\[NEW\]** [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
-    * Not really my thing but it seems important to people.
-    * Set the theme manually or let your OS/browser set the default.
-* **\[NEW\]** [Automatic layout generation](./screenshots/layout-example.png)
-    * If you don't want to create a layout from scratch you can have the editor
-      attempt to generate one automatically.
-    * This requires you to either have devicetree source in the repository or to
-      be editing a keymap for a keyboard available in the ZMK repository.
-* **\[NEW\]** Support for custom behaviour definitions
-    * Custom behaviors in your keymap (like homerow mods!) can be bound to keys
-      in your keymap (and combos, and macros!).
-    * For now these behaviors cannot be edited directly.
+_Read more: [Wiki:Features]_
 
 ### In Progress
 
@@ -63,7 +36,6 @@ recognize (for example, combos and custom configured behaviours).
   defined in remote repositories (such as the core ZMK repo). Once this is in
   place the automatic layout generation will Just Work for most people... or at
   least enough to get started with the editor.
-* **Rotary encoders**, but I don't have a plan for a clean UI design
 * **Behaviour configuration** to make things like homerow mods possible
 * **Keymap diagram export** I'd like to be able to reference keymap diagrams in
   the repository's `README.md` and have the editor update those diagrams upon
@@ -120,3 +92,5 @@ license as well.
 
 [keymap-editor]: https://nickcoutsos.github.io/keymap-editor/
 [zmk-config-corne-demo]: https://github.com/nickcoutsos/zmk-config-corne-demo
+[Wiki:Automatic Layout Generation]: https://github.com/nickcoutsos/keymap-editor/wiki/Defining-keyboard-layouts#automatic-layout-generation
+[Wiki:Features]: https://github.com/nickcoutsos/keymap-editor/wiki/Features
