@@ -77,8 +77,8 @@ to the repository so you only ever need to leave the app to download firmware.
 
 Try it now:
 
-1. Fork [zmk-config-corne-demo] on GitHub
-2. Go to [keymap-editor] and authorize it to access your forked repo.
+1. Make your own repo using the [zmk-config-corne-demo template] on GitHub
+2. Go to [keymap-editor] and authorize it to access your own repo.
 
 Read more about the [GitHub integration](api/services/github/README.md)
 
@@ -92,5 +92,6 @@ license as well.
 
 [keymap-editor]: https://nickcoutsos.github.io/keymap-editor/
 [zmk-config-corne-demo]: https://github.com/nickcoutsos/zmk-config-corne-demo
+[zmk-config-corne-demo template]: https://github.com/nickcoutsos/zmk-config-corne-demo/generate
 [Wiki:Automatic Layout Generation]: https://github.com/nickcoutsos/keymap-editor/wiki/Defining-keyboard-layouts#automatic-layout-generation
 [Wiki:Features]: https://github.com/nickcoutsos/keymap-editor/wiki/Features
