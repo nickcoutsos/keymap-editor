@@ -41,7 +41,7 @@ export default function ValidationErrors(props) {
 
         {otherRepoOrBranchAvailable && (
           <p>
-            If you have another branch or repository the the required metadata files
+            If you have another branch or repository, the required metadata files
             you may switch to them instead.
           </p>
         )}
