@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import keyBy from 'lodash/keyBy'
 import { useMemo, useState } from 'react'
 
+import * as config from './config'
 import './App.css';
 import { DefinitionsContext } from './providers'
 import { loadKeycodes } from './keycodes'
@@ -23,7 +24,7 @@ function App() {
   const [saving, setSaving] = useState(false)
 
   function handleCompile() {
-    fetch('/keymap', {
+    fetch(`${config.apiBaseUrl}/keymap`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
