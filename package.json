@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd application && npm install",
+    "postinstall": "cd app && npm install",
     "start": "node index.js",
     "dev": "cross-env ENABLE_DEV_SERVER=true node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
