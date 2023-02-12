@@ -17,7 +17,9 @@ development all the time.
 * [Macro editing](./screenshots/editor-screenshot-macros.png)
 * [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
 * Support for custom behaviour definitions
+* Automatic layout generation for most keyboards available in the ZMK repo
 * Rotary encoders
+* Multiple keymaps
 
 _Read more: [Wiki:Features]_
 
@@ -31,12 +33,10 @@ recognize (for example, combos and custom configured behaviours).
 
 ### Planned features
 
-* **Devicetree parsing** -- this is kind of the default but it needs refinement
-* **Upstream repos** -- this will make it possible to edit keymaps for keyboards
-  defined in remote repositories (such as the core ZMK repo). Once this is in
-  place the automatic layout generation will Just Work for most people... or at
-  least enough to get started with the editor.
-* **Behaviour configuration** to make things like homerow mods possible
+* **Devicetree parsing** -- keymap changes are made directly to your existing
+  `<keyboard>.keymap` file so that your keymap is readable and ready for manual
+  adjustment should the need arise.
+* **Behaviour configuration** (currently in limited beta)
 * **Keymap diagram export** I'd like to be able to reference keymap diagrams in
   the repository's `README.md` and have the editor update those diagrams upon
   comitting the changes. I'm searching for efficient ways to reuse the React
