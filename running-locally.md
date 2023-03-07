@@ -6,7 +6,9 @@ already cloned onto your computer.
 ## Setup
 
 1. Clone this repo and open the new directory in a terminal.
-3. Clone a `zmk-config`\* repo. Either create symlinks in this directory to the
+2. Copy `.env.template` to `.env`. You can fill in this file as appropriate, but
+   this is enough to get started.
+4. Clone a `zmk-config`\* repo. Either create symlinks in this directory to the
   cloned repositories or clone them into this directory if you must.
 3. Run `npm install`
 4. Run `npm run dev`
