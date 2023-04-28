@@ -5,7 +5,7 @@ project but in a workable state for quite a while now, and new features are in
 development all the time.
 
 **Try it live!** Go to the [keymap-editor] and try it out with the built-in
-[zmk-config-corne-demo] before setting up your own repo.
+[keymap-editor-demo-crkbd] before setting up your own repo.
 
 ![Screenshot](./screenshots/editor-screenshot.png)
 
@@ -77,7 +77,7 @@ to the repository so you only ever need to leave the app to download firmware.
 
 Try it now:
 
-1. Make your own repo using the [zmk-config-corne-demo template] on GitHub
+1. Make your own repo using the [keymap-editor-demo-crkbd template] on GitHub
 2. Go to [keymap-editor] and authorize it to access your own repo.
 
 Read more about the [GitHub integration](api/services/github/README.md)
@@ -91,7 +91,7 @@ The collection of ZMK keycodes is taken from the ZMK documentation under the MIT
 license as well.
 
 [keymap-editor]: https://nickcoutsos.github.io/keymap-editor/
-[zmk-config-corne-demo]: https://github.com/nickcoutsos/zmk-config-corne-demo
-[zmk-config-corne-demo template]: https://github.com/nickcoutsos/zmk-config-corne-demo/generate
+[keymap-editor-demo-crkbd]: https://github.com/nickcoutsos/keymap-editor-demo-crkbd/
+[keymap-editor-demo-crkbd template]: https://github.com/nickcoutsos/keymap-editor-demo-crkbd/generate
 [Wiki:Automatic Layout Generation]: https://github.com/nickcoutsos/keymap-editor/wiki/Defining-keyboard-layouts#automatic-layout-generation
 [Wiki:Features]: https://github.com/nickcoutsos/keymap-editor/wiki/Features
