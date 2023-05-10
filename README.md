@@ -12,11 +12,14 @@ development all the time.
 ## Features
 
 * WYSIWYG keymap editing
-* GitHub integration
+* Multiple keymap sources:
+  * GitHub repositories
+  * Clipboard
+  * Local file system (Chromium browsers only)
+* [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
 * [Combo editing](./screenshots/editor-screenshot-combos.png)
 * [Macro editing](./screenshots/editor-screenshot-macros.png)
-* [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
-* Support for custom behaviour definitions
+* Behavior editing
 * Automatic layout generation for most keyboards available in the ZMK repo
 * Rotary encoders
 * Multiple keymaps
@@ -25,18 +28,15 @@ _Read more: [Wiki:Features]_
 
 ### In Progress
 
-Currently working on moving towards parsing the devicetree syntax in `.keymap`
-files. A lot of ZMK features are going to be a challenge to implement, but just
-by being able to reliably read and write devicetree code it will be possible to
-use the editor to modify layer bindings without overwriting sections it doesn't
-recognize (for example, combos and custom configured behaviours).
+There's a great deal of functionality present at the moment. As long as you're
+not obscuring the devicetree syntax by using custom preprocessor macros you can
+parse most of ZMK's functionality.
+
+Right now I'm working on cleaning up the codebase and refactoring to make the
+different pieces more reusable between the backend server and browser app.
 
 ### Planned features
 
-* **Devicetree parsing** -- keymap changes are made directly to your existing
-  `<keyboard>.keymap` file so that your keymap is readable and ready for manual
-  adjustment should the need arise.
-* **Behaviour configuration** (currently in limited beta)
 * **Keymap diagram export** I'd like to be able to reference keymap diagrams in
   the repository's `README.md` and have the editor update those diagrams upon
   comitting the changes. I'm searching for efficient ways to reuse the React
@@ -67,9 +67,24 @@ You can clone this repo and your zmk-config and run the editor locally. Changes
 are saved to the keymap files in your local repository and you can commit and
 push them to as desired to trigger the GitHub Actions build.
 
+> **Note**
+> The code you're looking at here is very out-of-date compared to the deployed
+> web app. If you want to use this without depending on giving this app access
+> to your GitHub repository you can choose the app's _Clipboard_ or _FileSystem_
+> keymap source.
+
 Read more about [local setup](running-locally.md)
 
 ### Web
+
+#### With local keymaps
+
+In the editor you can choose the _Clipboard_ keymap source and paste in the
+contents of your ZMK `.keymap` file, and if you're using a Chromium-based web
+browser you can alternatively use the _FileSystem_ source to read and make 
+changes to select `.keymap` files directly.
+
+#### With your GitHub repositories
 
 This editor has a GitHub integration. You can load the web app and grant it
 access to your zmk-config repo. Changes to your keymap are committed right back
