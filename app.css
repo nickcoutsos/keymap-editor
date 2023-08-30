@@ -1,0 +1,102 @@
+:root {
+  --bg: white;
+  --bg-rgb: 255,255,255;
+  --fg: black;
+  --dialog-bg: white;
+	--dark-red: #910e0e;
+	--dark-blue: #6d99c6;
+  --error-highlight: rgb(179, 60, 60);
+  --selection: rgb(60, 179, 113);
+  --hover-selection: rgba(60, 179, 113, 0.85);
+  --delete: rgb(179, 60, 72);
+  --delete-faint: rgba(179, 60, 72, 0.6);
+  --link: royalblue;
+  --link-hover: #6d99c6;
+  --key-bg-base: #f2f2f2;
+  --key-bg-hover: white;
+  --key-bg-highlight: sandybrown;
+  --key-color-base: hsl(0, 0%, 30%);
+  --key-color-extreme: #313131;
+  --key-color-hover: white;
+  --code-bg: rgba(0, 0, 0, 0.15);
+}
+html {
+  font-family: sans-serif;
+}
+html, body {
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+	padding: 0;
+	margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Quicksand, avenir, sans-serif;
+}
+
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --fg: white;
+  --bg: hsl(211, 31.9%, 13%);
+  --bg-rgb: 17,34,51;
+  --dialog-bg: hsl(210, 30%, 17%);
+  --key-bg-base: hsl(208.2, 23%, 25%);
+  --key-color-base: hsl(0, 0%, 90%);
+  --key-color-extreme: #e7e7e7;
+}
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"] {
+    color-scheme: dark;
+    --fg: white;
+    --bg: hsl(211, 31.9%, 13%);
+    --bg-rgb: 17,34,51;
+    --dialog-bg: hsl(210, 30%, 17%);
+    --key-bg-base: hsl(208.2, 23%, 25%);
+    --key-color-base: hsl(0, 0%, 90%);
+    --key-color-extreme: #e7e7e7;
+  }
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+a { color: var(--link) }
+a:hover { color: var(--link-hover) }
+
+code {
+  background-color: var(--code-bg);
+  border-radius: 2px;
+  padding: .15em .3em .05em;
+}
+
+p {
+  line-height: 1.3rem;
+}
+
+#settings-bar {
+  position: absolute;
+  z-index: 5;
+  top: 10px;
+  right: 10px;
+}
+
+#settings-bar button {
+  background: none;
+  color: var(--fg);
+  border: none;
+}
+#settings-bar button:hover {
+  cursor: pointer;
+  color: royalblue;
+}
+
+.fa-delete-right::before {
+  content: '\f55a';
+  transform-origin: center;
+  transform: rotateZ(180deg);
+  display: inline-block;
+}
