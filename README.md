@@ -8,6 +8,15 @@ to fully leverage this app's functionality.
 **Try it now!** Go to the [Keymap Editor] and try it out with the built-in
 [keymap-editor-demo-crkbd] before setting up your own repo.
 
+**[Talk to me! 🗣](https://github.com/nickcoutsos/keymap-editor/discussions)**
+
+I'd love to know how the Keymap Editor is working out for you! Has it helped you
+with managing your own keymaps, are you struggling with functionality, have you
+created your own keyboard and directed users here?
+
+I want to know about all of that. I'm not taking any donations, the only thing
+driving this work forward is knowing what is or isn't helping people.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./screenshots/editor-screenshot-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="./screenshots/editor-screenshot-light.png">
@@ -33,12 +42,15 @@ to fully leverage this app's functionality.
   * Clipboard
   * File system\*
 * [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
+* Conditional Layers
 * [Combo editing](./screenshots/editor-screenshot-combos.png)
 * [Macro editing](./screenshots/editor-screenshot-macros.png)
-* Behavior editing
-* Auto-generated layouts\*\*
+* Behavior editing (creation and re-configuration)
+* Auto-generated layouts for ZMK's supported keyboards\*\*
 * Rotary encoders
 * Multiple keymaps
+
+I'm working on parameterized macros, but there are complexities in how to present certain kinds of parameters (e.g., the color picker) so it's slow going.
 
 <sub>\*_File system web APIs are currently only supported in Chromium-based browsers_</sub>
 
