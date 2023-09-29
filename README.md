@@ -44,13 +44,11 @@ driving this work forward is knowing what is or isn't helping people.
 * [Dark mode!](./screenshots/editor-screenshot-darkmode.png)
 * Conditional Layers
 * [Combo editing](./screenshots/editor-screenshot-combos.png)
-* [Macro editing](./screenshots/editor-screenshot-macros.png)
+* [Macro editing](./screenshots/editor-screenshot-macros.png) (including support for creating/using parameterized macros)
 * Behavior editing (creation and re-configuration)
 * Auto-generated layouts for ZMK's supported keyboards\*\*
 * Rotary encoders
 * Multiple keymaps
-
-I'm working on parameterized macros, but there are complexities in how to present certain kinds of parameters (e.g., the color picker) so it's slow going.
 
 <sub>\*_File system web APIs are currently only supported in Chromium-based browsers_</sub>
 
