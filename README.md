@@ -1,4 +1,4 @@
-# Keymap Editor
+# <img alt="Keymap Editor Icon" height="24px" src="https://github.com/nickcoutsos/keymap-editor/assets/1165066/6675cc0d-d6cd-40a6-9d2a-fa4a86749a6e" /> Keymap Editor
 
 A browser app to edit ZMK keymaps. Although one of the goals for this project is
 to simplify the manual effort of keymap editing for the end user, is isn't a
