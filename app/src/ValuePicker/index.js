@@ -31,7 +31,7 @@ function ValuePicker (props) {
 
   const results = useMemo(() => {
     if (!query) return choices
-    const filtered = fuzzysort.go(query, choices, { keys: ['code', 'description', 'name'], limit: 30 })
+    const filtered = fuzzysort.go(query, choices, { keys: ['code', 'description', 'name', 'danish'], limit: 30 })
     return filtered.map(result => ({ ...result.obj, _match: result }))
   }, [query, choices])
 
@@ -138,7 +138,12 @@ function ValuePicker (props) {
             onClick={() => handleClickResult(result)}
             onMouseOver={() => setHighlightPosition(i)}
           >
-            <span className={style.code}>{result.code}</span>
+            <span className={style.codeRow}>
+              <span className={style.code}>{result.code}</span>
+              {result.danish && (
+                <span className={style.dkBadge} title="Danish layout output">{result.danish}</span>
+              )}
+            </span>
             {(result.description || result.name) && (
               <span className={style.sub}>{result.description || result.name}</span>
             )}

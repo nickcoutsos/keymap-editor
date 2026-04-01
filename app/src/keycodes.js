@@ -1,4 +1,5 @@
 import keycodes from './data/zmk-keycodes.json'
+import { getDanishOutput } from './data/dk-layout'
 
 export function loadKeycodes () {
   return Promise.resolve(keycodes).then(normalizeZmkKeycodes)
@@ -28,6 +29,7 @@ function normalizeZmkKeycodes (keycodes) {
     for (let code of aliases) {
       keycodes.push(Object.assign({}, base, {
         code,
+        danish: getDanishOutput(code),
         isModifier: !!fnCode
       }))
     }
@@ -35,7 +37,8 @@ function normalizeZmkKeycodes (keycodes) {
     if (fnCode) {
       keycodes.push(Object.assign({}, base, {
         code: fnCode[1],
-        params: fnCode[2].split(',')
+        params: fnCode[2].split(','),
+        isModifier: true
       }))
     }
 

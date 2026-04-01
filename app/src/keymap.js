@@ -8,6 +8,7 @@ export function parseKeymap(keymap) {
 
 const COMPOUND_KEYCODES = new Set([
   'LA(LC(N7))', 'LA(LC(N8))', 'LA(LC(N9))', 'LA(LC(N0))',
+  'LA(LC(NUMBER_2))', 'LA(LC(HASH))', 'LC(LA(DLLR))',
   'RS(NUMBER_8)', 'RS(N9)',
   'LS(FSLH)'
 ])

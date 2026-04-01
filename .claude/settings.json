@@ -5,7 +5,9 @@
       "Bash(node_modules/.bin/react-scripts build:*)",
       "Bash(powershell -command:*)",
       "Bash(node_modules/.bin/cross-env ENABLE_DEV_SERVER=true node index.js)",
-      "Bash(python -c:*)"
+      "Bash(python -c:*)",
+      "Bash(powershell.exe -NoProfile -Command \"Get-NetTCPConnection -LocalPort 8080 -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }\")",
+      "Bash(powershell.exe -NoProfile -Command \"Get-NetTCPConnection -LocalPort 3000 -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }\")"
     ]
   }
 }

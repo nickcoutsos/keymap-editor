@@ -158,3 +158,25 @@ html, body {
 
   color: royalblue;
 }
+.scratchpad {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px auto;
+  max-width: 600px;
+  padding: 0 16px;
+}
+
+.scratchpad textarea {
+  flex: 1;
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: sans-serif;
+}
+
+.scratchpad button {
+  white-space: nowrap;
+}

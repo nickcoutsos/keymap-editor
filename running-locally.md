@@ -1,37 +1,37 @@
 # Running Locally
 
-This tool was originally designed to help editing keymap files in repositories
-already cloned onto your computer.
-
 ## Setup
 
-1. Clone this repo and open the new directory in a terminal.
-2. Copy `.env.template` to `.env`. You can fill in this file as appropriate, but
-   this is enough to get started.
-4. Clone a `zmk-config`\* repo. Either create symlinks in this directory to the
-  cloned repositories or clone them into this directory if you must.
-3. Run `npm install`
-4. Run `npm run dev`
-5. Open `http://localhost:8080` in your browser. If a different port is needed
-  set it in an environment variable when starting the server (e.g.
-  `PORT=8081 node index.js`).
+1. Clone this repo into `D:/Programs/keymap-editor/`
+2. Clone your zmk-config repo into `D:/Programs/keymap-editor/zmk-config/`
+3. Copy `.env.template` to `.env` — the defaults work as-is
+4. Run `npm install`
 
-\**The editor works using metadata files that describe the layout and keymap of
-the keyboard. This is based on JSON files used by QMK and Keyboard Layout Editor
-with some customization to generated human readable code as well. For an example
-see [zmk-config-corne-demo]*
+## Starting the dev server
 
+```
+npm run dev
+```
+
+This kills any stale processes on ports 8080 and 3000, then starts:
+- Express API on `127.0.0.1:8080`
+- React dev server on `127.0.0.1:3000`
+
+Open **http://127.0.0.1:3000** in your browser.
+
+> Use `127.0.0.1`, not `localhost` — IPv6 conflicts on Windows cause connection refused with `localhost`.
 
 ## Using the editor
 
-Your selected keyboard should be loaded automatically. Click on the top-left
-corner of a key to change its bind behaviour, or in the middle to change the
-bind parameter.
+Your keyboard layout loads automatically. Click a key to change its binding.
 
-See also: [demo video](keymap-editor-demo.mov)
+- **Save** — writes the keymap back to `zmk-config/config/`
+- **Push** — commits the changes and pushes to GitHub, triggering a firmware build via GitHub Actions
 
-Click the _Save Local_ button to save the modified keymap back to your local
-zmk-config repo. From here you can commit and push those changes to your remote
-on GitHub to trigger the build.
+## Manual port cleanup
 
-[zmk-config-corne-demo]: https://github.com/nickcoutsos/zmk-config-corne-demo
+If the server fails to start because a port is in use:
+
+```powershell
+powershell -command "Get-NetTCPConnection -LocalPort 8080,3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | Sort-Object -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }"
+```

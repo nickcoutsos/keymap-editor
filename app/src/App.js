@@ -76,6 +76,7 @@ function App() {
   const [pushing, setPushing] = useState(false)
   const [toast, setToast] = useState(null)
   const [pushOutput, setPushOutput] = useState(null)
+  const [scratchpad, setScratchpad] = useState('')
 
   const showToast = useCallback((message, type = 'error') => {
     clearTimeout(toastTimer.current)
@@ -336,6 +337,15 @@ function App() {
             />
           )}
         </DefinitionsContext.Provider>
+        <div className="scratchpad">
+          <textarea
+            value={scratchpad}
+            onChange={e => setScratchpad(e.target.value)}
+            placeholder="Scratchpad — type here to test keys…"
+            rows={3}
+          />
+          <button onClick={() => setScratchpad('')}>Clear</button>
+        </div>
         <MacroEditor macros={macros} onUpdate={handleUpdateMacros} />
         <ComboEditor
           combos={combos}

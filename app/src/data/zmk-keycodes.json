@@ -1,6 +1,8 @@
 [
   {
-    "names": ["A"],
+    "names": [
+      "A"
+    ],
     "description": "a and A",
     "context": "Keyboard",
     "clarify": false,
@@ -15,7 +17,9 @@
     "footnotes": {}
   },
   {
-    "names": ["B"],
+    "names": [
+      "B"
+    ],
     "description": "b and B",
     "context": "Keyboard",
     "clarify": false,
@@ -30,7 +34,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C"],
+    "names": [
+      "C"
+    ],
     "description": "c and C",
     "context": "Keyboard",
     "clarify": false,
@@ -45,7 +51,9 @@
     "footnotes": {}
   },
   {
-    "names": ["D"],
+    "names": [
+      "D"
+    ],
     "description": "d and D",
     "context": "Keyboard",
     "clarify": false,
@@ -60,7 +68,9 @@
     "footnotes": {}
   },
   {
-    "names": ["E"],
+    "names": [
+      "E"
+    ],
     "description": "e and E",
     "context": "Keyboard",
     "clarify": false,
@@ -75,7 +85,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F"],
+    "names": [
+      "F"
+    ],
     "description": "f and F",
     "context": "Keyboard",
     "clarify": false,
@@ -90,7 +102,9 @@
     "footnotes": {}
   },
   {
-    "names": ["G"],
+    "names": [
+      "G"
+    ],
     "description": "g and G",
     "context": "Keyboard",
     "clarify": false,
@@ -105,7 +119,9 @@
     "footnotes": {}
   },
   {
-    "names": ["H"],
+    "names": [
+      "H"
+    ],
     "description": "h and H",
     "context": "Keyboard",
     "clarify": false,
@@ -120,7 +136,9 @@
     "footnotes": {}
   },
   {
-    "names": ["I"],
+    "names": [
+      "I"
+    ],
     "description": "i and I",
     "context": "Keyboard",
     "clarify": false,
@@ -135,7 +153,9 @@
     "footnotes": {}
   },
   {
-    "names": ["J"],
+    "names": [
+      "J"
+    ],
     "description": "j and J",
     "context": "Keyboard",
     "clarify": false,
@@ -150,7 +170,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K"],
+    "names": [
+      "K"
+    ],
     "description": "k and K",
     "context": "Keyboard",
     "clarify": false,
@@ -165,7 +187,9 @@
     "footnotes": {}
   },
   {
-    "names": ["L"],
+    "names": [
+      "L"
+    ],
     "description": "l and L",
     "context": "Keyboard",
     "clarify": false,
@@ -180,7 +204,9 @@
     "footnotes": {}
   },
   {
-    "names": ["M"],
+    "names": [
+      "M"
+    ],
     "description": "m and M",
     "context": "Keyboard",
     "clarify": false,
@@ -195,7 +221,9 @@
     "footnotes": {}
   },
   {
-    "names": ["N"],
+    "names": [
+      "N"
+    ],
     "description": "n and N",
     "context": "Keyboard",
     "clarify": false,
@@ -210,7 +238,9 @@
     "footnotes": {}
   },
   {
-    "names": ["O"],
+    "names": [
+      "O"
+    ],
     "description": "o and O",
     "context": "Keyboard",
     "clarify": false,
@@ -225,7 +255,9 @@
     "footnotes": {}
   },
   {
-    "names": ["P"],
+    "names": [
+      "P"
+    ],
     "description": "p and P",
     "context": "Keyboard",
     "clarify": false,
@@ -240,7 +272,9 @@
     "footnotes": {}
   },
   {
-    "names": ["Q"],
+    "names": [
+      "Q"
+    ],
     "description": "q and Q",
     "context": "Keyboard",
     "clarify": false,
@@ -255,7 +289,9 @@
     "footnotes": {}
   },
   {
-    "names": ["R"],
+    "names": [
+      "R"
+    ],
     "description": "r and R",
     "context": "Keyboard",
     "clarify": false,
@@ -270,7 +306,9 @@
     "footnotes": {}
   },
   {
-    "names": ["S"],
+    "names": [
+      "S"
+    ],
     "description": "s and S",
     "context": "Keyboard",
     "clarify": false,
@@ -285,7 +323,9 @@
     "footnotes": {}
   },
   {
-    "names": ["T"],
+    "names": [
+      "T"
+    ],
     "description": "t and T",
     "context": "Keyboard",
     "clarify": false,
@@ -300,7 +340,9 @@
     "footnotes": {}
   },
   {
-    "names": ["U"],
+    "names": [
+      "U"
+    ],
     "description": "u and U",
     "context": "Keyboard",
     "clarify": false,
@@ -315,7 +357,9 @@
     "footnotes": {}
   },
   {
-    "names": ["V"],
+    "names": [
+      "V"
+    ],
     "description": "v and V",
     "context": "Keyboard",
     "clarify": false,
@@ -330,7 +374,9 @@
     "footnotes": {}
   },
   {
-    "names": ["W"],
+    "names": [
+      "W"
+    ],
     "description": "w and W",
     "context": "Keyboard",
     "clarify": false,
@@ -345,7 +391,9 @@
     "footnotes": {}
   },
   {
-    "names": ["X"],
+    "names": [
+      "X"
+    ],
     "description": "x and X",
     "context": "Keyboard",
     "clarify": false,
@@ -360,7 +408,9 @@
     "footnotes": {}
   },
   {
-    "names": ["Y"],
+    "names": [
+      "Y"
+    ],
     "description": "y and Y",
     "context": "Keyboard",
     "clarify": false,
@@ -375,7 +425,9 @@
     "footnotes": {}
   },
   {
-    "names": ["Z"],
+    "names": [
+      "Z"
+    ],
     "description": "z and Z",
     "context": "Keyboard",
     "clarify": false,
@@ -390,7 +442,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_1", "N1"],
+    "names": [
+      "NUMBER_1",
+      "N1"
+    ],
     "description": "1 and ! [Exclamation]",
     "context": "Keyboard",
     "clarify": false,
@@ -405,7 +460,10 @@
     "footnotes": {}
   },
   {
-    "names": ["EXCLAMATION", "EXCL"],
+    "names": [
+      "EXCLAMATION",
+      "EXCL"
+    ],
     "description": "! [Exclamation]",
     "context": "Keyboard",
     "clarify": false,
@@ -420,7 +478,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_2", "N2"],
+    "names": [
+      "NUMBER_2",
+      "N2"
+    ],
     "description": "2 and @ [At Sign]",
     "context": "Keyboard",
     "clarify": false,
@@ -435,7 +496,10 @@
     "footnotes": {}
   },
   {
-    "names": ["AT_SIGN", "AT"],
+    "names": [
+      "AT_SIGN",
+      "AT"
+    ],
     "description": "@ [At Sign]",
     "context": "Keyboard",
     "clarify": false,
@@ -450,7 +514,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_3", "N3"],
+    "names": [
+      "NUMBER_3",
+      "N3"
+    ],
     "description": "3 and # [Hash / Pound]",
     "context": "Keyboard",
     "clarify": false,
@@ -465,7 +532,10 @@
     "footnotes": {}
   },
   {
-    "names": ["HASH", "POUND"],
+    "names": [
+      "HASH",
+      "POUND"
+    ],
     "description": "# [Hash / Pound]",
     "context": "Keyboard",
     "clarify": false,
@@ -480,7 +550,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_4", "N4"],
+    "names": [
+      "NUMBER_4",
+      "N4"
+    ],
     "description": "4 and $ [Dollar]",
     "context": "Keyboard",
     "clarify": false,
@@ -495,7 +568,10 @@
     "footnotes": {}
   },
   {
-    "names": ["DOLLAR", "DLLR"],
+    "names": [
+      "DOLLAR",
+      "DLLR"
+    ],
     "description": "$ [Dollar]",
     "context": "Keyboard",
     "clarify": false,
@@ -510,7 +586,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_5", "N5"],
+    "names": [
+      "NUMBER_5",
+      "N5"
+    ],
     "description": "5 and % [Percent]",
     "context": "Keyboard",
     "clarify": false,
@@ -525,7 +604,10 @@
     "footnotes": {}
   },
   {
-    "names": ["PERCENT", "PRCNT"],
+    "names": [
+      "PERCENT",
+      "PRCNT"
+    ],
     "description": "% [Percent]",
     "context": "Keyboard",
     "clarify": false,
@@ -540,7 +622,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_6", "N6"],
+    "names": [
+      "NUMBER_6",
+      "N6"
+    ],
     "description": "6 and ^ [Caret]",
     "context": "Keyboard",
     "clarify": false,
@@ -555,7 +640,9 @@
     "footnotes": {}
   },
   {
-    "names": ["CARET"],
+    "names": [
+      "CARET"
+    ],
     "description": "^ [Caret]",
     "context": "Keyboard",
     "clarify": false,
@@ -570,7 +657,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_7", "N7"],
+    "names": [
+      "NUMBER_7",
+      "N7"
+    ],
     "description": "7 and & [Ampersand]",
     "context": "Keyboard",
     "clarify": false,
@@ -585,7 +675,10 @@
     "footnotes": {}
   },
   {
-    "names": ["AMPERSAND", "AMPS"],
+    "names": [
+      "AMPERSAND",
+      "AMPS"
+    ],
     "description": "& [Ampersand]",
     "context": "Keyboard",
     "clarify": false,
@@ -600,7 +693,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_8", "N8"],
+    "names": [
+      "NUMBER_8",
+      "N8"
+    ],
     "description": "8 and * [Asterisk / Star]",
     "context": "Keyboard",
     "clarify": false,
@@ -615,7 +711,11 @@
     "footnotes": {}
   },
   {
-    "names": ["ASTERISK", "ASTRK", "STAR"],
+    "names": [
+      "ASTERISK",
+      "ASTRK",
+      "STAR"
+    ],
     "description": "* [Asterisk / Star]",
     "context": "Keyboard",
     "clarify": false,
@@ -630,7 +730,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_9", "N9"],
+    "names": [
+      "NUMBER_9",
+      "N9"
+    ],
     "description": "9 and ( [Left Parenthesis]",
     "context": "Keyboard",
     "clarify": false,
@@ -645,7 +748,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_PARENTHESIS", "LPAR"],
+    "names": [
+      "LEFT_PARENTHESIS",
+      "LPAR"
+    ],
     "symbol": "(",
     "description": "( [Left Parenthesis]",
     "context": "Keyboard",
@@ -661,7 +767,10 @@
     "footnotes": {}
   },
   {
-    "names": ["NUMBER_0", "N0"],
+    "names": [
+      "NUMBER_0",
+      "N0"
+    ],
     "description": "0 and ) [Right Parenthesis]",
     "context": "Keyboard",
     "clarify": false,
@@ -676,7 +785,10 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_PARENTHESIS", "RPAR"],
+    "names": [
+      "RIGHT_PARENTHESIS",
+      "RPAR"
+    ],
     "symbol": ")",
     "description": ") [Right Parenthesis]",
     "context": "Keyboard",
@@ -692,8 +804,12 @@
     "footnotes": {}
   },
   {
-    "names": ["RETURN", "ENTER", "RET"],
-    "symbol": "\u20e0",
+    "names": [
+      "RETURN",
+      "ENTER",
+      "RET"
+    ],
+    "symbol": "⃠",
     "description": "Return (Enter)",
     "context": "Keyboard",
     "clarify": false,
@@ -708,7 +824,10 @@
     "footnotes": {}
   },
   {
-    "names": ["ESCAPE", "ESC"],
+    "names": [
+      "ESCAPE",
+      "ESC"
+    ],
     "description": "Escape",
     "context": "Keyboard",
     "clarify": false,
@@ -723,7 +842,10 @@
     "footnotes": {}
   },
   {
-    "names": ["BACKSPACE", "BSPC"],
+    "names": [
+      "BACKSPACE",
+      "BSPC"
+    ],
     "description": "Backspace",
     "context": "Keyboard",
     "clarify": false,
@@ -738,7 +860,9 @@
     "footnotes": {}
   },
   {
-    "names": ["TAB"],
+    "names": [
+      "TAB"
+    ],
     "description": "Tab",
     "context": "Keyboard",
     "clarify": false,
@@ -753,8 +877,10 @@
     "footnotes": {}
   },
   {
-    "names": ["SPACE"],
-    "symbol": "\u25b1",
+    "names": [
+      "SPACE"
+    ],
+    "symbol": "▱",
     "description": "Space",
     "context": "Keyboard",
     "clarify": false,
@@ -769,7 +895,9 @@
     "footnotes": {}
   },
   {
-    "names": ["MINUS"],
+    "names": [
+      "MINUS"
+    ],
     "description": "- [Minus] and _ [Underscore]",
     "context": "Keyboard",
     "clarify": false,
@@ -784,7 +912,10 @@
     "footnotes": {}
   },
   {
-    "names": ["UNDERSCORE", "UNDER"],
+    "names": [
+      "UNDERSCORE",
+      "UNDER"
+    ],
     "description": "_ [Underscore]",
     "context": "Keyboard",
     "clarify": false,
@@ -799,7 +930,9 @@
     "footnotes": {}
   },
   {
-    "names": ["EQUAL"],
+    "names": [
+      "EQUAL"
+    ],
     "description": "= [Equal] and + [Plus]",
     "context": "Keyboard",
     "clarify": false,
@@ -814,7 +947,9 @@
     "footnotes": {}
   },
   {
-    "names": ["PLUS"],
+    "names": [
+      "PLUS"
+    ],
     "description": "+ [Plus]",
     "context": "Keyboard",
     "clarify": false,
@@ -829,7 +964,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_BRACKET", "LBKT"],
+    "names": [
+      "LEFT_BRACKET",
+      "LBKT"
+    ],
     "symbol": "å",
     "description": "[ [Left Bracket] and { [Left Brace]",
     "context": "Keyboard",
@@ -845,7 +983,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_BRACE", "LBRC"],
+    "names": [
+      "LEFT_BRACE",
+      "LBRC"
+    ],
     "symbol": "{",
     "description": "{ [Left Brace]",
     "context": "Keyboard",
@@ -861,7 +1002,10 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_BRACKET", "RBKT"],
+    "names": [
+      "RIGHT_BRACKET",
+      "RBKT"
+    ],
     "symbol": "]",
     "description": "] [Right Bracket] and } [Right Brace]",
     "context": "Keyboard",
@@ -877,7 +1021,10 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_BRACE", "RBRC"],
+    "names": [
+      "RIGHT_BRACE",
+      "RBRC"
+    ],
     "symbol": "}",
     "description": "} [Right Brace]",
     "context": "Keyboard",
@@ -893,7 +1040,10 @@
     "footnotes": {}
   },
   {
-    "names": ["BACKSLASH", "BSLH"],
+    "names": [
+      "BACKSLASH",
+      "BSLH"
+    ],
     "symbol": "\\",
     "description": "\\ [Backslash] and | [Pipe]",
     "context": "Keyboard",
@@ -909,7 +1059,9 @@
     "footnotes": {}
   },
   {
-    "names": ["PIPE"],
+    "names": [
+      "PIPE"
+    ],
     "description": "| [Pipe]",
     "context": "Keyboard",
     "clarify": false,
@@ -924,7 +1076,9 @@
     "footnotes": {}
   },
   {
-    "names": ["NON_US_HASH"],
+    "names": [
+      "NON_US_HASH"
+    ],
     "description": "Non-US # [Hash/Pound] and ~ [Tilde]",
     "context": "Keyboard",
     "clarify": false,
@@ -939,7 +1093,9 @@
     "footnotes": {}
   },
   {
-    "names": ["TILDE2"],
+    "names": [
+      "TILDE2"
+    ],
     "description": "~ [Tilde]",
     "context": "Keyboard",
     "clarify": false,
@@ -954,7 +1110,10 @@
     "footnotes": {}
   },
   {
-    "names": ["SEMICOLON", "SEMI"],
+    "names": [
+      "SEMICOLON",
+      "SEMI"
+    ],
     "symbol": "æ",
     "description": "; [Semicolon] and : [Colon]",
     "context": "Keyboard",
@@ -970,7 +1129,9 @@
     "footnotes": {}
   },
   {
-    "names": ["COLON"],
+    "names": [
+      "COLON"
+    ],
     "description": ": [Colon]",
     "context": "Keyboard",
     "clarify": false,
@@ -985,7 +1146,12 @@
     "footnotes": {}
   },
   {
-    "names": ["SINGLE_QUOTE", "SQT", "APOSTROPHE", "APOS"],
+    "names": [
+      "SINGLE_QUOTE",
+      "SQT",
+      "APOSTROPHE",
+      "APOS"
+    ],
     "symbol": "ø",
     "description": "' [Apostrophe] and \" [Quote (Double)]",
     "context": "Keyboard",
@@ -1001,7 +1167,10 @@
     "footnotes": {}
   },
   {
-    "names": ["DOUBLE_QUOTES", "DQT"],
+    "names": [
+      "DOUBLE_QUOTES",
+      "DQT"
+    ],
     "symbol": "\"",
     "description": "\" [Quote (Double)]",
     "context": "Keyboard",
@@ -1017,7 +1186,9 @@
     "footnotes": {}
   },
   {
-    "names": ["GRAVE"],
+    "names": [
+      "GRAVE"
+    ],
     "description": "` [Grave Accent] and ~ [Tilde]",
     "context": "Keyboard",
     "clarify": false,
@@ -1032,7 +1203,9 @@
     "footnotes": {}
   },
   {
-    "names": ["TILDE"],
+    "names": [
+      "TILDE"
+    ],
     "description": "~ [Tilde]",
     "context": "Keyboard",
     "clarify": false,
@@ -1047,7 +1220,9 @@
     "footnotes": {}
   },
   {
-    "names": ["COMMA"],
+    "names": [
+      "COMMA"
+    ],
     "symbol": ",",
     "description": ", [Comma] and < [Less Than]",
     "context": "Keyboard",
@@ -1063,7 +1238,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LESS_THAN", "LT"],
+    "names": [
+      "LESS_THAN",
+      "LT"
+    ],
     "description": "< [Less Than]",
     "context": "Keyboard",
     "clarify": false,
@@ -1078,7 +1256,10 @@
     "footnotes": {}
   },
   {
-    "names": ["PERIOD", "DOT"],
+    "names": [
+      "PERIOD",
+      "DOT"
+    ],
     "symbol": ".",
     "description": ". [Period] and > [Greater Than]",
     "context": "Keyboard",
@@ -1094,7 +1275,10 @@
     "footnotes": {}
   },
   {
-    "names": ["GREATER_THAN", "GT"],
+    "names": [
+      "GREATER_THAN",
+      "GT"
+    ],
     "symbol": ">",
     "description": "> [Greater Than]",
     "context": "Keyboard",
@@ -1110,7 +1294,10 @@
     "footnotes": {}
   },
   {
-    "names": ["SLASH", "FSLH"],
+    "names": [
+      "SLASH",
+      "FSLH"
+    ],
     "symbol": "/",
     "description": "/ [Forward Slash] and ? [Question Mark]",
     "context": "Keyboard",
@@ -1126,7 +1313,10 @@
     "footnotes": {}
   },
   {
-    "names": ["QUESTION", "QMARK"],
+    "names": [
+      "QUESTION",
+      "QMARK"
+    ],
     "symbol": "?",
     "description": "? [Question Mark]",
     "context": "Keyboard",
@@ -1142,7 +1332,11 @@
     "footnotes": {}
   },
   {
-    "names": ["CAPSLOCK", "CAPS", "CLCK"],
+    "names": [
+      "CAPSLOCK",
+      "CAPS",
+      "CLCK"
+    ],
     "description": "Caps Lock",
     "context": "Keyboard",
     "clarify": false,
@@ -1157,7 +1351,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F1"],
+    "names": [
+      "F1"
+    ],
     "description": "F1",
     "context": "Keyboard",
     "clarify": false,
@@ -1172,7 +1368,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F2"],
+    "names": [
+      "F2"
+    ],
     "description": "F2",
     "context": "Keyboard",
     "clarify": false,
@@ -1187,7 +1385,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F3"],
+    "names": [
+      "F3"
+    ],
     "description": "F3",
     "context": "Keyboard",
     "clarify": false,
@@ -1202,7 +1402,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F4"],
+    "names": [
+      "F4"
+    ],
     "description": "F4",
     "context": "Keyboard",
     "clarify": false,
@@ -1217,7 +1419,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F5"],
+    "names": [
+      "F5"
+    ],
     "description": "F5",
     "context": "Keyboard",
     "clarify": false,
@@ -1232,7 +1436,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F6"],
+    "names": [
+      "F6"
+    ],
     "description": "F6",
     "context": "Keyboard",
     "clarify": false,
@@ -1247,7 +1453,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F7"],
+    "names": [
+      "F7"
+    ],
     "description": "F7",
     "context": "Keyboard",
     "clarify": false,
@@ -1262,7 +1470,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F8"],
+    "names": [
+      "F8"
+    ],
     "description": "F8",
     "context": "Keyboard",
     "clarify": false,
@@ -1277,7 +1487,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F9"],
+    "names": [
+      "F9"
+    ],
     "description": "F9",
     "context": "Keyboard",
     "clarify": false,
@@ -1292,7 +1504,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F10"],
+    "names": [
+      "F10"
+    ],
     "description": "F10",
     "context": "Keyboard",
     "clarify": false,
@@ -1307,7 +1521,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F11"],
+    "names": [
+      "F11"
+    ],
     "description": "F11",
     "context": "Keyboard",
     "clarify": false,
@@ -1322,7 +1538,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F12"],
+    "names": [
+      "F12"
+    ],
     "description": "F12",
     "context": "Keyboard",
     "clarify": false,
@@ -1337,7 +1555,10 @@
     "footnotes": {}
   },
   {
-    "names": ["PRINTSCREEN", "PSCRN"],
+    "names": [
+      "PRINTSCREEN",
+      "PSCRN"
+    ],
     "description": "Print Screen",
     "context": "Keyboard",
     "clarify": false,
@@ -1352,7 +1573,10 @@
     "footnotes": {}
   },
   {
-    "names": ["SCROLLLOCK", "SLCK"],
+    "names": [
+      "SCROLLLOCK",
+      "SLCK"
+    ],
     "description": "Scroll Lock",
     "context": "Keyboard",
     "clarify": false,
@@ -1367,7 +1591,9 @@
     "footnotes": {}
   },
   {
-    "names": ["PAUSE_BREAK"],
+    "names": [
+      "PAUSE_BREAK"
+    ],
     "description": "Pause / Break",
     "context": "Keyboard",
     "clarify": false,
@@ -1382,7 +1608,10 @@
     "footnotes": {}
   },
   {
-    "names": ["INSERT", "INS"],
+    "names": [
+      "INSERT",
+      "INS"
+    ],
     "description": "Insert",
     "context": "Keyboard",
     "clarify": false,
@@ -1397,7 +1626,9 @@
     "footnotes": {}
   },
   {
-    "names": ["HOME"],
+    "names": [
+      "HOME"
+    ],
     "description": "Home",
     "context": "Keyboard",
     "clarify": false,
@@ -1412,7 +1643,10 @@
     "footnotes": {}
   },
   {
-    "names": ["PAGE_UP", "PG_UP"],
+    "names": [
+      "PAGE_UP",
+      "PG_UP"
+    ],
     "description": "Page Up",
     "context": "Keyboard",
     "clarify": false,
@@ -1427,7 +1661,10 @@
     "footnotes": {}
   },
   {
-    "names": ["DELETE", "DEL"],
+    "names": [
+      "DELETE",
+      "DEL"
+    ],
     "description": "Delete",
     "context": "Keyboard",
     "clarify": false,
@@ -1442,7 +1679,9 @@
     "footnotes": {}
   },
   {
-    "names": ["END"],
+    "names": [
+      "END"
+    ],
     "description": "End",
     "context": "Keyboard",
     "clarify": false,
@@ -1457,7 +1696,10 @@
     "footnotes": {}
   },
   {
-    "names": ["PAGE_DOWN", "PG_DN"],
+    "names": [
+      "PAGE_DOWN",
+      "PG_DN"
+    ],
     "description": "Page Down",
     "context": "Keyboard",
     "clarify": false,
@@ -1472,8 +1714,11 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_ARROW", "RIGHT"],
-    "symbol": "\u2190",
+    "names": [
+      "RIGHT_ARROW",
+      "RIGHT"
+    ],
+    "symbol": "←",
     "description": "⮕ [Right Arrow]",
     "context": "Keyboard",
     "clarify": false,
@@ -1488,8 +1733,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_ARROW", "LEFT"],
-    "symbol": "\u2190",
+    "names": [
+      "LEFT_ARROW",
+      "LEFT"
+    ],
+    "symbol": "←",
     "description": "⬅ [Left Arrow]",
     "context": "Keyboard",
     "clarify": false,
@@ -1504,8 +1752,11 @@
     "footnotes": {}
   },
   {
-    "names": ["DOWN_ARROW", "DOWN"],
-    "symbol": "\u2193",
+    "names": [
+      "DOWN_ARROW",
+      "DOWN"
+    ],
+    "symbol": "↓",
     "description": "⬇ [Down Arrow]",
     "context": "Keyboard",
     "clarify": false,
@@ -1520,8 +1771,11 @@
     "footnotes": {}
   },
   {
-    "names": ["UP_ARROW", "UP"],
-    "symbol": "\u2191",
+    "names": [
+      "UP_ARROW",
+      "UP"
+    ],
+    "symbol": "↑",
     "description": "⬆ [Up Arrow]",
     "context": "Keyboard",
     "clarify": false,
@@ -1536,7 +1790,11 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMLOCK", "KP_NUM", "KP_NLCK"],
+    "names": [
+      "KP_NUMLOCK",
+      "KP_NUM",
+      "KP_NLCK"
+    ],
     "description": "Numlock and Clear",
     "context": "Keypad",
     "clarify": false,
@@ -1551,7 +1809,9 @@
     "footnotes": {}
   },
   {
-    "names": ["CLEAR2"],
+    "names": [
+      "CLEAR2"
+    ],
     "description": "Clear",
     "context": "Keypad",
     "clarify": null,
@@ -1566,7 +1826,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_DIVIDE", "KP_SLASH"],
+    "names": [
+      "KP_DIVIDE",
+      "KP_SLASH"
+    ],
     "description": "/ [Divide]",
     "context": "Keypad",
     "clarify": false,
@@ -1581,7 +1844,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_MULTIPLY", "KP_ASTERISK"],
+    "names": [
+      "KP_MULTIPLY",
+      "KP_ASTERISK"
+    ],
     "description": "* [Multiply]",
     "context": "Keypad",
     "clarify": false,
@@ -1596,7 +1862,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_MINUS", "KP_SUBTRACT"],
+    "names": [
+      "KP_MINUS",
+      "KP_SUBTRACT"
+    ],
     "description": "- [Minus]",
     "context": "Keypad",
     "clarify": false,
@@ -1611,7 +1880,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_PLUS"],
+    "names": [
+      "KP_PLUS"
+    ],
     "description": "+ [Plus]",
     "context": "Keypad",
     "clarify": false,
@@ -1626,7 +1897,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_ENTER"],
+    "names": [
+      "KP_ENTER"
+    ],
     "description": "Enter",
     "context": "Keypad",
     "clarify": false,
@@ -1641,7 +1914,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_1", "KP_N1"],
+    "names": [
+      "KP_NUMBER_1",
+      "KP_N1"
+    ],
     "description": "1",
     "context": "Keypad",
     "clarify": false,
@@ -1656,7 +1932,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_2", "KP_N2"],
+    "names": [
+      "KP_NUMBER_2",
+      "KP_N2"
+    ],
     "description": "2",
     "context": "Keypad",
     "clarify": false,
@@ -1671,7 +1950,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_3", "KP_N3"],
+    "names": [
+      "KP_NUMBER_3",
+      "KP_N3"
+    ],
     "description": "3",
     "context": "Keypad",
     "clarify": false,
@@ -1686,7 +1968,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_4", "KP_N4"],
+    "names": [
+      "KP_NUMBER_4",
+      "KP_N4"
+    ],
     "description": "4",
     "context": "Keypad",
     "clarify": false,
@@ -1701,7 +1986,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_5", "KP_N5"],
+    "names": [
+      "KP_NUMBER_5",
+      "KP_N5"
+    ],
     "description": "5",
     "context": "Keypad",
     "clarify": false,
@@ -1716,7 +2004,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_6", "KP_N6"],
+    "names": [
+      "KP_NUMBER_6",
+      "KP_N6"
+    ],
     "description": "6",
     "context": "Keypad",
     "clarify": false,
@@ -1731,7 +2022,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_7", "KP_N7"],
+    "names": [
+      "KP_NUMBER_7",
+      "KP_N7"
+    ],
     "description": "7",
     "context": "Keypad",
     "clarify": false,
@@ -1746,7 +2040,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_8", "KP_N8"],
+    "names": [
+      "KP_NUMBER_8",
+      "KP_N8"
+    ],
     "description": "8",
     "context": "Keypad",
     "clarify": false,
@@ -1761,7 +2058,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_9", "KP_N9"],
+    "names": [
+      "KP_NUMBER_9",
+      "KP_N9"
+    ],
     "description": "9",
     "context": "Keypad",
     "clarify": false,
@@ -1776,7 +2076,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_NUMBER_0", "KP_N0"],
+    "names": [
+      "KP_NUMBER_0",
+      "KP_N0"
+    ],
     "description": "0",
     "context": "Keypad",
     "clarify": false,
@@ -1791,7 +2094,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_DOT"],
+    "names": [
+      "KP_DOT"
+    ],
     "description": ". [Dot]",
     "context": "Keypad",
     "clarify": false,
@@ -1806,7 +2111,11 @@
     "footnotes": {}
   },
   {
-    "names": ["NON_US_BSLH", "NUBS", "NON_US_BACKSLASH"],
+    "names": [
+      "NON_US_BSLH",
+      "NUBS",
+      "NON_US_BACKSLASH"
+    ],
     "symbol": "<",
     "description": "< (DK layout: NUBS key between LShift and Z)",
     "context": "Keyboard",
@@ -1822,7 +2131,9 @@
     "footnotes": {}
   },
   {
-    "names": ["PIPE2"],
+    "names": [
+      "PIPE2"
+    ],
     "description": "| [Pipe]",
     "context": "Keyboard",
     "clarify": false,
@@ -1855,11 +2166,16 @@
       "ios": true
     },
     "footnotes": {
-      "ios": ["iosApplication"]
+      "ios": [
+        "iosApplication"
+      ]
     }
   },
   {
-    "names": ["K_POWER", "K_PWR"],
+    "names": [
+      "K_POWER",
+      "K_PWR"
+    ],
     "description": "Power",
     "context": "Keyboard",
     "clarify": true,
@@ -1872,12 +2188,18 @@
       "ios": true
     },
     "footnotes": {
-      "macos": ["macosPower"],
-      "ios": ["iosPower"]
+      "macos": [
+        "macosPower"
+      ],
+      "ios": [
+        "iosPower"
+      ]
     }
   },
   {
-    "names": ["KP_EQUAL"],
+    "names": [
+      "KP_EQUAL"
+    ],
     "description": "= [Equal]",
     "context": "Keypad",
     "clarify": false,
@@ -1892,7 +2214,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F13"],
+    "names": [
+      "F13"
+    ],
     "description": "F13",
     "context": "Keyboard",
     "clarify": false,
@@ -1907,7 +2231,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F14"],
+    "names": [
+      "F14"
+    ],
     "description": "F14",
     "context": "Keyboard",
     "clarify": false,
@@ -1922,7 +2248,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F15"],
+    "names": [
+      "F15"
+    ],
     "description": "F15",
     "context": "Keyboard",
     "clarify": false,
@@ -1937,7 +2265,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F16"],
+    "names": [
+      "F16"
+    ],
     "description": "F16",
     "context": "Keyboard",
     "clarify": false,
@@ -1952,7 +2282,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F17"],
+    "names": [
+      "F17"
+    ],
     "description": "F17",
     "context": "Keyboard",
     "clarify": false,
@@ -1967,7 +2299,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F18"],
+    "names": [
+      "F18"
+    ],
     "description": "F18",
     "context": "Keyboard",
     "clarify": false,
@@ -1982,7 +2316,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F19"],
+    "names": [
+      "F19"
+    ],
     "description": "F19",
     "context": "Keyboard",
     "clarify": false,
@@ -1997,7 +2333,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F20"],
+    "names": [
+      "F20"
+    ],
     "description": "F20",
     "context": "Keyboard",
     "clarify": false,
@@ -2012,7 +2350,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F21"],
+    "names": [
+      "F21"
+    ],
     "description": "F21",
     "context": "Keyboard",
     "clarify": false,
@@ -2027,7 +2367,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F22"],
+    "names": [
+      "F22"
+    ],
     "description": "F22",
     "context": "Keyboard",
     "clarify": false,
@@ -2042,7 +2384,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F23"],
+    "names": [
+      "F23"
+    ],
     "description": "F23",
     "context": "Keyboard",
     "clarify": false,
@@ -2057,7 +2401,9 @@
     "footnotes": {}
   },
   {
-    "names": ["F24"],
+    "names": [
+      "F24"
+    ],
     "description": "F24",
     "context": "Keyboard",
     "clarify": false,
@@ -2072,7 +2418,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_EXECUTE", "K_EXEC"],
+    "names": [
+      "K_EXECUTE",
+      "K_EXEC"
+    ],
     "description": "Execute",
     "context": "Keyboard",
     "clarify": true,
@@ -2087,7 +2436,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_HELP"],
+    "names": [
+      "K_HELP"
+    ],
     "description": "Help",
     "context": "Keyboard",
     "clarify": true,
@@ -2102,7 +2453,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_MENU"],
+    "names": [
+      "K_MENU"
+    ],
     "description": "Menu",
     "context": "Keyboard",
     "clarify": true,
@@ -2117,7 +2470,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_SELECT"],
+    "names": [
+      "K_SELECT"
+    ],
     "description": "Select",
     "context": "Keyboard",
     "clarify": true,
@@ -2132,7 +2487,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_STOP"],
+    "names": [
+      "K_STOP"
+    ],
     "description": "Stop",
     "context": "Keyboard",
     "clarify": true,
@@ -2147,7 +2504,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_AGAIN", "K_REDO"],
+    "names": [
+      "K_AGAIN",
+      "K_REDO"
+    ],
     "description": "Again",
     "context": "Keyboard",
     "clarify": true,
@@ -2162,7 +2522,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_UNDO"],
+    "names": [
+      "K_UNDO"
+    ],
     "description": "Undo",
     "context": "Keyboard",
     "clarify": true,
@@ -2177,7 +2539,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_CUT"],
+    "names": [
+      "K_CUT"
+    ],
     "description": "Cut",
     "context": "Keyboard",
     "clarify": true,
@@ -2192,7 +2556,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_COPY"],
+    "names": [
+      "K_COPY"
+    ],
     "description": "Copy",
     "context": "Keyboard",
     "clarify": true,
@@ -2207,7 +2573,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_PASTE"],
+    "names": [
+      "K_PASTE"
+    ],
     "description": "Paste",
     "context": "Keyboard",
     "clarify": true,
@@ -2222,7 +2590,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_FIND"],
+    "names": [
+      "K_FIND"
+    ],
     "description": "Find",
     "context": "Keyboard",
     "clarify": true,
@@ -2237,7 +2607,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_MUTE"],
+    "names": [
+      "K_MUTE"
+    ],
     "faIcon": "volume-mute",
     "description": "Mute",
     "context": "Keyboard",
@@ -2253,7 +2625,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_VOLUME_UP", "K_VOL_UP"],
+    "names": [
+      "K_VOLUME_UP",
+      "K_VOL_UP"
+    ],
     "description": "Volume Up",
     "context": "Keyboard",
     "clarify": true,
@@ -2268,7 +2643,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_VOLUME_DOWN", "K_VOL_DN"],
+    "names": [
+      "K_VOLUME_DOWN",
+      "K_VOL_DN"
+    ],
     "description": "Volume Down",
     "context": "Keyboard",
     "clarify": true,
@@ -2283,7 +2661,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LOCKING_CAPS", "LCAPS"],
+    "names": [
+      "LOCKING_CAPS",
+      "LCAPS"
+    ],
     "description": "Locking Caps Lock",
     "context": "Keyboard",
     "clarify": false,
@@ -2298,7 +2679,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LOCKING_NUM", "LNLCK"],
+    "names": [
+      "LOCKING_NUM",
+      "LNLCK"
+    ],
     "description": "Locking Num Lock",
     "context": "Keyboard",
     "clarify": false,
@@ -2313,7 +2697,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LOCKING_SCROLL", "LSLCK"],
+    "names": [
+      "LOCKING_SCROLL",
+      "LSLCK"
+    ],
     "description": "Locking Scroll Lock",
     "context": "Keyboard",
     "clarify": false,
@@ -2328,7 +2715,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_COMMA"],
+    "names": [
+      "KP_COMMA"
+    ],
     "description": ", [Comma]",
     "context": "Keypad",
     "clarify": false,
@@ -2343,7 +2732,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_EQUAL_AS400"],
+    "names": [
+      "KP_EQUAL_AS400"
+    ],
     "description": "= [Equal] (AS/400 keyboards)",
     "context": "Keypad",
     "clarify": false,
@@ -2358,7 +2749,11 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_1", "INT1", "INT_RO"],
+    "names": [
+      "INTERNATIONAL_1",
+      "INT1",
+      "INT_RO"
+    ],
     "description": "ろ (International 1)",
     "context": "Keyboard",
     "clarify": false,
@@ -2373,7 +2768,12 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_2", "INT2", "INT_KATAKANAHIRAGANA", "INT_KANA"],
+    "names": [
+      "INTERNATIONAL_2",
+      "INT2",
+      "INT_KATAKANAHIRAGANA",
+      "INT_KANA"
+    ],
     "description": "かな (International 2)",
     "context": "Keyboard",
     "clarify": false,
@@ -2388,7 +2788,11 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_3", "INT3", "INT_YEN"],
+    "names": [
+      "INTERNATIONAL_3",
+      "INT3",
+      "INT_YEN"
+    ],
     "description": "¥ (International 3)",
     "context": "Keyboard",
     "clarify": false,
@@ -2403,7 +2807,11 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_4", "INT4", "INT_HENKAN"],
+    "names": [
+      "INTERNATIONAL_4",
+      "INT4",
+      "INT_HENKAN"
+    ],
     "description": "変換 (International 4)",
     "context": "Keyboard",
     "clarify": false,
@@ -2418,7 +2826,11 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_5", "INT5", "INT_MUHENKAN"],
+    "names": [
+      "INTERNATIONAL_5",
+      "INT5",
+      "INT_MUHENKAN"
+    ],
     "description": "無変換 (International 5)",
     "context": "Keyboard",
     "clarify": false,
@@ -2433,7 +2845,11 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_6", "INT6", "INT_KPJPCOMMA"],
+    "names": [
+      "INTERNATIONAL_6",
+      "INT6",
+      "INT_KPJPCOMMA"
+    ],
     "description": ", [カソマ] (International 6)",
     "context": "Keyboard",
     "clarify": false,
@@ -2448,7 +2864,10 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_7", "INT7"],
+    "names": [
+      "INTERNATIONAL_7",
+      "INT7"
+    ],
     "description": "International 7",
     "context": "Keyboard",
     "clarify": false,
@@ -2463,7 +2882,10 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_8", "INT8"],
+    "names": [
+      "INTERNATIONAL_8",
+      "INT8"
+    ],
     "description": "International 8",
     "context": "Keyboard",
     "clarify": false,
@@ -2478,7 +2900,10 @@
     "footnotes": {}
   },
   {
-    "names": ["INTERNATIONAL_9", "INT9"],
+    "names": [
+      "INTERNATIONAL_9",
+      "INT9"
+    ],
     "description": "International 9",
     "context": "Keyboard",
     "clarify": false,
@@ -2493,7 +2918,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_1", "LANG1", "LANG_HANGEUL"],
+    "names": [
+      "LANGUAGE_1",
+      "LANG1",
+      "LANG_HANGEUL"
+    ],
     "description": "한/영 (Language 1)",
     "context": "Keyboard",
     "clarify": false,
@@ -2508,7 +2937,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_2", "LANG2", "LANG_HANJA"],
+    "names": [
+      "LANGUAGE_2",
+      "LANG2",
+      "LANG_HANJA"
+    ],
     "description": "한자 (Language 2)",
     "context": "Keyboard",
     "clarify": false,
@@ -2523,7 +2956,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_3", "LANG3", "LANG_KATAKANA"],
+    "names": [
+      "LANGUAGE_3",
+      "LANG3",
+      "LANG_KATAKANA"
+    ],
     "description": "カタカナ (Language 3)",
     "context": "Keyboard",
     "clarify": false,
@@ -2538,7 +2975,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_4", "LANG4", "LANG_HIRAGANA"],
+    "names": [
+      "LANGUAGE_4",
+      "LANG4",
+      "LANG_HIRAGANA"
+    ],
     "description": "ひらがな (Language 4)",
     "context": "Keyboard",
     "clarify": false,
@@ -2553,7 +2994,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_5", "LANG5", "LANG_ZENKAKUHANKAKU"],
+    "names": [
+      "LANGUAGE_5",
+      "LANG5",
+      "LANG_ZENKAKUHANKAKU"
+    ],
     "description": "半角/全角 (Language 5)",
     "context": "Keyboard",
     "clarify": false,
@@ -2568,7 +3013,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_6", "LANG6"],
+    "names": [
+      "LANGUAGE_6",
+      "LANG6"
+    ],
     "description": "Language 6",
     "context": "Keyboard",
     "clarify": false,
@@ -2583,7 +3031,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_7", "LANG7"],
+    "names": [
+      "LANGUAGE_7",
+      "LANG7"
+    ],
     "description": "Language 7",
     "context": "Keyboard",
     "clarify": false,
@@ -2598,7 +3049,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_8", "LANG8"],
+    "names": [
+      "LANGUAGE_8",
+      "LANG8"
+    ],
     "description": "Language 8",
     "context": "Keyboard",
     "clarify": false,
@@ -2613,7 +3067,10 @@
     "footnotes": {}
   },
   {
-    "names": ["LANGUAGE_9", "LANG9"],
+    "names": [
+      "LANGUAGE_9",
+      "LANG9"
+    ],
     "description": "Language 9",
     "context": "Keyboard",
     "clarify": false,
@@ -2628,7 +3085,9 @@
     "footnotes": {}
   },
   {
-    "names": ["ALT_ERASE"],
+    "names": [
+      "ALT_ERASE"
+    ],
     "description": "Alternate Erase",
     "context": "Keyboard",
     "clarify": false,
@@ -2643,7 +3102,10 @@
     "footnotes": {}
   },
   {
-    "names": ["SYSREQ", "ATTENTION"],
+    "names": [
+      "SYSREQ",
+      "ATTENTION"
+    ],
     "description": "SysReq / Attention",
     "context": "Keyboard",
     "clarify": false,
@@ -2658,7 +3120,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_CANCEL"],
+    "names": [
+      "K_CANCEL"
+    ],
     "description": "Cancel",
     "context": "Keyboard",
     "clarify": true,
@@ -2673,7 +3137,9 @@
     "footnotes": {}
   },
   {
-    "names": ["CLEAR"],
+    "names": [
+      "CLEAR"
+    ],
     "description": "Clear",
     "context": "Keyboard",
     "clarify": false,
@@ -2688,7 +3154,9 @@
     "footnotes": {}
   },
   {
-    "names": ["PRIOR"],
+    "names": [
+      "PRIOR"
+    ],
     "description": "Prior",
     "context": "Keyboard",
     "clarify": false,
@@ -2703,7 +3171,10 @@
     "footnotes": {}
   },
   {
-    "names": ["RETURN2", "RET2"],
+    "names": [
+      "RETURN2",
+      "RET2"
+    ],
     "description": "Return",
     "context": "Keyboard",
     "clarify": false,
@@ -2718,7 +3189,9 @@
     "footnotes": {}
   },
   {
-    "names": ["SEPARATOR"],
+    "names": [
+      "SEPARATOR"
+    ],
     "description": "Separator",
     "context": "Keyboard",
     "clarify": false,
@@ -2733,7 +3206,9 @@
     "footnotes": {}
   },
   {
-    "names": ["OUT"],
+    "names": [
+      "OUT"
+    ],
     "description": "Out",
     "context": "Keyboard",
     "clarify": false,
@@ -2748,7 +3223,9 @@
     "footnotes": {}
   },
   {
-    "names": ["OPER"],
+    "names": [
+      "OPER"
+    ],
     "description": "Oper",
     "context": "Keyboard",
     "clarify": false,
@@ -2763,7 +3240,9 @@
     "footnotes": {}
   },
   {
-    "names": ["CLEAR_AGAIN"],
+    "names": [
+      "CLEAR_AGAIN"
+    ],
     "description": "Clear / Again",
     "context": "Keyboard",
     "clarify": false,
@@ -2778,7 +3257,9 @@
     "footnotes": {}
   },
   {
-    "names": ["CRSEL"],
+    "names": [
+      "CRSEL"
+    ],
     "description": "CrSel / Props",
     "context": "Keyboard",
     "clarify": false,
@@ -2793,7 +3274,9 @@
     "footnotes": {}
   },
   {
-    "names": ["EXSEL"],
+    "names": [
+      "EXSEL"
+    ],
     "description": "ExSel",
     "context": "Keyboard",
     "clarify": false,
@@ -2808,7 +3291,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_LEFT_PARENTHESIS", "KP_LPAR"],
+    "names": [
+      "KP_LEFT_PARENTHESIS",
+      "KP_LPAR"
+    ],
     "description": "( [Left Parenthesis]",
     "context": "Keypad",
     "clarify": false,
@@ -2823,7 +3309,10 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_RIGHT_PARENTHESIS", "KP_RPAR"],
+    "names": [
+      "KP_RIGHT_PARENTHESIS",
+      "KP_RPAR"
+    ],
     "description": ") [Right Parenthesis]",
     "context": "Keypad",
     "clarify": false,
@@ -2838,7 +3327,9 @@
     "footnotes": {}
   },
   {
-    "names": ["KP_CLEAR"],
+    "names": [
+      "KP_CLEAR"
+    ],
     "description": "Clear",
     "context": "Keypad",
     "clarify": false,
@@ -2853,7 +3344,11 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_CONTROL", "LCTRL", "LC(code)"],
+    "names": [
+      "LEFT_CONTROL",
+      "LCTRL",
+      "LC(code)"
+    ],
     "description": "Left Control",
     "context": "Keyboard",
     "clarify": false,
@@ -2865,11 +3360,17 @@
       "macos": true,
       "ios": true
     },
-    "footnotes": {}
+    "footnotes": {},
+    "symbol": "⌃"
   },
   {
-    "names": ["LEFT_SHIFT", "LSHIFT", "LSHFT", "LS(code)"],
-    "symbol": "\u21e7",
+    "names": [
+      "LEFT_SHIFT",
+      "LSHIFT",
+      "LSHFT",
+      "LS(code)"
+    ],
+    "symbol": "⇧",
     "description": "Left Shift ⇧",
     "context": "Keyboard",
     "clarify": false,
@@ -2884,8 +3385,12 @@
     "footnotes": {}
   },
   {
-    "names": ["LEFT_ALT", "LALT", "LA(code)"],
-    "symbol": "\u2325",
+    "names": [
+      "LEFT_ALT",
+      "LALT",
+      "LA(code)"
+    ],
+    "symbol": "⌥",
     "description": "Left Alt",
     "context": "Keyboard",
     "clarify": false,
@@ -2911,7 +3416,7 @@
       "LEFT_META",
       "LMETA"
     ],
-    "symbol": "\u2318",
+    "symbol": "⌘",
     "description": "Left GUI (Windows / Command / Meta)",
     "context": "Keyboard",
     "clarify": false,
@@ -2926,7 +3431,11 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_CONTROL", "RCTRL", "RC(code)"],
+    "names": [
+      "RIGHT_CONTROL",
+      "RCTRL",
+      "RC(code)"
+    ],
     "description": "Right Control",
     "context": "Keyboard",
     "clarify": false,
@@ -2938,11 +3447,17 @@
       "macos": true,
       "ios": true
     },
-    "footnotes": {}
+    "footnotes": {},
+    "symbol": "⌃"
   },
   {
-    "names": ["RIGHT_SHIFT", "RSHIFT", "RSHFT", "RS(code)"],
-    "symbol": "\u21e7",
+    "names": [
+      "RIGHT_SHIFT",
+      "RSHIFT",
+      "RSHFT",
+      "RS(code)"
+    ],
+    "symbol": "⇧",
     "description": "Right Shift ⇧",
     "context": "Keyboard",
     "clarify": false,
@@ -2957,8 +3472,12 @@
     "footnotes": {}
   },
   {
-    "names": ["RIGHT_ALT", "RALT", "RA(code)"],
-    "symbol": "\u2325",
+    "names": [
+      "RIGHT_ALT",
+      "RALT",
+      "RA(code)"
+    ],
+    "symbol": "⌥",
     "description": "Right Alt",
     "context": "Keyboard",
     "clarify": false,
@@ -2984,7 +3503,7 @@
       "RIGHT_META",
       "RMETA"
     ],
-    "symbol": "\u2318",
+    "symbol": "⌘",
     "description": "Right GUI (Windows / Command / Meta)",
     "context": "Keyboard",
     "clarify": false,
@@ -2999,7 +3518,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_PLAY_PAUSE", "K_PP"],
+    "names": [
+      "K_PLAY_PAUSE",
+      "K_PP"
+    ],
     "description": "Play / Pause",
     "context": "Keyboard",
     "clarify": true,
@@ -3014,7 +3536,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_STOP2"],
+    "names": [
+      "K_STOP2"
+    ],
     "description": "Stop",
     "context": "Keyboard",
     "clarify": true,
@@ -3029,7 +3553,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_PREVIOUS", "K_PREV"],
+    "names": [
+      "K_PREVIOUS",
+      "K_PREV"
+    ],
     "description": "Previous",
     "context": "Keyboard",
     "clarify": true,
@@ -3044,7 +3571,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_NEXT"],
+    "names": [
+      "K_NEXT"
+    ],
     "description": "Next",
     "context": "Keyboard",
     "clarify": true,
@@ -3059,7 +3588,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_EJECT"],
+    "names": [
+      "K_EJECT"
+    ],
     "description": "Eject",
     "context": "Keyboard",
     "clarify": true,
@@ -3074,7 +3605,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_VOLUME_UP2", "K_VOL_UP2"],
+    "names": [
+      "K_VOLUME_UP2",
+      "K_VOL_UP2"
+    ],
     "description": "Volume Up",
     "context": "Keyboard",
     "clarify": true,
@@ -3089,7 +3623,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_VOLUME_DOWN2", "K_VOL_DN2"],
+    "names": [
+      "K_VOLUME_DOWN2",
+      "K_VOL_DN2"
+    ],
     "description": "Volume Down",
     "context": "Keyboard",
     "clarify": true,
@@ -3104,7 +3641,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_MUTE2"],
+    "names": [
+      "K_MUTE2"
+    ],
     "description": "Mute",
     "context": "Keyboard",
     "clarify": true,
@@ -3119,7 +3658,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_WWW"],
+    "names": [
+      "K_WWW"
+    ],
     "description": "Internet Browser",
     "context": "Keyboard",
     "clarify": true,
@@ -3134,7 +3675,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_BACK"],
+    "names": [
+      "K_BACK"
+    ],
     "description": "Back",
     "context": "Keyboard",
     "clarify": true,
@@ -3149,7 +3692,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_FORWARD"],
+    "names": [
+      "K_FORWARD"
+    ],
     "description": "Forward",
     "context": "Keyboard",
     "clarify": true,
@@ -3164,7 +3709,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_STOP2"],
+    "names": [
+      "K_STOP2"
+    ],
     "description": "Stop",
     "context": "Keyboard",
     "clarify": true,
@@ -3179,7 +3726,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_FIND2"],
+    "names": [
+      "K_FIND2"
+    ],
     "description": "Find",
     "context": "Keyboard",
     "clarify": true,
@@ -3194,7 +3743,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_SCROLL_UP"],
+    "names": [
+      "K_SCROLL_UP"
+    ],
     "description": "Scroll Up",
     "context": "Keyboard",
     "clarify": true,
@@ -3209,7 +3760,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_SCROLL_DOWN"],
+    "names": [
+      "K_SCROLL_DOWN"
+    ],
     "description": "Scroll Down",
     "context": "Keyboard",
     "clarify": true,
@@ -3224,7 +3777,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_EDIT"],
+    "names": [
+      "K_EDIT"
+    ],
     "description": "Edit",
     "context": "Keyboard",
     "clarify": true,
@@ -3239,7 +3794,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_SLEEP"],
+    "names": [
+      "K_SLEEP"
+    ],
     "description": "Sleep",
     "context": "Keyboard",
     "clarify": true,
@@ -3254,7 +3811,11 @@
     "footnotes": {}
   },
   {
-    "names": ["K_LOCK", "K_SCREENSAVER", "K_COFFEE"],
+    "names": [
+      "K_LOCK",
+      "K_SCREENSAVER",
+      "K_COFFEE"
+    ],
     "description": "Lock",
     "context": "Keyboard",
     "clarify": true,
@@ -3269,7 +3830,9 @@
     "footnotes": {}
   },
   {
-    "names": ["K_REFRESH"],
+    "names": [
+      "K_REFRESH"
+    ],
     "description": "Refresh",
     "context": "Keyboard",
     "clarify": true,
@@ -3284,7 +3847,10 @@
     "footnotes": {}
   },
   {
-    "names": ["K_CALCULATOR", "K_CALC"],
+    "names": [
+      "K_CALCULATOR",
+      "K_CALC"
+    ],
     "description": "Calculator",
     "context": "Keyboard",
     "clarify": true,
@@ -3299,7 +3865,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_POWER", "C_PWR"],
+    "names": [
+      "C_POWER",
+      "C_PWR"
+    ],
     "description": "Power",
     "context": "Consumer",
     "clarify": true,
@@ -3312,12 +3881,18 @@
       "ios": true
     },
     "footnotes": {
-      "macos": ["macosPower"],
-      "ios": ["iosPower"]
+      "macos": [
+        "macosPower"
+      ],
+      "ios": [
+        "iosPower"
+      ]
     }
   },
   {
-    "names": ["C_RESET"],
+    "names": [
+      "C_RESET"
+    ],
     "description": "Reset",
     "context": "Consumer",
     "clarify": true,
@@ -3332,7 +3907,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_SLEEP"],
+    "names": [
+      "C_SLEEP"
+    ],
     "description": "Sleep",
     "context": "Consumer",
     "clarify": true,
@@ -3347,7 +3924,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_SLEEP_MODE"],
+    "names": [
+      "C_SLEEP_MODE"
+    ],
     "description": "Sleep Mode",
     "context": "Consumer",
     "clarify": true,
@@ -3362,7 +3941,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU"],
+    "names": [
+      "C_MENU"
+    ],
     "description": "Menu",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3377,7 +3958,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_PICK", "C_MENU_SELECT"],
+    "names": [
+      "C_MENU_PICK",
+      "C_MENU_SELECT"
+    ],
     "description": "Pick",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3392,7 +3976,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_UP"],
+    "names": [
+      "C_MENU_UP"
+    ],
     "description": "Up",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3407,7 +3993,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_DOWN"],
+    "names": [
+      "C_MENU_DOWN"
+    ],
     "description": "Down",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3422,7 +4010,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_LEFT"],
+    "names": [
+      "C_MENU_LEFT"
+    ],
     "description": "Left",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3437,7 +4027,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_RIGHT"],
+    "names": [
+      "C_MENU_RIGHT"
+    ],
     "description": "Right",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3452,7 +4044,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_ESCAPE", "C_MENU_ESC"],
+    "names": [
+      "C_MENU_ESCAPE",
+      "C_MENU_ESC"
+    ],
     "description": "Escape",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3467,7 +4062,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_INCREASE", "C_MENU_INC"],
+    "names": [
+      "C_MENU_INCREASE",
+      "C_MENU_INC"
+    ],
     "description": "Value Increase",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3482,7 +4080,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MENU_DECREASE", "C_MENU_DEC"],
+    "names": [
+      "C_MENU_DECREASE",
+      "C_MENU_DEC"
+    ],
     "description": "Value Decrease",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3497,7 +4098,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_DATA_ON_SCREEN"],
+    "names": [
+      "C_DATA_ON_SCREEN"
+    ],
     "description": "Data On Screen",
     "context": "Consumer",
     "clarify": true,
@@ -3512,7 +4115,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_CAPTIONS", "C_SUBTITILES"],
+    "names": [
+      "C_CAPTIONS",
+      "C_SUBTITILES"
+    ],
     "description": "Closed Caption",
     "context": "Consumer",
     "clarify": true,
@@ -3527,7 +4133,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_SNAPSHOT"],
+    "names": [
+      "C_SNAPSHOT"
+    ],
     "description": "Snapshot",
     "context": "Consumer",
     "clarify": true,
@@ -3542,7 +4150,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_PIP"],
+    "names": [
+      "C_PIP"
+    ],
     "description": "Picture-in-Picture Toggle",
     "context": "Consumer",
     "clarify": true,
@@ -3557,7 +4167,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_RED_BUTTON", "C_RED"],
+    "names": [
+      "C_RED_BUTTON",
+      "C_RED"
+    ],
     "description": "Red Button",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3572,7 +4185,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_GREEN_BUTTON", "C_GREEN"],
+    "names": [
+      "C_GREEN_BUTTON",
+      "C_GREEN"
+    ],
     "description": "Green Button",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3587,7 +4203,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BLUE_BUTTON", "C_BLUE"],
+    "names": [
+      "C_BLUE_BUTTON",
+      "C_BLUE"
+    ],
     "description": "Blue Button",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3602,7 +4221,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_YELLOW_BUTTON", "C_YELLOW"],
+    "names": [
+      "C_YELLOW_BUTTON",
+      "C_YELLOW"
+    ],
     "description": "Yellow Button",
     "context": "Consumer Menu",
     "clarify": true,
@@ -3617,7 +4239,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_ASPECT"],
+    "names": [
+      "C_ASPECT"
+    ],
     "description": "Aspect",
     "context": "Consumer",
     "clarify": true,
@@ -3632,7 +4256,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BRIGHTNESS_INC", "C_BRI_INC", "C_BRI_UP"],
+    "names": [
+      "C_BRIGHTNESS_INC",
+      "C_BRI_INC",
+      "C_BRI_UP"
+    ],
     "description": "Increase Brightness",
     "context": "Consumer",
     "clarify": true,
@@ -3647,7 +4275,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BRIGHTNESS_DEC", "C_BRI_DEC", "C_BRI_DN"],
+    "names": [
+      "C_BRIGHTNESS_DEC",
+      "C_BRI_DEC",
+      "C_BRI_DN"
+    ],
     "description": "Decrease Brightness",
     "context": "Consumer",
     "clarify": true,
@@ -3662,7 +4294,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BACKLIGHT_TOGGLE", "C_BKLT_TOG"],
+    "names": [
+      "C_BACKLIGHT_TOGGLE",
+      "C_BKLT_TOG"
+    ],
     "description": "Backlight Toggle",
     "context": "Consumer",
     "clarify": true,
@@ -3677,7 +4312,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BRIGHTNESS_MINIMUM", "C_BRI_MIN"],
+    "names": [
+      "C_BRIGHTNESS_MINIMUM",
+      "C_BRI_MIN"
+    ],
     "description": "Minimum Brightness",
     "context": "Consumer",
     "clarify": true,
@@ -3692,7 +4330,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BRIGHTNESS_MAXIMUM", "C_BRI_MAX"],
+    "names": [
+      "C_BRIGHTNESS_MAXIMUM",
+      "C_BRI_MAX"
+    ],
     "description": "Maximum Brightness",
     "context": "Consumer",
     "clarify": true,
@@ -3707,7 +4348,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BRIGHTNESS_AUTO", "C_BRI_AUTO"],
+    "names": [
+      "C_BRIGHTNESS_AUTO",
+      "C_BRI_AUTO"
+    ],
     "description": "Auto Brightness",
     "context": "Consumer",
     "clarify": true,
@@ -3722,7 +4366,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_STEP", "C_MODE_STEP"],
+    "names": [
+      "C_MEDIA_STEP",
+      "C_MODE_STEP"
+    ],
     "description": "Mode Step",
     "context": "Consumer Media",
     "clarify": true,
@@ -3737,7 +4384,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_RECALL_LAST", "C_CHAN_LAST"],
+    "names": [
+      "C_RECALL_LAST",
+      "C_CHAN_LAST"
+    ],
     "description": "Recall Last",
     "context": "Consumer",
     "clarify": true,
@@ -3752,7 +4402,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_COMPUTER"],
+    "names": [
+      "C_MEDIA_COMPUTER"
+    ],
     "description": "Computer",
     "context": "Consumer Media",
     "clarify": true,
@@ -3767,7 +4419,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_TV"],
+    "names": [
+      "C_MEDIA_TV"
+    ],
     "description": "TV",
     "context": "Consumer Media",
     "clarify": true,
@@ -3782,7 +4436,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_WWW"],
+    "names": [
+      "C_MEDIA_WWW"
+    ],
     "description": "WWW",
     "context": "Consumer Media",
     "clarify": true,
@@ -3797,7 +4453,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_DVD"],
+    "names": [
+      "C_MEDIA_DVD"
+    ],
     "description": "DVD",
     "context": "Consumer Media",
     "clarify": true,
@@ -3812,7 +4470,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_PHONE"],
+    "names": [
+      "C_MEDIA_PHONE"
+    ],
     "description": "Telephone",
     "context": "Consumer Media",
     "clarify": true,
@@ -3827,7 +4487,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_GUIDE"],
+    "names": [
+      "C_MEDIA_GUIDE"
+    ],
     "description": "Program Guide",
     "context": "Consumer Media",
     "clarify": true,
@@ -3842,7 +4504,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_VIDEOPHONE"],
+    "names": [
+      "C_MEDIA_VIDEOPHONE"
+    ],
     "description": "Video Phone",
     "context": "Consumer Media",
     "clarify": true,
@@ -3857,7 +4521,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_GAMES"],
+    "names": [
+      "C_MEDIA_GAMES"
+    ],
     "description": "Games",
     "context": "Consumer Media",
     "clarify": true,
@@ -3872,7 +4538,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_MESSAGES"],
+    "names": [
+      "C_MEDIA_MESSAGES"
+    ],
     "description": "Messages",
     "context": "Consumer Media",
     "clarify": true,
@@ -3887,7 +4555,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_CD"],
+    "names": [
+      "C_MEDIA_CD"
+    ],
     "description": "CD",
     "context": "Consumer Media",
     "clarify": true,
@@ -3902,7 +4572,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_VCR"],
+    "names": [
+      "C_MEDIA_VCR"
+    ],
     "description": "VCR",
     "context": "Consumer Media",
     "clarify": true,
@@ -3917,7 +4589,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_TUNER"],
+    "names": [
+      "C_MEDIA_TUNER"
+    ],
     "description": "Tuner",
     "context": "Consumer Media",
     "clarify": true,
@@ -3932,7 +4606,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_HOME"],
+    "names": [
+      "C_MEDIA_HOME"
+    ],
     "description": "Home",
     "context": "Consumer Media",
     "clarify": true,
@@ -3947,7 +4623,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_CHANNEL_INC", "C_CHAN_INC"],
+    "names": [
+      "C_CHANNEL_INC",
+      "C_CHAN_INC"
+    ],
     "description": "Channel Increment",
     "context": "Consumer",
     "clarify": true,
@@ -3962,7 +4641,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_CHANNEL_DEC", "C_CHAN_DEC"],
+    "names": [
+      "C_CHANNEL_DEC",
+      "C_CHAN_DEC"
+    ],
     "description": "Channel Decrement",
     "context": "Consumer",
     "clarify": true,
@@ -3977,7 +4659,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MEDIA_VCR_PLUS"],
+    "names": [
+      "C_MEDIA_VCR_PLUS"
+    ],
     "description": "VCR Plus",
     "context": "Consumer Media",
     "clarify": true,
@@ -3992,7 +4676,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_PLAY"],
+    "names": [
+      "C_PLAY"
+    ],
     "description": "Play",
     "context": "Consumer",
     "clarify": true,
@@ -4007,7 +4693,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_PAUSE"],
+    "names": [
+      "C_PAUSE"
+    ],
     "description": "Pause",
     "context": "Consumer",
     "clarify": true,
@@ -4022,7 +4710,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_RECORD", "C_REC"],
+    "names": [
+      "C_RECORD",
+      "C_REC"
+    ],
     "description": "Record",
     "context": "Consumer",
     "clarify": true,
@@ -4037,7 +4728,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_FAST_FORWARD", "C_FF"],
+    "names": [
+      "C_FAST_FORWARD",
+      "C_FF"
+    ],
     "description": "Fast Forward",
     "context": "Consumer",
     "clarify": true,
@@ -4052,7 +4746,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_REWIND", "C_RW"],
+    "names": [
+      "C_REWIND",
+      "C_RW"
+    ],
     "description": "Rewind",
     "context": "Consumer",
     "clarify": true,
@@ -4067,7 +4764,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_NEXT"],
+    "names": [
+      "C_NEXT"
+    ],
     "description": "Next",
     "context": "Consumer",
     "clarify": true,
@@ -4082,7 +4781,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_PREVIOUS", "C_PREV"],
+    "names": [
+      "C_PREVIOUS",
+      "C_PREV"
+    ],
     "description": "Previous",
     "context": "Consumer",
     "clarify": true,
@@ -4097,7 +4799,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_STOP"],
+    "names": [
+      "C_STOP"
+    ],
     "description": "Stop",
     "context": "Consumer",
     "clarify": true,
@@ -4112,7 +4816,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_EJECT"],
+    "names": [
+      "C_EJECT"
+    ],
     "description": "Eject",
     "context": "Consumer",
     "clarify": true,
@@ -4127,7 +4833,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_RANDOM_PLAY", "C_SHUFFLE"],
+    "names": [
+      "C_RANDOM_PLAY",
+      "C_SHUFFLE"
+    ],
     "description": "Random Play",
     "context": "Consumer",
     "clarify": true,
@@ -4142,7 +4851,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_REPEAT"],
+    "names": [
+      "C_REPEAT"
+    ],
     "description": "Repeat",
     "context": "Consumer",
     "clarify": true,
@@ -4157,7 +4868,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_SLOW_TRACKING", "C_SLOW2"],
+    "names": [
+      "C_SLOW_TRACKING",
+      "C_SLOW2"
+    ],
     "description": "Slow Tracking",
     "context": "Consumer",
     "clarify": true,
@@ -4172,7 +4886,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_STOP_EJECT"],
+    "names": [
+      "C_STOP_EJECT"
+    ],
     "description": "Stop / Eject",
     "context": "Consumer",
     "clarify": true,
@@ -4187,7 +4903,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_PLAY_PAUSE", "C_PP"],
+    "names": [
+      "C_PLAY_PAUSE",
+      "C_PP"
+    ],
     "description": "Play / Pause",
     "context": "Consumer",
     "clarify": true,
@@ -4202,7 +4921,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_VOICE_COMMAND"],
+    "names": [
+      "C_VOICE_COMMAND"
+    ],
     "description": "Voice Command",
     "context": "Consumer",
     "clarify": true,
@@ -4217,7 +4938,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_MUTE"],
+    "names": [
+      "C_MUTE"
+    ],
     "description": "Mute",
     "context": "Consumer",
     "clarify": true,
@@ -4232,7 +4955,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_BASS_BOOST"],
+    "names": [
+      "C_BASS_BOOST"
+    ],
     "description": "Bass Boost",
     "context": "Consumer",
     "clarify": true,
@@ -4247,7 +4972,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_VOLUME_UP", "C_VOL_UP"],
+    "names": [
+      "C_VOLUME_UP",
+      "C_VOL_UP"
+    ],
     "faIcon": "volume-up",
     "description": "Volume Up",
     "context": "Consumer",
@@ -4263,7 +4991,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_VOLUME_DOWN", "C_VOL_DN"],
+    "names": [
+      "C_VOLUME_DOWN",
+      "C_VOL_DN"
+    ],
     "faIcon": "volume-down",
     "description": "Volume Down",
     "context": "Consumer",
@@ -4279,7 +5010,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_SLOW"],
+    "names": [
+      "C_SLOW"
+    ],
     "description": "Slow",
     "context": "Consumer",
     "clarify": true,
@@ -4294,7 +5027,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_ALTERNATE_AUDIO_INCREMENT", "C_ALT_AUDIO_INC"],
+    "names": [
+      "C_ALTERNATE_AUDIO_INCREMENT",
+      "C_ALT_AUDIO_INC"
+    ],
     "description": "Alternate Audio Increment",
     "context": "Consumer",
     "clarify": true,
@@ -4309,7 +5045,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_CCC"],
+    "names": [
+      "C_AL_CCC"
+    ],
     "description": "Consumer Control Configuration",
     "context": "Consumer AL",
     "clarify": true,
@@ -4324,7 +5062,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_WORD"],
+    "names": [
+      "C_AL_WORD"
+    ],
     "description": "Word Processor",
     "context": "Consumer AL",
     "clarify": true,
@@ -4339,7 +5079,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_TEXT_EDITOR"],
+    "names": [
+      "C_AL_TEXT_EDITOR"
+    ],
     "description": "Text Editor",
     "context": "Consumer AL",
     "clarify": true,
@@ -4354,7 +5096,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_SPREADSHEET", "C_AL_SHEET"],
+    "names": [
+      "C_AL_SPREADSHEET",
+      "C_AL_SHEET"
+    ],
     "description": "Spreadsheet",
     "context": "Consumer AL",
     "clarify": true,
@@ -4369,7 +5114,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_GRAPHICS_EDITOR"],
+    "names": [
+      "C_AL_GRAPHICS_EDITOR"
+    ],
     "description": "Graphics Editor",
     "context": "Consumer AL",
     "clarify": true,
@@ -4384,7 +5131,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_PRESENTATION"],
+    "names": [
+      "C_AL_PRESENTATION"
+    ],
     "description": "Presentation",
     "context": "Consumer AL",
     "clarify": true,
@@ -4399,7 +5148,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_DATABASE", "C_AL_DB"],
+    "names": [
+      "C_AL_DATABASE",
+      "C_AL_DB"
+    ],
     "description": "Database App",
     "context": "Consumer AL",
     "clarify": true,
@@ -4414,7 +5166,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_EMAIL", "C_AL_MAIL"],
+    "names": [
+      "C_AL_EMAIL",
+      "C_AL_MAIL"
+    ],
     "description": "Email Reader",
     "context": "Consumer AL",
     "clarify": true,
@@ -4429,7 +5184,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_NEWS"],
+    "names": [
+      "C_AL_NEWS"
+    ],
     "description": "Newsreader",
     "context": "Consumer AL",
     "clarify": true,
@@ -4444,7 +5201,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_VOICEMAIL"],
+    "names": [
+      "C_AL_VOICEMAIL"
+    ],
     "description": "Voicemail",
     "context": "Consumer AL",
     "clarify": true,
@@ -4459,7 +5218,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_CONTACTS", "C_AL_ADDRESS_BOOK"],
+    "names": [
+      "C_AL_CONTACTS",
+      "C_AL_ADDRESS_BOOK"
+    ],
     "description": "Contacts / Address Book",
     "context": "Consumer AL",
     "clarify": true,
@@ -4474,7 +5236,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_CALENDAR", "C_AL_CAL"],
+    "names": [
+      "C_AL_CALENDAR",
+      "C_AL_CAL"
+    ],
     "description": "Calendar / Schedule",
     "context": "Consumer AL",
     "clarify": true,
@@ -4489,7 +5254,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_TASK_MANAGER"],
+    "names": [
+      "C_AL_TASK_MANAGER"
+    ],
     "description": "Task / Project Manager",
     "context": "Consumer AL",
     "clarify": true,
@@ -4504,7 +5271,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_JOURNAL"],
+    "names": [
+      "C_AL_JOURNAL"
+    ],
     "description": "Log / Journal / Timecard",
     "context": "Consumer AL",
     "clarify": true,
@@ -4519,7 +5288,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_FINANCE"],
+    "names": [
+      "C_AL_FINANCE"
+    ],
     "description": "Checkbook / Finance",
     "context": "Consumer AL",
     "clarify": true,
@@ -4534,7 +5305,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_CALCULATOR", "C_AL_CALC"],
+    "names": [
+      "C_AL_CALCULATOR",
+      "C_AL_CALC"
+    ],
     "description": "Calculator",
     "context": "Consumer AL",
     "clarify": true,
@@ -4549,7 +5323,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_AV_CAPTURE_PLAYBACK"],
+    "names": [
+      "C_AL_AV_CAPTURE_PLAYBACK"
+    ],
     "description": "A/V Capture / Playback",
     "context": "Consumer AL",
     "clarify": true,
@@ -4564,7 +5340,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_MY_COMPUTER"],
+    "names": [
+      "C_AL_MY_COMPUTER"
+    ],
     "description": "Local Machine Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4579,7 +5357,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_WWW"],
+    "names": [
+      "C_AL_WWW"
+    ],
     "description": "Internet Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4594,7 +5374,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_NETWORK_CHAT", "C_AL_CHAT"],
+    "names": [
+      "C_AL_NETWORK_CHAT",
+      "C_AL_CHAT"
+    ],
     "description": "Network Chat",
     "context": "Consumer AL",
     "clarify": true,
@@ -4609,7 +5392,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_LOGOFF"],
+    "names": [
+      "C_AL_LOGOFF"
+    ],
     "description": "Logoff",
     "context": "Consumer AL",
     "clarify": true,
@@ -4624,7 +5409,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_LOCK", "C_AL_SCREENSAVER", "C_AL_COFFEE"],
+    "names": [
+      "C_AL_LOCK",
+      "C_AL_SCREENSAVER",
+      "C_AL_COFFEE"
+    ],
     "description": "Terminal Lock / Screensaver",
     "context": "Consumer AL",
     "clarify": true,
@@ -4639,7 +5428,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_CONTROL_PANEL"],
+    "names": [
+      "C_AL_CONTROL_PANEL"
+    ],
     "description": "Control Panel",
     "context": "Consumer AL",
     "clarify": true,
@@ -4654,7 +5445,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_SELECT_TASK"],
+    "names": [
+      "C_AL_SELECT_TASK"
+    ],
     "description": "Select Task / Application",
     "context": "Consumer AL",
     "clarify": true,
@@ -4669,7 +5462,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_NEXT_TASK"],
+    "names": [
+      "C_AL_NEXT_TASK"
+    ],
     "description": "Next Task / Application",
     "context": "Consumer AL",
     "clarify": true,
@@ -4684,7 +5479,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_PREVIOUS_TASK", "C_AL_PREV_TASK"],
+    "names": [
+      "C_AL_PREVIOUS_TASK",
+      "C_AL_PREV_TASK"
+    ],
     "description": "Previous Task / Application",
     "context": "Consumer AL",
     "clarify": true,
@@ -4699,7 +5497,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_HELP"],
+    "names": [
+      "C_AL_HELP"
+    ],
     "description": "Integrated Help Center",
     "context": "Consumer AL",
     "clarify": true,
@@ -4714,7 +5514,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_DOCUMENTS", "C_AL_DOCS"],
+    "names": [
+      "C_AL_DOCUMENTS",
+      "C_AL_DOCS"
+    ],
     "description": "Documents",
     "context": "Consumer AL",
     "clarify": true,
@@ -4729,7 +5532,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_SPELLCHECK", "C_AL_SPELL"],
+    "names": [
+      "C_AL_SPELLCHECK",
+      "C_AL_SPELL"
+    ],
     "description": "Spell Check",
     "context": "Consumer AL",
     "clarify": true,
@@ -4744,7 +5550,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_KEYBOARD_LAYOUT"],
+    "names": [
+      "C_AL_KEYBOARD_LAYOUT"
+    ],
     "description": "Keyboard Layout",
     "context": "Consumer AL",
     "clarify": true,
@@ -4759,7 +5567,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_SCREEN_SAVER"],
+    "names": [
+      "C_AL_SCREEN_SAVER"
+    ],
     "description": "Screen Saver",
     "context": "Consumer AL",
     "clarify": true,
@@ -4774,7 +5584,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_FILE_BROWSER", "C_AL_FILES"],
+    "names": [
+      "C_AL_FILE_BROWSER",
+      "C_AL_FILES"
+    ],
     "description": "File Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4789,7 +5602,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_IMAGE_BROWSER", "C_AL_IMAGES"],
+    "names": [
+      "C_AL_IMAGE_BROWSER",
+      "C_AL_IMAGES"
+    ],
     "description": "Image Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4804,7 +5620,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_AUDIO_BROWSER", "C_AL_AUDIO", "C_AL_MUSIC"],
+    "names": [
+      "C_AL_AUDIO_BROWSER",
+      "C_AL_AUDIO",
+      "C_AL_MUSIC"
+    ],
     "description": "Audio Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4819,7 +5639,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_MOVIE_BROWSER", "C_AL_MOVIES"],
+    "names": [
+      "C_AL_MOVIE_BROWSER",
+      "C_AL_MOVIES"
+    ],
     "description": "Movie Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4834,7 +5657,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_INSTANT_MESSAGING", "C_AL_IM"],
+    "names": [
+      "C_AL_INSTANT_MESSAGING",
+      "C_AL_IM"
+    ],
     "description": "Instant Messaging",
     "context": "Consumer AL",
     "clarify": true,
@@ -4849,7 +5675,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AL_OEM_FEATURES", "C_AL_TIPS", "C_AL_TUTORIAL"],
+    "names": [
+      "C_AL_OEM_FEATURES",
+      "C_AL_TIPS",
+      "C_AL_TUTORIAL"
+    ],
     "description": "OEM Features / Tips / Tutorial Browser",
     "context": "Consumer AL",
     "clarify": true,
@@ -4864,7 +5694,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_NEW"],
+    "names": [
+      "C_AC_NEW"
+    ],
     "description": "New",
     "context": "Consumer AC",
     "clarify": true,
@@ -4879,7 +5711,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_OPEN"],
+    "names": [
+      "C_AC_OPEN"
+    ],
     "description": "Open",
     "context": "Consumer AC",
     "clarify": true,
@@ -4894,7 +5728,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_CLOSE"],
+    "names": [
+      "C_AC_CLOSE"
+    ],
     "description": "Close",
     "context": "Consumer AC",
     "clarify": true,
@@ -4909,7 +5745,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_EXIT"],
+    "names": [
+      "C_AC_EXIT"
+    ],
     "description": "Exit",
     "context": "Consumer AC",
     "clarify": true,
@@ -4924,7 +5762,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_SAVE"],
+    "names": [
+      "C_AC_SAVE"
+    ],
     "description": "Save",
     "context": "Consumer AC",
     "clarify": true,
@@ -4939,7 +5779,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_PRINT"],
+    "names": [
+      "C_AC_PRINT"
+    ],
     "description": "Print",
     "context": "Consumer AC",
     "clarify": true,
@@ -4954,7 +5796,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_PROPERTIES", "C_AC_PROPS"],
+    "names": [
+      "C_AC_PROPERTIES",
+      "C_AC_PROPS"
+    ],
     "description": "Properties",
     "context": "Consumer AC",
     "clarify": true,
@@ -4969,7 +5814,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_UNDO"],
+    "names": [
+      "C_AC_UNDO"
+    ],
     "description": "Undo",
     "context": "Consumer AC",
     "clarify": true,
@@ -4984,7 +5831,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_COPY"],
+    "names": [
+      "C_AC_COPY"
+    ],
     "description": "Copy",
     "context": "Consumer AC",
     "clarify": true,
@@ -4999,7 +5848,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_CUT"],
+    "names": [
+      "C_AC_CUT"
+    ],
     "description": "Cut",
     "context": "Consumer AC",
     "clarify": true,
@@ -5014,7 +5865,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_PASTE"],
+    "names": [
+      "C_AC_PASTE"
+    ],
     "description": "Paste",
     "context": "Consumer AC",
     "clarify": true,
@@ -5029,7 +5882,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_FIND"],
+    "names": [
+      "C_AC_FIND"
+    ],
     "description": "Find",
     "context": "Consumer AC",
     "clarify": true,
@@ -5044,7 +5899,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_SEARCH"],
+    "names": [
+      "C_AC_SEARCH"
+    ],
     "description": "Search",
     "context": "Consumer AC",
     "clarify": true,
@@ -5059,7 +5916,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_GOTO"],
+    "names": [
+      "C_AC_GOTO"
+    ],
     "description": "Go To",
     "context": "Consumer AC",
     "clarify": true,
@@ -5074,7 +5933,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_HOME"],
+    "names": [
+      "C_AC_HOME"
+    ],
     "description": "Home",
     "context": "Consumer AC",
     "clarify": true,
@@ -5089,7 +5950,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_BACK"],
+    "names": [
+      "C_AC_BACK"
+    ],
     "description": "Back",
     "context": "Consumer AC",
     "clarify": true,
@@ -5104,7 +5967,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_FORWARD"],
+    "names": [
+      "C_AC_FORWARD"
+    ],
     "description": "Forward",
     "context": "Consumer AC",
     "clarify": true,
@@ -5119,7 +5984,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_STOP"],
+    "names": [
+      "C_AC_STOP"
+    ],
     "description": "Stop",
     "context": "Consumer AC",
     "clarify": true,
@@ -5134,7 +6001,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_REFRESH"],
+    "names": [
+      "C_AC_REFRESH"
+    ],
     "description": "Refresh",
     "context": "Consumer AC",
     "clarify": true,
@@ -5149,7 +6018,11 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_BOOKMARKS", "C_AC_FAVORITES", "C_AC_FAVOURITES"],
+    "names": [
+      "C_AC_BOOKMARKS",
+      "C_AC_FAVORITES",
+      "C_AC_FAVOURITES"
+    ],
     "description": "Bookmarks",
     "context": "Consumer AC",
     "clarify": true,
@@ -5164,7 +6037,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_ZOOM_IN"],
+    "names": [
+      "C_AC_ZOOM_IN"
+    ],
     "description": "Zoom In",
     "context": "Consumer AC",
     "clarify": true,
@@ -5179,7 +6054,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_ZOOM_OUT"],
+    "names": [
+      "C_AC_ZOOM_OUT"
+    ],
     "description": "Zoom Out",
     "context": "Consumer AC",
     "clarify": true,
@@ -5194,7 +6071,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_ZOOM"],
+    "names": [
+      "C_AC_ZOOM"
+    ],
     "description": "Zoom",
     "context": "Consumer AC",
     "clarify": true,
@@ -5209,7 +6088,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_VIEW_TOGGLE"],
+    "names": [
+      "C_AC_VIEW_TOGGLE"
+    ],
     "description": "View Toggle",
     "context": "Consumer AC",
     "clarify": true,
@@ -5224,7 +6105,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_SCROLL_UP"],
+    "names": [
+      "C_AC_SCROLL_UP"
+    ],
     "description": "Scroll Up",
     "context": "Consumer AC",
     "clarify": true,
@@ -5239,7 +6122,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_SCROLL_DOWN"],
+    "names": [
+      "C_AC_SCROLL_DOWN"
+    ],
     "description": "Scroll Down",
     "context": "Consumer AC",
     "clarify": true,
@@ -5254,7 +6139,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_EDIT"],
+    "names": [
+      "C_AC_EDIT"
+    ],
     "description": "Edit",
     "context": "Consumer AC",
     "clarify": true,
@@ -5269,7 +6156,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_CANCEL"],
+    "names": [
+      "C_AC_CANCEL"
+    ],
     "description": "Cancel",
     "context": "Consumer AC",
     "clarify": true,
@@ -5284,7 +6173,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_INSERT", "C_AC_INS"],
+    "names": [
+      "C_AC_INSERT",
+      "C_AC_INS"
+    ],
     "description": "Insert Mode",
     "context": "Consumer AC",
     "clarify": true,
@@ -5299,7 +6191,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_DEL"],
+    "names": [
+      "C_AC_DEL"
+    ],
     "description": "Delete",
     "context": "Consumer AC",
     "clarify": true,
@@ -5314,7 +6208,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_REDO"],
+    "names": [
+      "C_AC_REDO"
+    ],
     "description": "Redo / Repeat",
     "context": "Consumer AC",
     "clarify": true,
@@ -5329,7 +6225,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_REPLY"],
+    "names": [
+      "C_AC_REPLY"
+    ],
     "description": "Reply",
     "context": "Consumer AC",
     "clarify": true,
@@ -5344,7 +6242,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_FORWARD_MAIL"],
+    "names": [
+      "C_AC_FORWARD_MAIL"
+    ],
     "description": "Forward",
     "context": "Consumer AC",
     "clarify": true,
@@ -5359,7 +6259,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_SEND"],
+    "names": [
+      "C_AC_SEND"
+    ],
     "description": "Send",
     "context": "Consumer AC",
     "clarify": true,
@@ -5374,7 +6276,9 @@
     "footnotes": {}
   },
   {
-    "names": ["C_AC_DESKTOP_SHOW_ALL_WINDOWS"],
+    "names": [
+      "C_AC_DESKTOP_SHOW_ALL_WINDOWS"
+    ],
     "description": "Desktop Show All Windows",
     "context": "Consumer AC",
     "clarify": true,
@@ -5389,7 +6293,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_PREVIOUS", "C_KBIA_PREV"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_PREVIOUS",
+      "C_KBIA_PREV"
+    ],
     "description": "Previous",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5404,7 +6311,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_NEXT", "C_KBIA_NEXT"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_NEXT",
+      "C_KBIA_NEXT"
+    ],
     "description": "Next",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5419,7 +6329,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_PREVIOUS_GROUP", "C_KBIA_PREV_GRP"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_PREVIOUS_GROUP",
+      "C_KBIA_PREV_GRP"
+    ],
     "description": "Previous Group",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5434,7 +6347,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_NEXT_GROUP", "C_KBIA_NEXT_GRP"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_NEXT_GROUP",
+      "C_KBIA_NEXT_GRP"
+    ],
     "description": "Next Group",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5449,7 +6365,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_ACCEPT", "C_KBIA_ACCEPT"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_ACCEPT",
+      "C_KBIA_ACCEPT"
+    ],
     "description": "Accept",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5464,7 +6383,10 @@
     "footnotes": {}
   },
   {
-    "names": ["C_KEYBOARD_INPUT_ASSIST_CANCEL", "C_KBIA_CANCEL"],
+    "names": [
+      "C_KEYBOARD_INPUT_ASSIST_CANCEL",
+      "C_KBIA_CANCEL"
+    ],
     "description": "Cancel",
     "context": "Consumer KBIA",
     "clarify": true,
@@ -5479,66 +6401,122 @@
     "footnotes": {}
   },
   {
-    "names": ["LA(LC(N7))"],
+    "names": [
+      "LA(LC(N7))"
+    ],
     "symbol": "{",
     "description": "{ Left Curly Brace (DK layout: AltGr+7)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["LA(LC(N8))"],
+    "names": [
+      "LA(LC(N8))"
+    ],
     "symbol": "[",
     "description": "[ Left Square Bracket (DK layout: AltGr+8)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["LA(LC(N9))"],
+    "names": [
+      "LA(LC(N9))"
+    ],
     "symbol": "]",
     "description": "] Right Square Bracket (DK layout: AltGr+9)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["LA(LC(N0))"],
+    "names": [
+      "LA(LC(N0))"
+    ],
     "symbol": "}",
     "description": "} Right Curly Brace (DK layout: AltGr+0)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["RS(NUMBER_8)"],
+    "names": [
+      "RS(NUMBER_8)"
+    ],
     "symbol": "(",
     "description": "( Left Parenthesis (DK layout: Shift+8)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["RS(N9)"],
+    "names": [
+      "RS(N9)"
+    ],
     "symbol": ")",
     "description": ") Right Parenthesis (DK layout: Shift+9)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   },
   {
-    "names": ["LS(FSLH)"],
+    "names": [
+      "LS(FSLH)"
+    ],
     "symbol": "_",
     "description": "_ Underscore (DK layout: Shift+FSLH)",
     "context": "Keyboard",
     "clarify": false,
-    "os": { "windows": true, "linux": true, "android": true, "macos": true, "ios": true },
+    "os": {
+      "windows": true,
+      "linux": true,
+      "android": true,
+      "macos": true,
+      "ios": true
+    },
     "footnotes": {}
   }
 ]

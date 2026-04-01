@@ -225,7 +225,8 @@ function exportKeymap (generatedKeymap, flash, callback) {
 const ALIAS_SUFFIX_TO_SYMBOL = {
   plus: '+', minus: '-', astrk: '*', qmark: '?', caret: '^', equal: '=',
   lpar: '(', rpar: ')', flsh: '/', sqt: "'", dqt: '"', dllr: '$',
-  excl: '!', hash: '#', amp: '&', pipe: '|', lt: '<', gt: '>', dot: '.', comma: ','
+  excl: '!', hash: '#', amp: '&', pipe: '|', lt: '<', gt: '>', dot: '.', comma: ',',
+  at: '@', pound: '£', dol: '$'
 }
 
 function aliasSymbol (name) {
@@ -238,17 +239,28 @@ function loadAliases () {
   if (!fs.existsSync(aliasPath)) return []
   return fs.readFileSync(aliasPath, 'utf8')
     .split('\n')
-    .map(line => line.match(/^#define\s+(\w+)\s+(\w+)/))
+    .map(line => line.match(/^#define\s+(\w+)\s+(.+)/))
     .filter(Boolean)
-    .map(m => ({
-      code: m[1],
-      aliases: [m[1]],
-      description: `${m[1]} (→ ${m[2]})`,
-      context: 'Alias',
-      symbol: aliasSymbol(m[1]),
-      params: [],
-      isModifier: false
-    }))
+    .flatMap(m => {
+      const name = m[1]
+      const value = m[2].trim()
+      const sym = aliasSymbol(name)
+      const base = {
+        code: name,
+        aliases: [name],
+        description: `${name} (→ ${value})`,
+        context: 'Alias',
+        symbol: sym,
+        params: [],
+        isModifier: false
+      }
+      // For compound values (e.g. LA(LC(NUMBER_2))), also add an entry keyed
+      // by the compound expression itself so the keymap can look it up directly.
+      if (/[()]/.test(value)) {
+        return [base, { ...base, code: value, aliases: [value] }]
+      }
+      return [base]
+    })
 }
 
 function getActionsUrl () {

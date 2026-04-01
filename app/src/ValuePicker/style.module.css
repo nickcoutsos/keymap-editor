@@ -39,9 +39,28 @@ ul.results {
 	gap: 1px;
 }
 
+.codeRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
 .code {
 	font-family: monospace;
 	font-size: 100%;
+}
+
+.dkBadge {
+  font-family: sans-serif;
+  font-size: 80%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  padding: 1px 4px;
+  opacity: 0.85;
+}
+.results li:hover .dkBadge,
+.results li.highlighted .dkBadge {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .sub {

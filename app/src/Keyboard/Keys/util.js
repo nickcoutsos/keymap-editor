@@ -60,7 +60,7 @@ export function hydrateTree(value, params, sources) {
   function getSourceValue(value, as) {
     if (as === 'command') return commands[value]
     if (as === 'raw' || as.enum) return { code: value }
-    return sources?.[as]?.[value]
+    return sources?.[as]?.[value] ?? sources?.code?.[value]
   }
 
   function hydrateNode(node, as) {
