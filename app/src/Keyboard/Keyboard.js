@@ -8,12 +8,15 @@ import { useCallback, useContext, useMemo, useState } from 'react'
 
 import KeyboardLayout from './KeyboardLayout'
 import LayerSelector from './LayerSelector'
+import LayerDisplay from './LayerDisplay'
 import { getKeyBoundingBox } from '../key-units'
 import { DefinitionsContext, SearchContext } from '../providers'
+import styles from './styles.module.css'
 
 function Keyboard(props) {
   const { layout, keymap, onUpdate } = props
   const [activeLayer, setActiveLayer] = useState(0)
+  const [showLayerDisplay, setShowLayerDisplay] = useState(false)
   const { keycodes, behaviours } = useContext(DefinitionsContext)
 
   const availableLayers = useMemo(() => isEmpty(keymap) ? [] : (
@@ -139,6 +142,22 @@ function Keyboard(props) {
             onUpdate={handleUpdateActiveLayer}
           />
         </div>
+        <div className={styles['layer-display-toggle-row']}>
+          <button
+            className={styles['layer-display-toggle']}
+            onClick={() => setShowLayerDisplay(v => !v)}
+          >
+            {showLayerDisplay ? 'Hide Layer Display' : 'Show Layer Display'}
+          </button>
+        </div>
+        {showLayerDisplay && (
+          <LayerDisplay
+            layout={layout}
+            layers={keymap.layers}
+            activeLayer={activeLayer}
+            layerNames={keymap.layer_names}
+          />
+        )}
       </SearchContext.Provider>
     </>
   )
