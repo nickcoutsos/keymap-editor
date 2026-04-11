@@ -280,11 +280,13 @@ function getActionsUrl () {
 function gitCommitPush (callback) {
   const date = new Date().toISOString().slice(0, 16).replace('T', ' ')
   const message = `Update keymap ${date}`
-  childProcess.exec(
-    `git add -A && git commit -m "${message}" && git push`,
-    { cwd: ZMK_PATH },
-    callback
-  )
+  childProcess.execFile('git', ['add', '-A'], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
+    if (err) return callback(err, stdout, stderr)
+    childProcess.execFile('git', ['commit', '-m', message], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
+      if (err) return callback(err, stdout, stderr)
+      childProcess.execFile('git', ['push'], { cwd: ZMK_PATH }, callback)
+    })
+  })
 }
 
 module.exports = {
