@@ -199,13 +199,15 @@ function App() {
   }
 
   const initialize = useCallback(async () => {
-    const [keycodes, behaviours, loadedMacros, loadedCombos, aliases] = await Promise.all([
+    const results = await Promise.allSettled([
       loadKeycodes(),
       loadBehaviours(),
       loadMacros(),
       loadCombos(),
       loadAliases()
     ])
+    const val = (r, fallback = []) => r.status === 'fulfilled' ? r.value : fallback
+    const [keycodes, behaviours, loadedMacros, loadedCombos, aliases] = results.map(r => val(r))
 
     const allKeycodes = [...keycodes, ...aliases]
     allKeycodes.indexed = keyBy(allKeycodes, 'code')
