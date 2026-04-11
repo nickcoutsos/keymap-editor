@@ -45,13 +45,13 @@ export class API extends EventEmitter {
 
     const installationUrl = `${config.apiBaseUrl}/github/installation`
     const param = new URLSearchParams(window.location.search).get('token')
-    if (!localStorage.auth_token && param) {
+    if (!sessionStorage.auth_token && param) {
       window.history.replaceState({}, null, window.location.pathname)
-      localStorage.auth_token = param
+      sessionStorage.auth_token = param
     }
 
-    if (localStorage.auth_token) {
-      this.token = localStorage.auth_token
+    if (sessionStorage.auth_token) {
+      this.token = sessionStorage.auth_token
       const { data } = await this._request(installationUrl)
       this.emit('authenticated')
 
@@ -67,7 +67,7 @@ export class API extends EventEmitter {
   }
 
   beginLoginFlow() {
-    localStorage.removeItem('auth_token')
+    sessionStorage.removeItem('auth_token')
     window.location.href = `${config.apiBaseUrl}/github/authorize`
   }
 
