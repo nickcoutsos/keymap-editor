@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { SearchContext } from '../../providers'
 import { getBehaviourParams } from '../../keymap'
@@ -25,33 +25,39 @@ import ValuePicker from '../../ValuePicker'
 function Key(props) {
   const { getSearchTargets, sources } = useContext(SearchContext)
   const { position, rotation, size } = props
-  const { label, value, params, onUpdate } = props
+  const { label, value, params, onUpdate, resolvedBinding } = props
   const [editing, setEditing] = useState(null)
 
-  const bind = value
-  const behaviour = get(sources.behaviours, bind)
+  const behaviour = get(sources.behaviours, value)
   const behaviourParams = getBehaviourParams(params, behaviour)
 
   const normalized = hydrateTree(value, params, sources)
 
+  const resolvedNormalized = resolvedBinding ? hydrateTree(resolvedBinding.value, resolvedBinding.params, sources) : null
+  const resolvedBehaviour = resolvedBinding ? get(sources.behaviours, resolvedBinding.value) : null
+  const resolvedBehaviourParams = resolvedNormalized ? getBehaviourParams(resolvedBinding.params, resolvedBehaviour) : []
+  const resolvedIndex = resolvedNormalized ? makeIndex(resolvedNormalized) : []
+
   const index = makeIndex(normalized)
   const positioningStyle = getKeyStyles(position, size, rotation)
 
-  function onMouseOver(event) {
+  const onMouseOver = useCallback((event) => {
     const old = document.querySelector(`.${styles.highlight}`)
     old && old.classList.remove(styles.highlight)
     event.target.classList.add(styles.highlight)
-  }
-  function onMouseLeave(event) {
-    event.target.classList.remove(styles.highlight)
-  }
+  }, [])
 
-  function handleSelectCode(event) {
+  const onMouseLeave = useCallback((event) => {
+    event.target.classList.remove(styles.highlight)
+  }, [])
+
+  const handleSelectCode = useCallback((event) => {
     const editing = pick(event, ['target', 'codeIndex', 'code', 'param'])
     editing.targets = getSearchTargets(editing.param, value)
     setEditing(editing)
-  }
-  function handleSelectBehaviour(event) {
+  }, [getSearchTargets, value])
+
+  const handleSelectBehaviour = useCallback((event) => {
     event.stopPropagation()
     setEditing({
       target: event.target,
@@ -60,22 +66,23 @@ function Key(props) {
       code: value,
       param: 'behaviour'
     })
-  }
-  function handleSelectValue(source) {
+  }, [getSearchTargets, value])
+
+  const handleSelectValue = useCallback((source) => {
     const { codeIndex } = editing
     const updated = cloneDeep(normalized)
-    const index = makeIndex(updated)
-    const targetCode = index[codeIndex]
+    const nodes = makeIndex(updated)
+    const targetCode = nodes[codeIndex]
 
     targetCode.value = source.code
     targetCode.params = []
-    index.forEach(node => {
+    nodes.forEach(node => {
       delete node.source
     })
 
     setEditing(null)
     onUpdate(pick(updated, ['value', 'params']))
-  }
+  }, [editing, normalized, onUpdate])
 
   return (
     <div
@@ -85,6 +92,7 @@ function Key(props) {
       data-h={size.h}
       data-simple={isSimple(normalized)}
       data-long={isComplex(normalized, behaviourParams)}
+      data-trans={value === '&trans'}
       style={positioningStyle}
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}
@@ -94,16 +102,36 @@ function Key(props) {
         className={styles['behaviour-binding']}
         onClick={handleSelectBehaviour}
       >
-        {behaviour.code}
+        {behaviour.symbol || behaviour.code}
       </span>
     ) : null}
-    <KeyParamlist
-      root={true}
-      index={index}
-      params={behaviourParams}
-      values={normalized.params}
-      onSelect={handleSelectCode}
-    />
+    {value === '&trans' && !resolvedNormalized && (
+      <span className={styles['trans-badge']}>▽</span>
+    )}
+    {value === '&trans' && resolvedNormalized ? (
+      <div className={styles['trans-resolved']}>
+        {resolvedBehaviour && (
+          <span className={styles['behaviour-binding']} style={{ pointerEvents: 'none' }}>
+            {resolvedBehaviour.symbol || resolvedBehaviour.code}
+          </span>
+        )}
+        <KeyParamlist
+          root={true}
+          index={resolvedIndex}
+          params={resolvedBehaviourParams}
+          values={resolvedNormalized.params}
+          onSelect={() => {}}
+        />
+      </div>
+    ) : (
+      <KeyParamlist
+        root={true}
+        index={index}
+        params={behaviourParams}
+        values={normalized.params}
+        onSelect={handleSelectCode}
+      />
+    )}
     {editing && (
       <Modal>
         <ValuePicker

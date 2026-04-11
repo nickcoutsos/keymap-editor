@@ -1,0 +1,18 @@
+{
+  "keyboard": "totem",
+  "keymap": "totem",
+  "layout": "LAYOUT",
+  "layer_names": ["default"],
+  "layers": [
+    [
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none","&none","&none",
+      "&none","&none","&none"
+    ]
+  ]
+}

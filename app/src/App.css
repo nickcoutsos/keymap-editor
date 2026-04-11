@@ -16,9 +16,44 @@ html, body {
 }
 
 #actions {
-	position: absolute;
+	position: fixed;
 	bottom: 5px;
 	right: 20px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.unsaved-indicator {
+  font-size: 12px;
+  color: #e0a040;
+  font-family: monospace;
+}
+
+.toast {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 13px;
+  z-index: 1000;
+  max-width: 420px;
+  white-space: pre-wrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.toast-success {
+  background: #1a3a28;
+  color: #90e0b0;
+  border: 1px solid #52b788;
+}
+
+.toast-error {
+  background: #3a1a1a;
+  color: #e09090;
+  border: 1px solid #b75252;
 }
 
 #actions button {
@@ -33,9 +68,79 @@ html, body {
   margin: 2px;
 }
 
+#actions button.action-btn-sm {
+  font-size: 13px;
+  padding: 3px 7px;
+  background-color: #444;
+  opacity: 0.9;
+}
+
+#actions button.action-btn-sm:hover:not([disabled]) {
+  background-color: #555;
+}
+
 #actions button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.git-output {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  width: 420px;
+  background: #141414;
+  border: 1px solid #444;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 11px;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.git-output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom: 1px solid #333;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.actions-link {
+  color: #6ab4ff;
+  font-size: 11px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.actions-link:hover {
+  text-decoration: underline;
+}
+
+.git-output-close {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.git-output-close:hover {
+  color: #ccc;
+}
+
+.git-output-body {
+  margin: 0;
+  padding: 8px 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  color: #bbb;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .github-link {
@@ -52,4 +157,26 @@ html, body {
   text-decoration: none;
 
   color: royalblue;
+}
+.scratchpad {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px auto;
+  max-width: 600px;
+  padding: 0 16px;
+}
+
+.scratchpad textarea {
+  flex: 1;
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: sans-serif;
+}
+
+.scratchpad button {
+  white-space: nowrap;
 }

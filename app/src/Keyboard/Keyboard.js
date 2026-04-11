@@ -4,17 +4,20 @@ import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import times from 'lodash/times'
 import PropTypes from 'prop-types'
-import { useContext, useMemo, useState } from 'react'
+import { useCallback, useContext, useMemo, useState } from 'react'
 
 import KeyboardLayout from './KeyboardLayout'
 import LayerSelector from './LayerSelector'
+import LayerDisplay from './LayerDisplay'
 import { getKeyBoundingBox } from '../key-units'
 import { DefinitionsContext, SearchContext } from '../providers'
+import styles from './styles.module.css'
 
 function Keyboard(props) {
   const { layout, keymap, onUpdate } = props
   const [activeLayer, setActiveLayer] = useState(0)
-  const {keycodes, behaviours} = useContext(DefinitionsContext)
+  const [showLayerDisplay, setShowLayerDisplay] = useState(false)
+  const { keycodes, behaviours } = useContext(DefinitionsContext)
 
   const availableLayers = useMemo(() => isEmpty(keymap) ? [] : (
     keymap.layers.map((_, i) => ({
@@ -31,45 +34,40 @@ function Keyboard(props) {
     layer: keyBy(availableLayers, 'code')
   }), [keycodes, behaviours, availableLayers])
 
-  // TODO: this may be unnecessary
-  const isReady = useMemo(() => function() {
-    return (
-      Object.keys(keycodes.indexed).length > 0 &&
-      Object.keys(behaviours.indexed).length > 0 &&
-      get(keymap, 'layers.length', 0) > 0
-    )
-  }, [keycodes, behaviours, keymap])
+  const searchTargets = useMemo(() => ({
+    behaviour: behaviours,
+    layer: availableLayers,
+    mod: filter(keycodes, 'isModifier'),
+    code: keycodes
+  }), [behaviours, keycodes, availableLayers])
 
-  const searchTargets = useMemo(() => {
-    return {
-      behaviour: behaviours,
-      layer: availableLayers,
-      mod: filter(keycodes, 'isModifier'),
-      code: keycodes
-    }
-  }, [behaviours, keycodes, availableLayers])
-
-  const getSearchTargets = useMemo(() => function (param, behaviour) {
-    // Special case for behaviour commands which can dynamically add another
-    // parameter that isn't defined at the root level of the behaviour.
-    // Currently this is just `&bt BT_SEL` and is only represented as an enum.
+  const getSearchTargets = useCallback((param, behaviour) => {
     if (param.enum) {
       return param.enum.map(v => ({ code: v }))
     }
-
     if (param === 'command') {
       return get(sources, ['behaviours', behaviour, 'commands'], [])
     }
-
     if (!searchTargets[param]) {
       console.log('cannot find target for', param)
     }
-
     return searchTargets[param]
   }, [searchTargets, sources])
 
-  const boundingBox = useMemo(() => function () {
-    return layout.map(key => getKeyBoundingBox(
+  const resolvedBindings = useMemo(() => {
+    if (activeLayer === 0) return null
+    return keymap.layers[activeLayer].map((binding, i) => {
+      if (binding.value !== '&trans') return null
+      for (let l = activeLayer - 1; l >= 0; l--) {
+        const b = keymap.layers[l][i]
+        if (b && b.value !== '&trans') return b
+      }
+      return null
+    })
+  }, [keymap.layers, activeLayer])
+
+  const wrapperStyle = useMemo(() => {
+    const { x, y } = layout.map(key => getKeyBoundingBox(
       { x: key.x, y: key.y },
       { u: key.u || key.w || 1, h: key.h || 1 },
       { x: key.rx, y: key.ry, a: key.r }
@@ -77,64 +75,52 @@ function Keyboard(props) {
       x: Math.max(x, max.x),
       y: Math.max(y, max.y)
     }), { x: 0, y: 0 })
+    return { width: `${x}px`, height: `${y}px`, margin: '0 auto', padding: '40px' }
   }, [layout])
 
-  const getWrapperStyle = useMemo(() => function () {
-    const bbox = boundingBox()
-    return {
-      width: `${bbox.x}px`,
-      height: `${bbox.y}px`,
-      margin: '0 auto',
-      padding: '40px'
-    }
-  }, [boundingBox])
-
-  const handleCreateLayer = useMemo(() => function () {
+  const handleCreateLayer = useCallback(() => {
     const layer = keymap.layers.length
-    const binding = '&trans'
-    const makeKeycode = () => ({ value: binding, params: [] })
-
-    const newLayer = times(layout.length, makeKeycode)
-    const updatedLayerNames = [ ...keymap.layer_names, `Layer #${layer}` ]
-    const layers = [ ...keymap.layers, newLayer ]
-
-    onUpdate({ ...keymap, layer_names: updatedLayerNames, layers })
+    const newLayer = times(layout.length, () => ({ value: '&trans', params: [] }))
+    onUpdate({
+      ...keymap,
+      layer_names: [...keymap.layer_names, `Layer #${layer}`],
+      layers: [...keymap.layers, newLayer]
+    })
   }, [keymap, layout, onUpdate])
 
-  const handleUpdateLayer = useMemo(() => function(layerIndex, updatedLayer) {
-    const original = keymap.layers
+  const handleUpdateLayer = useCallback((layerIndex, updatedLayer) => {
     const layers = [
-      ...original.slice(0, layerIndex),
+      ...keymap.layers.slice(0, layerIndex),
       updatedLayer,
-      ...original.slice(layerIndex + 1)
+      ...keymap.layers.slice(layerIndex + 1)
     ]
-
     onUpdate({ ...keymap, layers })
   }, [keymap, onUpdate])
 
-  const handleRenameLayer = useMemo(() => function (layerName) {
+  const handleUpdateActiveLayer = useCallback(
+    updatedLayer => handleUpdateLayer(activeLayer, updatedLayer),
+    [handleUpdateLayer, activeLayer]
+  )
+
+  const handleRenameLayer = useCallback((layerName) => {
     const layer_names = [
       ...keymap.layer_names.slice(0, activeLayer),
       layerName,
       ...keymap.layer_names.slice(activeLayer + 1)
     ]
-
     onUpdate({ ...keymap, layer_names })
   }, [keymap, activeLayer, onUpdate])
 
-  const handleDeleteLayer = useMemo(() => function (layerIndex) {
-    const layer_names = [...keymap.layer_names]
-    layer_names.splice(layerIndex, 1)
-
-    const layers = [...keymap.layers]
-    layers.splice(layerIndex, 1)
+  const handleDeleteLayer = useCallback((layerIndex) => {
+    const layers = keymap.layers.filter((_, i) => i !== layerIndex)
+    const layer_names = keymap.layer_names.filter((_, i) => i !== layerIndex)
 
     if (activeLayer > layers.length - 1) {
       setActiveLayer(Math.max(0, layers.length - 1))
     }
 
     onUpdate({ ...keymap, layers, layer_names })
-  }, [keymap, activeLayer, setActiveLayer, onUpdate])
+  }, [keymap, activeLayer, onUpdate])
 
   return (
     <>
@@ -147,16 +133,31 @@ function Keyboard(props) {
         onDeleteLayer={handleDeleteLayer}
       />
       <SearchContext.Provider value={{ getSearchTargets, sources }}>
-        <div style={getWrapperStyle()}>
-          {isReady() && (
-            <KeyboardLayout
-              data-layer={activeLayer}
-              layout={layout}
-              bindings={keymap.layers[activeLayer]}
-              onUpdate={event => handleUpdateLayer(activeLayer, event)}
-            />
-          )}
+        <div style={wrapperStyle}>
+          <KeyboardLayout
+            data-layer={activeLayer}
+            layout={layout}
+            bindings={keymap.layers[activeLayer]}
+            resolvedBindings={resolvedBindings}
+            onUpdate={handleUpdateActiveLayer}
+          />
         </div>
+        <div className={styles['layer-display-toggle-row']}>
+          <button
+            className={styles['layer-display-toggle']}
+            onClick={() => setShowLayerDisplay(v => !v)}
+          >
+            {showLayerDisplay ? 'Hide Layer Display' : 'Show Layer Display'}
+          </button>
+        </div>
+        {showLayerDisplay && (
+          <LayerDisplay
+            layout={layout}
+            layers={keymap.layers}
+            activeLayer={activeLayer}
+            layerNames={keymap.layer_names}
+          />
+        )}
       </SearchContext.Provider>
     </>
   )

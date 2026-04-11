@@ -21,38 +21,19 @@ function scrollIntoViewIfNeeded (element, alignToTop) {
 }
 
 function ValuePicker (props) {
-  const { value, prompt, choices, searchKey, searchThreshold, showAllThreshold } = props
+  const { value, prompt, choices, searchKey } = props
   const { onCancel, onSelect } = props
 
   const listRef = useRef(null)
 
   const [query, setQuery] = useState(null)
   const [highlighted, setHighlighted] = useState(null)
-  const [showAll, setShowAll] = useState(false)
 
   const results = useMemo(() => {
-    const options = { key: searchKey, limit: 30 }
-    const filtered = fuzzysort.go(query, choices, options)
-
-    if (showAll || searchThreshold > choices.length) {
-      return choices
-    } else if (!query) {
-      return choices.slice(0, searchThreshold)
-    }
-
-    return filtered.map(result => ({
-      ...result.obj,
-      search: result
-    }))
-  }, [query, choices, searchKey, showAll, searchThreshold])
-
-  const enableShowAllButton = useMemo(() => {
-    return (
-      !showAll &&
-      choices.length > searchThreshold &&
-      choices.length <= showAllThreshold
-    )
-  }, [showAll, choices, searchThreshold, showAllThreshold])
+    if (!query) return choices
+    const filtered = fuzzysort.go(query, choices, { keys: ['code', 'description', 'name', 'danish'], limit: 30 })
+    return filtered.map(result => ({ ...result.obj, _match: result }))
+  }, [query, choices])
 
   const handleClickResult = useMemo(() => function(result) {
     onSelect(result)
@@ -141,44 +122,34 @@ function ValuePicker (props) {
   return (
     <div className={style.dialog} onKeyDown={handleKeyDown}>
       <p>{prompt}</p>
-      {choices.length > searchThreshold && (
-        <input
-          ref={focusSearch}
-          type="text"
-          value={query !== null ? query : value}
-          onChange={handleKeyPress}
-        />
-      )}
+      <input
+        ref={focusSearch}
+        type="text"
+        placeholder="Type to search..."
+        value={query !== null ? query : value}
+        onChange={handleKeyPress}
+      />
       <ul className={style.results} ref={listRef}>
         {results.map((result, i) => (
           <li
             key={`result-${i}`}
             className={highlighted === i ? style.highlighted : ''}
-            title={result.description}
             data-result-index={i}
             onClick={() => handleClickResult(result)}
             onMouseOver={() => setHighlightPosition(i)}
           >
-            {result.search ? (
-              <span dangerouslySetInnerHTML={{
-                __html: fuzzysort.highlight(result.search)
-              }} />
-            ) : (
-              <span>
-                {result[searchKey]}
-              </span>
+            <span className={style.codeRow}>
+              <span className={style.code}>{result.code}</span>
+              {result.danish && (
+                <span className={style.dkBadge} title="Danish layout output">{result.danish}</span>
+              )}
+            </span>
+            {(result.description || result.name) && (
+              <span className={style.sub}>{result.description || result.name}</span>
             )}
           </li>
         ))}
       </ul>
-      {choices.length > searchThreshold && (
-        <div className={style['choices-counter']}>
-          Total choices: {choices.length}.
-          {enableShowAllButton && (
-            <button onClick={setShowAll(true)}>Show all</button>
-          )}
-        </div>
-      )}
     </div>
   )
 }
@@ -193,15 +164,8 @@ ValuePicker.propTypes = {
   value: PropTypes.string.isRequired,
   prompt: PropTypes.string.isRequired,
   searchKey: PropTypes.string.isRequired,
-  searchThreshold: PropTypes.number,
-  showAllThreshold: PropTypes.number,
   onCancel: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired
-}
-
-ValuePicker.defaultProps = {
-  searchThreshold: 10,
-  showAllThreshold: 50
 }
 
 export default ValuePicker

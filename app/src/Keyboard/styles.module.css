@@ -82,3 +82,69 @@
 .layer-selector li.active .name {
   cursor: text;
 }
+
+/* Layer Display */
+.layer-display-toggle-row {
+  text-align: center;
+  margin: 4px 0 0;
+}
+
+.layer-display-toggle {
+  background: #333;
+  color: #aaa;
+  border: 1px solid #555;
+  border-radius: 12px;
+  font-size: 12px;
+  padding: 3px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.layer-display-toggle:hover {
+  background: #444;
+  color: #eee;
+}
+
+.layer-display {
+  text-align: center;
+  margin: 8px 0 16px;
+}
+
+.layer-display-header {
+  font-size: 15px;
+  font-weight: bold;
+  font-variant: small-caps;
+  color: rgb(60, 179, 113);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+
+.display-key {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d2d2d;
+  border: 1px solid #555;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #e8e8e8;
+  font-family: monospace;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.display-key-trans {
+  background: #1e1e1e;
+  color: #555;
+  border-color: #333;
+}
+
+.display-key-none {
+  background: #1a1a1a;
+  color: #3a3a3a;
+  border-color: #252525;
+}

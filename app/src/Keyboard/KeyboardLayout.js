@@ -1,6 +1,6 @@
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
-import { useMemo } from 'react'
+import { useCallback } from 'react'
 
 import Key from './Keys/Key'
 
@@ -15,7 +15,7 @@ const size = key => {
 }
 
 function KeyboardLayout(props) {
-  const { layout, bindings, onUpdate } = props
+  const { layout, bindings, onUpdate, resolvedBindings } = props
   const normalized = layout.map((_, i) => (
     bindings[i] || {
       value: '&none',
@@ -23,7 +23,7 @@ function KeyboardLayout(props) {
     }
   ))
 
-  const handleUpdateBind = useMemo(() => function(keyIndex, updateBinding) {
+  const handleUpdateBind = useCallback((keyIndex, updateBinding) => {
     onUpdate([
       ...normalized.slice(0, keyIndex),
       updateBinding,
@@ -42,6 +42,7 @@ function KeyboardLayout(props) {
           label={key.label}
           value={normalized[i].value}
           params={normalized[i].params}
+          resolvedBinding={resolvedBindings ? resolvedBindings[i] : null}
           onUpdate={bind => handleUpdateBind(i, bind)}
         />
       ))}

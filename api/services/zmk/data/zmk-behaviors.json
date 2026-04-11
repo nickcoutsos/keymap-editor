@@ -54,6 +54,13 @@
         "type": "integer",
         "enum": [0, 1, 2, 3, 4]
       }]
+    }, {
+      "code": "BT_CLR_ALL",
+      "description": "Clear bond information for all Bluetooth profiles."
+    }, {
+      "code": "BT_DISC",
+      "description": "Disconnect from the host for a given profile index.",
+      "additionalParams": [{"name": "index", "type": "integer", "enum": [0, 1, 2, 3, 4]}]
     }]
   },
   {
@@ -188,6 +195,16 @@
       "code": "EP_TOG",
       "description": "Toggle the external power"
     }]
+  },
+  {
+    "code": "&kt",
+    "name": "Key Toggle",
+    "params": ["code"]
+  },
+  {
+    "code": "&sys_reset",
+    "name": "System Reset",
+    "params": []
   },
   {
     "code": "&trans",

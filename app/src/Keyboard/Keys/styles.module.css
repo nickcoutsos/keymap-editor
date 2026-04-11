@@ -64,3 +64,24 @@
   border-radius: 5px 0;
   opacity: 1;
 }
+
+.key[data-trans="true"] {
+  background-color: #e8eef5;
+  border: 1.5px dashed #b0c0d0;
+  color: #7090b0;
+}
+
+.trans-badge {
+  font-size: 140%;
+  color: #9ab0c8;
+  user-select: none;
+}
+
+.trans-resolved {
+  opacity: 0.45;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+}

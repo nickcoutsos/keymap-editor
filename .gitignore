@@ -85,3 +85,4 @@ zmk-config
 
 private-key.pem
 .env
+working/

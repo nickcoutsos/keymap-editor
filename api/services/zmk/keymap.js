@@ -49,10 +49,17 @@ function getBehavioursUsed(keymap) {
  * @param {String} binding
  * @returns {Object}
  */
+const COMPOUND_KEYCODES = new Set([
+  'LA(LC(N7))', 'LA(LC(N8))', 'LA(LC(N9))', 'LA(LC(N0))',
+  'RS(NUMBER_8)', 'RS(N9)',
+  'LS(FSLH)'
+])
+
 function parseKeyBinding(binding) {
   const paramsPattern = /\((.+)\)/
 
   function parse(code) {
+    if (COMPOUND_KEYCODES.has(code)) return { value: code, params: [] }
     const value = code.replace(paramsPattern, '')
     const params = get(code.match(paramsPattern), '[1]', '').split(',')
     .map(s => s.trim())
@@ -157,16 +164,61 @@ function validateKeymapJson(keymap) {
           const key = layer[j]
           const keyPath = `layers[${i}][${j}]`
 
-          if (typeof key !== 'string') {
-            errors.push(`Value at "${keyPath}" must be a string`)
+          // Accept both string bindings ("&kp A") and parsed objects ({value, params})
+          let bindCode, params
+          if (typeof key === 'string') {
+            const m = key.match(/^(&\S+)/)
+            bindCode = m && m[1]
+            params = bindCode ? parseKeyBinding(key).params : []
+          } else if (typeof key === 'object' && key !== null && key.value) {
+            bindCode = key.value
+            params = key.params || []
           } else {
-            const bind = key.match(/^&.+?\b/)
-            if (!(bind && bind[0] in behavioursByBind)) {
-              errors.push(`Key bind at "${keyPath}" has invalid behaviour`)
-            }
+            errors.push(`Value at "${keyPath}" has invalid format`)
+            continue
           }
 
-          // TODO: validate remaining bind parameters
+          if (!bindCode) {
+            errors.push(`Value at "${keyPath}" has invalid format`)
+            continue
+          }
+
+          const behaviour = behavioursByBind[bindCode]
+          if (!behaviour) {
+            // Unknown behavior — likely a user-defined macro, skip param validation
+            continue
+          }
+
+          const expectedParams = behaviour.params || []
+          const commandsByCode = keyBy(behaviour.commands || [], 'code')
+
+          // Calculate total expected params including additionalParams for commands
+          let totalExpected = expectedParams.length
+          if (expectedParams[0] === 'command' && params[0]) {
+            const cmdCode = typeof params[0] === 'string' ? params[0] : params[0].value
+            const cmd = commandsByCode[cmdCode]
+            totalExpected += (cmd && cmd.additionalParams ? cmd.additionalParams.length : 0)
+          }
+
+          if (params.length !== totalExpected) {
+            errors.push(
+              `Key bind at "${keyPath}" (${bindCode}) expects ${totalExpected} param(s), got ${params.length}`
+            )
+            continue
+          }
+
+          // Validate command params
+          for (let k = 0; k < expectedParams.length; k++) {
+            if (expectedParams[k] === 'command' && params[k]) {
+              const cmdCode = typeof params[k] === 'string' ? params[k] : params[k].value
+              const validCmds = (behaviour.commands || []).map(c => c.code)
+              if (cmdCode && !validCmds.includes(cmdCode)) {
+                errors.push(
+                  `Key bind at "${keyPath}" has unknown command "${cmdCode}" for ${bindCode}`
+                )
+              }
+            }
+          }
         }
       }
     }

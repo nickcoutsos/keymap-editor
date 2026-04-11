@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git restore:*)",
+      "WebSearch",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(node -e:*)",
+      "Bash(dir:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(test:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh run list:*)",
+      "Bash(python3:*)",
+      "Bash(cmd /c \"dir \"\"D:\\\\Programs\\\\keymap-editor\\\\app\\\\src\\\\Keyboard\\\\Keys\"\" /b\")",
+      "Bash(node index.js:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}
