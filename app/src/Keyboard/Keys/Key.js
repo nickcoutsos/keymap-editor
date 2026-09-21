@@ -8,6 +8,8 @@ import { SearchContext } from '../../providers'
 import { getBehaviourParams } from '../../keymap'
 import { getKeyStyles } from '../../key-units'
 
+import { useDnd } from '../../providers'
+
 import KeyParamlist from './KeyParamlist'
 import * as keyPropTypes from './keyPropTypes'
 import {
@@ -24,9 +26,11 @@ import ValuePicker from '../../ValuePicker'
 
 function Key(props) {
   const { getSearchTargets, sources } = useContext(SearchContext)
-  const { position, rotation, size } = props
+  const { position, rotation, size, dnd } = props
   const { label, value, params, onUpdate } = props
   const [editing, setEditing] = useState(null)
+
+  const {handleGrabKey} = useDnd()
 
   const bind = value
   const behaviour = get(sources.behaviours, bind)
@@ -83,11 +87,14 @@ function Key(props) {
       data-label={label}
       data-u={size.u}
       data-h={size.h}
+      data-dnd={JSON.stringify(dnd)}
       data-simple={isSimple(normalized)}
       data-long={isComplex(normalized, behaviourParams)}
       style={positioningStyle}
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}
+      onDrag={() => handleGrabKey(dnd)}
+      draggable
     >
     {behaviour ? (
       <span

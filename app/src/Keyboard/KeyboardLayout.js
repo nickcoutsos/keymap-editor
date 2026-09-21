@@ -1,6 +1,7 @@
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
+import { DndContextProvider } from '../dnd-context'
 
 import Key from './Keys/Key'
 
@@ -31,21 +32,31 @@ function KeyboardLayout(props) {
     ])
   }, [normalized, onUpdate])
 
+  const handleSwapBind = useMemo(() => function(i1, val1, i2, val2) {
+    const newLayout = [...normalized]
+    newLayout[i1] = val2
+    newLayout[i2] = val1
+    onUpdate(newLayout)
+  }, [normalized, onUpdate])
+
   return (
-    <div style={{ position: 'relative' }}>
-      {layout.map((key, i) => (
-        <Key
-          key={i}
-          position={position(key)}
-          rotation={rotation(key)}
-          size={size(key)}
-          label={key.label}
-          value={normalized[i].value}
-          params={normalized[i].params}
-          onUpdate={bind => handleUpdateBind(i, bind)}
-        />
-      ))}
-    </div>
+    <DndContextProvider handleSwapBind={handleSwapBind}>
+      <div style={{ position: 'relative' }}>
+        {layout.map((key, i) => (
+          <Key
+            key={i}
+            position={position(key)}
+            rotation={rotation(key)}
+            size={size(key)}
+            label={key.label}
+            value={normalized[i].value}
+            params={normalized[i].params}
+            onUpdate={bind => handleUpdateBind(i, bind)}
+            dnd={{key: normalized[i], index: i}}
+          />
+        ))}
+      </div>
+    </DndContextProvider>
   )
 }
 

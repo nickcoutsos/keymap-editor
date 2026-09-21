@@ -13,6 +13,7 @@
 	background-color: var(--hover-selection);
 	transition: 200ms;
 	z-index: 1;
+  cursor: grab;
 }
 .key:hover .code, .key:hover .behaviour-binding {
 	color: white;
