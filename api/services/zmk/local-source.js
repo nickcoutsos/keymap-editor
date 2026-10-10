@@ -280,11 +280,23 @@ function getActionsUrl () {
 function gitCommitPush (callback) {
   const date = new Date().toISOString().slice(0, 16).replace('T', ' ')
   const message = `Update keymap ${date}`
+  const push = (prefix = '') => {
+    childProcess.execFile('git', ['push'], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
+      callback(err, prefix + stdout, stderr)
+    })
+  }
+
   childProcess.execFile('git', ['add', '-A'], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
     if (err) return callback(err, stdout, stderr)
-    childProcess.execFile('git', ['commit', '-m', message], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
-      if (err) return callback(err, stdout, stderr)
-      childProcess.execFile('git', ['push'], { cwd: ZMK_PATH }, callback)
+    childProcess.execFile('git', ['status', '--porcelain'], { cwd: ZMK_PATH }, (err, status, stderr) => {
+      if (err) return callback(err, status, stderr)
+      // Nothing staged: skip the commit but still push, so a previously
+      // failed push can be retried.
+      if (!status.trim()) return push('Nothing to commit.\n')
+      childProcess.execFile('git', ['commit', '-m', message], { cwd: ZMK_PATH }, (err, stdout, stderr) => {
+        if (err) return callback(err, stdout, stderr)
+        push(stdout)
+      })
     })
   })
 }
