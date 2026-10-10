@@ -1,7 +1,7 @@
 import get from 'lodash/get'
 import keyBy from 'lodash/keyBy'
 
-import { getBehaviourParams } from '../../keymap'
+import { encodeBindValue, getBehaviourParams } from '../../keymap'
 
 export function makeIndex (tree) {
   const index = []
@@ -67,7 +67,18 @@ export function hydrateTree(value, params, sources) {
     if (!node) {
       return { value: undefined, params: [] }
     }
-    const { value, params } = node
+    const { value, params = [] } = node
+
+    // A nested expression like LA(LC(NUMBER_2)) may itself be a known keycode
+    // (e.g. a compound alias) — prefer that over hydrating it piece by piece.
+    if (params.length > 0 && typeof as === 'string' && as !== 'command' && as !== 'raw') {
+      const compound = encodeBindValue(node)
+      const compoundSource = getSourceValue(compound, as)
+      if (compoundSource) {
+        return { value: compound, source: compoundSource, params: [] }
+      }
+    }
+
     const source = getSourceValue(value, as)
 
     return {
